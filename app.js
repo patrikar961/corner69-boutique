@@ -331,6 +331,7 @@
     panier = [];
     ecrire('panier', panier);
     majPanierCount();
+    majBarreSuivi();
 
     location.hash = '#/suivi';
   }
@@ -456,6 +457,8 @@
 
   /* =======================================================
      ADMIN — themes et reglages
+     Page separee : atteignable par l'adresse #/admin,
+     jamais depuis la navigation.
      ======================================================= */
   function rendreAdmin() {
     var p = paletteActive();
@@ -548,6 +551,21 @@
   }
 
   /* =======================================================
+     SUIVI EN DIRECT DE L'ADMIN
+     Le bouton « Suivant » de la page de suivi n'existe que
+     pour la demonstration : il fait avancer la commande
+     sans passer par la page de reglages.
+     ======================================================= */
+  function avancerDepuisSuivi() {
+    if (!commande) return;
+    if (commande.etape >= BOUTIQUE.etapes.length - 1) return;
+    commande.etape += 1;
+    ecrire('commande', commande);
+    majBarreSuivi();
+    rendreSuivi();
+  }
+
+  /* =======================================================
      DEMARRAGE
      ======================================================= */
   function init() {
@@ -574,6 +592,11 @@
     $('#formAvis').addEventListener('submit', publierAvis);
     $('#formVerrou').addEventListener('submit', deverrouiller);
     $('#suiviVoir').addEventListener('click', function () { location.hash = '#/suivi'; });
+
+    /* bouton d'avancement present sur la page de suivi */
+    document.addEventListener('click', function (e) {
+      if (e.target.closest('#suiviAvancer')) avancerDepuisSuivi();
+    });
 
     $('#versCommande').addEventListener('click', function () {
       if (!panier.length) return;
