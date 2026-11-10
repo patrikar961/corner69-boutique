@@ -150,31 +150,19 @@
   }
 
   /* -------------------------------------------------------
-     Initiale du produit, pour la vignette de remplacement
-     quand la photo n'existe pas encore.
-     Les accents sont conserves : É reste É, pas de trou.
+     VIGNETTE DE REMPLACEMENT
+     Tant que la photo du produit n'existe pas, on affiche
+     le nom du rayon tel qu'il est ecrit dans config.js.
+     Emojis compris : « Cafés ☕ », « Thés 🍵 »...
      ------------------------------------------------------- */
-  function initiale(nom) {
-    var propre = String(nom || '?')
-      .replace(/[\u2019'´`]/g, ' ')                       /* apostrophes typographiques */
-      .replace(/[^0-9A-Za-z\u00C0-\u024F]+/g, ' ')        /* lettres et chiffres seulement */
-      .replace(/\s+/g, ' ')
-      .trim();
-
-    if (!propre) return '?';
-
-    var mots = propre.split(' ');
-    /* un mot generique ne fait pas une bonne initiale */
-    var generiques = /^(caf|th|pack|mug|coffret|accessoire|boisson|specialite)s?$/i;
-    var utile = null;
-
-    for (var i = 0; i < mots.length; i++) {
-      var sansAccent = mots[i].normalize('NFD').replace(/[\u0300-\u036F]/g, '');
-      if (!generiques.test(sansAccent)) { utile = mots[i]; break; }
+  function vignette(p) {
+    var premier = (p && p.medias && p.medias[0]) || null;
+    if (premier && premier.type === 'image' && premier.src) {
+      return '<img src="' + premier.src + '" alt="' + (p.nom || '') + '" loading="lazy">';
     }
-    if (!utile) utile = mots[0];
-
-    return utile.charAt(0).toUpperCase();
+    var texte = String((p && p.rayon) || '').trim();
+    if (!texte) return '?';
+    return texte.length > 14 ? texte.slice(0, 14) + '…' : texte;
   }
 
   function rendreCatalogue() {
@@ -197,7 +185,7 @@
     ul.innerHTML = liste.map(function (p) {
       var rupture = p.stock === 'rupture';
       return '<li class="produit" data-route="/produit" data-produit="' + p.id + '">' +
-        '<span class="produit__img">' + initiale(p.nom) + '</span>' +
+        '<span class="produit__img">' + vignette(p) + '</span>' +
         '<div class="produit__corps">' +
           '<span class="produit__meta">' + p.rayon + ' · ' + p.format + '</span>' +
           '<h3 class="produit__nom">' + p.nom +
@@ -230,7 +218,7 @@
 
     var rupture = p.stock === 'rupture';
     box.innerHTML =
-      '<div class="fiche__visuel">' + initiale(p.nom) + '</div>' +
+      '<div class="fiche__visuel">' + vignette(p) + '</div>' +
       '<span class="fiche__rayon">' + p.rayon + ' · ' + p.format + '</span>' +
       '<h2 class="fiche__nom">' + p.nom + '</h2>' +
       '<p class="fiche__desc">' + p.description + '</p>' +
