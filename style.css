@@ -1,7 +1,5 @@
 /* =========================================================
-   CORNER69 — feuille de style
-   Toutes les couleurs viennent des variables posees par
-   app.js depuis config.js.
+   CORNER69 — feuille de style (version verifiee)
    ========================================================= */
 
 :root {
@@ -47,7 +45,7 @@ button { font: inherit; color: inherit; }
 ::selection { background: var(--accent); color: var(--accent-texte); }
 
 /* =========================================================
-   Écran de chargement
+   Ecran de chargement
    ========================================================= */
 .loader {
   position: fixed;
@@ -116,9 +114,7 @@ button { font: inherit; color: inherit; }
 }
 
 /* =========================================================
-   Bloc de suivi — format carte arrondie
-   Anneau de progression, reference, badge d'etape, statut,
-   bouton, et jauge fine sur toute la largeur du bloc.
+   Bloc de suivi — carte arrondie, format Grokbot
    ========================================================= */
 .suivi-carte {
   position: fixed;
@@ -240,7 +236,7 @@ button { font: inherit; color: inherit; }
 }
 
 /* =========================================================
-   Navigation
+   Navigation basse
    ========================================================= */
 .nav {
   position: fixed;
@@ -490,7 +486,6 @@ button { font: inherit; color: inherit; }
   font-size: 1.5rem;
   color: var(--accent);
 }
-
 .fiche__ligne {
   display: flex;
   align-items: center;
@@ -619,10 +614,7 @@ button { font: inherit; color: inherit; }
 .vide p { margin: 0 0 1.2rem; }
 
 /* =========================================================
-   Logo de l'accueil
-   L'image logo.png se depose a la racine du depot. Tant
-   qu'elle est absente, le texte CORNER69 s'affiche avec
-   le meme effet.
+   Logo de l'accueil — effet d'entree puis pouls
    ========================================================= */
 .logo-hero {
   display: flex;
@@ -680,21 +672,18 @@ button { font: inherit; color: inherit; }
   }
 }
 
-/* le pouls, plus discret que sur un site vitrine */
 @keyframes logoPouls {
   50% { transform: scale(1.03) rotate(2deg); }
 }
 
 /* =========================================================
    Carrousel de la fiche produit
-   Bande qui defile, points de navigation, emplacement video.
-   Les fichiers se deposent dans le dossier media/.
    ========================================================= */
 .carrousel {
-  background: var(--carte);
+  background: color-mix(in srgb, var(--fond) 60%, transparent);
   border: 1px solid var(--bordure);
-  border-radius: var(--r);
-  padding: 1rem;
+  border-radius: 12px;
+  padding: .8rem;
   margin-bottom: 1.4rem;
 }
 
@@ -705,7 +694,7 @@ button { font: inherit; color: inherit; }
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  border-radius: 12px;
+  border-radius: 10px;
 }
 .carrousel__piste::-webkit-scrollbar { display: none; }
 
@@ -713,7 +702,7 @@ button { font: inherit; color: inherit; }
   flex: 0 0 100%;
   scroll-snap-align: center;
   aspect-ratio: 4 / 3;
-  border-radius: 12px;
+  border-radius: 10px;
   overflow: hidden;
   background: color-mix(in srgb, var(--fond) 80%, transparent);
   display: grid;
@@ -824,7 +813,7 @@ button { font: inherit; color: inherit; }
 .etoiles button.on { background: var(--accent); color: var(--accent-texte); }
 
 /* =========================================================
-   Suggestions d'adresse — API Adresse du gouvernement
+   Suggestions d'adresse
    ========================================================= */
 .form__row--adresse { position: relative; }
 
@@ -1002,7 +991,7 @@ button { font: inherit; color: inherit; }
 .infos__bloc a { color: var(--accent); }
 
 /* =========================================================
-   Gestion (page reservee au commercant)
+   Gestion
    ========================================================= */
 .verrou p { color: var(--doux); }
 .reglages h3 {
@@ -1135,6 +1124,75 @@ button { font: inherit; color: inherit; }
 .foot__logo { font-family: var(--titre); font-weight: 800; color: var(--texte); }
 .foot__logo b { color: var(--accent); }
 .foot a:hover { color: var(--accent); }
+
+/* =========================================================
+   Accueil explicatif
+   ========================================================= */
+.intro {
+  position: relative;
+  z-index: 2;
+  max-width: 620px;
+  margin: 0 auto;
+  padding: clamp(3rem, 9vh, 6rem) var(--marge) 4rem;
+}
+.intro__tag {
+  display: inline-block;
+  padding: .35rem .9rem;
+  margin-bottom: 1.2rem;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  font-size: .68rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.intro__title {
+  margin: 0 0 1rem;
+  font-family: var(--titre);
+  font-weight: 800;
+  font-size: clamp(1.9rem, 7vw, 2.8rem);
+  line-height: 1.08;
+}
+.intro__title b { color: var(--accent); }
+.intro__text { margin: 0 0 2rem; color: var(--doux); }
+.intro__steps {
+  list-style: none;
+  margin: 0 0 2.2rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: .7rem;
+}
+.intro__steps li {
+  display: flex;
+  align-items: flex-start;
+  gap: .9rem;
+  padding: 1rem 1.1rem;
+  background: var(--carte);
+  border: 1px solid var(--bordure);
+  border-radius: var(--r);
+  color: var(--doux);
+  font-size: .92rem;
+  line-height: 1.55;
+}
+.intro__steps i {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--accent-texte);
+  font-style: normal;
+  font-weight: 600;
+  font-size: .78rem;
+}
+.intro__steps li > span {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.intro__steps b { color: var(--texte); font-weight: 600; }
+.intro__go { width: 100%; }
 
 /* =========================================================
    Petits ecrans
