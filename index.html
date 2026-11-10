@@ -29,7 +29,7 @@
   </div>
 
   <!-- ===== Image de fond ===== -->
-  <div class="bg" aria-hidden="true"><img src="bg.jpg" alt="" id="bgImage"></div>
+  <div class="bg" aria-hidden="true"><img src="bg.PNG" alt="" id="bgImage"></div>
   <div class="veil" aria-hidden="true"></div>
 
   <!-- ===== Bloc de suivi, format carte arrondie ===== -->
@@ -48,15 +48,8 @@
     <div class="suivi-carte__jauge" aria-hidden="true"><i id="suiviJauge"></i></div>
   </div>
 
-  <!-- ===== Accueil ===== -->
+  <!-- ===== Accueil explicatif ===== -->
   <section class="intro" id="intro">
-
-    <!-- Logo : deposez votre image sous le nom logo.png a la racine.
-         Tant qu'elle est absente, le texte CORNER69 anime s'affiche. -->
-    <div class="logo-hero" id="logoHero">
-      <img class="logo-hero__img" src="logo.png" alt="CORNER69" id="logoImage" hidden>
-      <span class="logo-hero__texte" id="logoTexte">CORNER<b>69</b></span>
-    </div>
 
     <span class="intro__tag">Version de démonstration</span>
     <h1 class="intro__title">Bienvenue sur <b>CORNER69</b></h1>
@@ -92,8 +85,17 @@
   <!-- ===== Vues ===== -->
   <main id="vues" hidden>
 
-    <!-- Catalogue -->
+    <!-- Catalogue : c'est ici que l'effet du logo se joue -->
     <section class="vue" data-vue="/">
+
+      <!-- Logo : l'animation part a l'arrivee sur cette page, apres la visite.
+           De beaucoup de logiciels, l'image se depose sous le nom logo.png a la racine.
+           Tant qu'elle est absente, le texte CORNER69 anime s'affiche. -->
+      <div class="logo-hero" id="logoHero">
+        <img class="logo-hero__img" src="logo.png" alt="CORNER69" id="logoImage" hidden>
+        <span class="logo-hero__texte" id="logoTexte">CORNER<b>69</b></span>
+      </div>
+
       <div class="rayons">
         <label class="rayons__label" for="rayon">Rayon</label>
         <select id="rayon" class="rayons__select"></select>
@@ -229,12 +231,12 @@
       <button class="retour" type="button" data-route="/">← Retour au catalogue</button>
       <div class="section-head"><h2>Gestion de la boutique</h2></div>
       <p class="fond__hint" style="margin:0 0 1.4rem">
-        Page réservée au commerçant. Elle n'est pas dans la navigation :
-        on y accède par l'adresse <b>#/gestion</b>.
+        Page réservée à la personne qui gère le site.
+        Elle n'apparaît pas dans la navigation : on y accède par l'adresse <b>#/gestion</b>.
       </p>
 
       <div class="verrou" id="verrou">
-        <p>Espace réservé. Entrez le mot de passe pour gérer la boutique.</p>
+        <p>Espace réservé. Entrez le mot de passe pour personnaliser le site.</p>
         <form class="form" id="formVerrou">
           <div class="form__row">
             <label for="mdp">Mot de passe</label>
@@ -260,7 +262,7 @@
           <p class="fond__hint">
             Déposez une image : elle sera enregistrée dans ce navigateur et appliquée au site.
             Pour qu'elle s'applique à tous les visiteurs, déposez-la aussi à la racine du dépôt
-            sous le nom <b>bg.jpg</b>.
+            sous le nom <b>bg.PNG</b>.
           </p>
           <input type="file" id="fondFile" accept="image/*">
           <button class="btn btn--ghost" id="fondReset" type="button">Revenir au fond du dépôt</button>
