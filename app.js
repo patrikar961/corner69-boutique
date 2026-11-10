@@ -58,6 +58,8 @@
   /* -------------------------------------------------------
      LOGO — si logo.png existe, on l'affiche a la place du
      texte. Sinon, le texte anime reste en place.
+     Le bloc est sur la page catalogue : l'animation part
+     a l'arrivee sur cette page, apres la visite.
      ------------------------------------------------------- */
   function afficherLogo() {
     var img = $('#logoImage');
@@ -74,6 +76,21 @@
       img.hidden = true;
       if (txt) txt.hidden = false;
     });
+
+    /* si l'image etait deja en cache, le load n'est pas relance */
+    if (img.complete && img.naturalWidth > 0) {
+      if (txt) txt.hidden = true;
+      img.hidden = false;
+    }
+  }
+
+  /* relance l'effet d'entree du logo, de bout en bout */
+  function jouerLogo() {
+    var hero = $('#logoHero');
+    if (!hero) return;
+    hero.classList.remove('logo-hero--joue');
+    void hero.offsetWidth;   /* force le navigateur a recalculer */
+    hero.classList.add('logo-hero--joue');
   }
 
   function appliquerFond() {
@@ -626,6 +643,8 @@
       $('#foot').hidden = false;
       appliquerFond();
       afficher();
+      /* l'animation du logo se joue ici, en arrivant sur le catalogue */
+      jouerLogo();
     });
 
     /* navigation et formulaires */
@@ -666,7 +685,7 @@
     $('#fondReset').addEventListener('click', function () {
       fondCustom = null;
       effacer('fond');
-      $('#bgImage').src = 'bg.jpg';
+      $('#bgImage').src = 'bg.PNG';
     });
 
     $('#themeSauver').addEventListener('click', function () {
