@@ -1,6 +1,7 @@
 /* =========================================================
    CORNER69 — boutique
-   Logique : catalogue, panier, commande, suivi, avis, gestion.
+   Logique : catalogue, panier, commande, suivi, avis,
+   thèmes et réglages.
    ========================================================= */
 (function () {
   'use strict';
@@ -25,16 +26,16 @@
   }
 
   /* =======================================================
-     ETAT
+     ÉTAT
      ======================================================= */
-  var panier = lire('panier', []);
-  var commande = lire('commande', null);
+  var panier = lire('panier', []);          // [{id, qte}]
+  var commande = lire('commande', null);    // {ref, date, adresse, total, etape}
   var avis = lire('avis', []);
-  var theme = lire('theme', null);
-  var fondCustom = lire('fond', null);
+  var theme = lire('theme', null);          // palette personnalisée
+  var fondCustom = lire('fond', null);      // image de fond en base64
 
   /* =======================================================
-     THEME
+     THÈME
      ======================================================= */
   function paletteActive() {
     if (theme) return theme;
@@ -54,6 +55,27 @@
     if (meta) meta.setAttribute('content', p.fond);
   }
 
+  /* -------------------------------------------------------
+     LOGO — si logo.png existe, on l'affiche a la place du
+     texte. Sinon, le texte anime reste en place.
+     ------------------------------------------------------- */
+  function afficherLogo() {
+    var img = $('#logoImage');
+    var txt = $('#logoTexte');
+    if (!img) return;
+
+    img.addEventListener('load', function () {
+      /* l'image est la : on masque le texte */
+      if (txt) txt.hidden = true;
+      img.hidden = false;
+    });
+    img.addEventListener('error', function () {
+      /* pas d'image : on garde le texte */
+      img.hidden = true;
+      if (txt) txt.hidden = false;
+    });
+  }
+
   function appliquerFond() {
     var img = $('#bgImage');
     if (img && fondCustom) img.src = fondCustom;
@@ -61,12 +83,10 @@
 
   /* =======================================================
      ROUTAGE
-     La page de gestion vit sur #/gestion.
      ======================================================= */
   function route() {
     var h = (location.hash || '#/').replace('#', '');
     if (h.indexOf('/produit/') === 0) return '/produit';
-    if (h === '/admin') return '/gestion';
     return h || '/';
   }
 
@@ -85,15 +105,17 @@
     if (r === '/avis') rendreAvis();
     if (r === '/gestion') rendreAdmin();
 
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
   }
 
   document.addEventListener('click', function (e) {
     var a = e.target.closest('[data-route]');
     if (!a) return;
     var cible = a.getAttribute('data-route');
+    // un produit ouvre sa fiche
     var id = a.getAttribute('data-produit');
-    location.hash = id ? '#/produit/' + id : '#' + cible;
+    if (id) { location.hash = '#/produit/' + id; }
+    else { location.hash = '#' + cible; }
     e.preventDefault();
   });
 
@@ -204,6 +226,15 @@
         location.hash = '#/panier';
       });
     }
+
+    /* le carrousel du produit, sous la description */
+    var zone = document.createElement('div');
+    zone.id = 'carrousel';
+    zone.className = 'carrousel';
+    box.insertBefore(zone, box.firstChild.nextSibling);
+
+    /* on previent le carrousel : il affiche les visuels du produit */
+    document.dispatchEvent(new CustomEvent('corner69:produit', { detail: p }));
   }
 
   /* =======================================================
@@ -288,14 +319,14 @@
   }
 
   /* =======================================================
-     COMMANDE — 5 etapes
+     COMMANDE — 5 étapes
      ======================================================= */
   function reference() {
     var lettres = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
     var s = '';
-    for (var i = 0; i < 2; i++) s += lettres.charAt(Math.floor(Math.random() * lettres.length));
+    for (var i = 0; i < 4; i++) s += lettres.charAt(Math.floor(Math.random() * lettres.length));
     var n = Math.floor(1000 + Math.random() * 9000);
-    return '#CMD-' + s + n;
+    return '#CMD-' + n + s.charAt(0) + s.charAt(1);
   }
 
   function validerCommande(e) {
@@ -332,7 +363,6 @@
     panier = [];
     ecrire('panier', panier);
     majPanierCount();
-    majBarreSuivi();
 
     location.hash = '#/suivi';
   }
@@ -342,10 +372,9 @@
      ======================================================= */
   function rendreSuivi() {
     var box = $('#suivi');
-    var actions = $('#suiviActions');
-
     if (!commande) {
-      if (actions) actions.hidden = true;
+      var a0 = $('#suiviActions');
+      if (a0) a0.hidden = true;
       box.innerHTML = '<div class="vide"><p>Aucune commande en cours.</p>' +
         '<button class="btn btn--accent" type="button" data-route="/">Voir le catalogue</button></div>';
       return;
@@ -356,6 +385,7 @@
     var courante = BOUTIQUE.etapes[e];
 
     /* le bouton d'avancement disparait une fois la commande livree */
+    var actions = $('#suiviActions');
     if (actions) actions.hidden = (e >= BOUTIQUE.etapes.length - 1);
 
     var quand = new Date(commande.date);
@@ -407,9 +437,9 @@
     $('#suiviPct').textContent = e + 1;
     $('#suiviRef').textContent = commande.ref;
     $('#suiviLabel').textContent = BOUTIQUE.etapes[e].label + ' ' + BOUTIQUE.etapes[e].emoji;
-    barre.querySelector('.suivi-bar__ring').style.setProperty('--pct', pct + '%');
-
-    /* la jauge fine sous la barre suit la meme progression */
+    var badge = $('#suiviBadge');
+    if (badge) badge.textContent = 'Étape ' + (e + 1) + '/' + BOUTIQUE.etapes.length;
+    barre.querySelector('.suivi-carte__ring').style.setProperty('--pct', pct + '%');
     var jauge = $('#suiviJauge');
     if (jauge) jauge.style.width = pct + '%';
   }
@@ -422,9 +452,8 @@
   function rendreEtoiles() {
     var box = $('#etoiles');
     box.innerHTML = [1, 2, 3, 4, 5].map(function (n) {
-      var cls = n <= noteChoisie ? 'on' : '';
       return '<button type="button" role="radio" aria-checked="' + (n === noteChoisie) +
-        '" class="' + cls + '" data-note="' + n + '">★</button>';
+        '" class="' + (n <= noteChoisie ? 'on' : '') + '" data-note="' + n + '">★</button>';
     }).join('');
     $$('[data-note]', box).forEach(function (b) {
       b.addEventListener('click', function () {
@@ -437,7 +466,7 @@
   function rendreAvis() {
     rendreEtoiles();
     var ul = $('#avis');
-    $('#avisCount').textContent = avis.length + ' avis';
+    $('#avisCount').textContent = avis.length + (avis.length > 1 ? ' avis' : ' avis');
 
     if (!avis.length) {
       ul.innerHTML = '<li class="vide"><p>Aucun avis pour le moment. Soyez le premier.</p></li>';
@@ -447,7 +476,7 @@
       return '<li class="avis__item">' +
         '<div class="avis__head">' +
           '<span class="avis__nom">' + a.nom + '</span>' +
-          '<span class="avis__note">' + new Array(a.note + 1).join('★') + '</span>' +
+          '<span class="avis__note">' + '★'.repeat(a.note) + '</span>' +
         '</div>' +
         '<p class="avis__texte">' + a.texte + '</p>' +
       '</li>';
@@ -468,13 +497,57 @@
   }
 
   /* =======================================================
-     GESTION — page separee, hors navigation
-     Accessible uniquement par l'adresse #/gestion.
+     ADMIN — thèmes et réglages
      ======================================================= */
   function rendreAdmin() {
     var p = paletteActive();
 
-    /* --- avancement de la commande --- */
+    /* palettes */
+    $('#palettes').innerHTML = Object.keys(BOUTIQUE.palettes).map(function (cle) {
+      var pa = BOUTIQUE.palettes[cle];
+      return '<button type="button" class="palette" data-palette="' + cle + '">' +
+        '<span class="palette__nom">' + pa.nom + '</span>' +
+        '<span class="palette__dots">' +
+          '<i style="background:' + pa.fond + '"></i>' +
+          '<i style="background:' + pa.carte + '"></i>' +
+          '<i style="background:' + pa.accent + '"></i>' +
+        '</span>' +
+      '</button>';
+    }).join('');
+
+    $$('[data-palette]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var cle = b.getAttribute('data-palette');
+        theme = JSON.parse(JSON.stringify(BOUTIQUE.palettes[cle]));
+        theme.cle = cle;
+        appliquerTheme(theme);
+        rendreAdmin();
+      });
+    });
+
+    /* couleurs */
+    var champs = [
+      ['fond', 'Fond'], ['carte', 'Cartes'], ['texte', 'Texte'],
+      ['doux', 'Texte secondaire'], ['accent', 'Accentuation'],
+      ['accentTexte', 'Texte sur accent']
+    ];
+    $('#couleurs').innerHTML = champs.map(function (c) {
+      return '<div class="couleur">' +
+        '<label for="c-' + c[0] + '">' + c[1] + '</label>' +
+        '<input type="color" id="c-' + c[0] + '" data-couleur="' + c[0] +
+          '" value="' + (p[c[0]] || '#000000') + '">' +
+      '</div>';
+    }).join('');
+
+    $$('[data-couleur]').forEach(function (inp) {
+      inp.addEventListener('input', function () {
+        if (!theme) theme = JSON.parse(JSON.stringify(p));
+        theme[inp.getAttribute('data-couleur')] = inp.value;
+        appliquerTheme(theme);
+      });
+    });
+
+    /* commandes en cours */
     var ul = $('#adminCommandes');
     if (!commande) {
       ul.innerHTML = '<li class="vide"><p>Aucune commande en cours.</p></li>';
@@ -501,51 +574,6 @@
         rendreAdmin();
       });
     });
-
-    /* --- palettes --- */
-    $('#palettes').innerHTML = Object.keys(BOUTIQUE.palettes).map(function (cle) {
-      var pa = BOUTIQUE.palettes[cle];
-      return '<button type="button" class="palette" data-palette="' + cle + '">' +
-        '<span class="palette__nom">' + pa.nom + '</span>' +
-        '<span class="palette__dots">' +
-          '<i style="background:' + pa.fond + '"></i>' +
-          '<i style="background:' + pa.carte + '"></i>' +
-          '<i style="background:' + pa.accent + '"></i>' +
-        '</span>' +
-      '</button>';
-    }).join('');
-
-    $$('[data-palette]').forEach(function (b) {
-      b.addEventListener('click', function () {
-        var cle = b.getAttribute('data-palette');
-        theme = JSON.parse(JSON.stringify(BOUTIQUE.palettes[cle]));
-        theme.cle = cle;
-        appliquerTheme(theme);
-        rendreAdmin();
-      });
-    });
-
-    /* --- couleurs --- */
-    var champs = [
-      ['fond', 'Fond'], ['carte', 'Cartes'], ['texte', 'Texte'],
-      ['doux', 'Texte secondaire'], ['accent', 'Accentuation'],
-      ['accentTexte', 'Texte sur accent']
-    ];
-    $('#couleurs').innerHTML = champs.map(function (c) {
-      return '<div class="couleur">' +
-        '<label for="c-' + c[0] + '">' + c[1] + '</label>' +
-        '<input type="color" id="c-' + c[0] + '" data-couleur="' + c[0] +
-          '" value="' + (p[c[0]] || '#000000') + '">' +
-      '</div>';
-    }).join('');
-
-    $$('[data-couleur]').forEach(function (inp) {
-      inp.addEventListener('input', function () {
-        if (!theme) theme = JSON.parse(JSON.stringify(p));
-        theme[inp.getAttribute('data-couleur')] = inp.value;
-        appliquerTheme(theme);
-      });
-    });
   }
 
   function deverrouiller(e) {
@@ -565,9 +593,10 @@
   }
 
   /* =======================================================
-     AVANCEMENT DEPUIS LA PAGE DE SUIVI
-     Bouton de demonstration : il fait passer la commande a
-     l'etape suivante sans passer par la page de gestion.
+     AVANCEMENT DE LA COMMANDE
+     Le bouton de la page de suivi sert a la demonstration.
+     Le reglage reel se fait depuis la page de gestion,
+     protegee par mot de passe.
      ======================================================= */
   function avancerDepuisSuivi() {
     if (!commande) return;
@@ -579,17 +608,15 @@
   }
 
   /* =======================================================
-     DEMARRAGE
+     DÉMARRAGE
      ======================================================= */
   function init() {
     appliquerTheme(paletteActive());
 
+    /* écran de chargement puis accueil explicatif */
     var loader = $('#loader');
     setTimeout(function () {
-      if (loader) {
-        loader.classList.add('is-off');
-        setTimeout(function () { loader.style.display = 'none'; }, 600);
-      }
+      if (loader) { loader.classList.add('is-off'); setTimeout(function () { loader.style.display = 'none'; }, 600); }
     }, 1400);
 
     $('#introGo').addEventListener('click', function () {
@@ -601,12 +628,13 @@
       afficher();
     });
 
+    /* navigation et formulaires */
     $('#formCommande').addEventListener('submit', validerCommande);
     $('#formAvis').addEventListener('submit', publierAvis);
     $('#formVerrou').addEventListener('submit', deverrouiller);
     $('#suiviVoir').addEventListener('click', function () { location.hash = '#/suivi'; });
 
-    /* bouton d'avancement present sur la page de suivi */
+    /* bouton d'avancement de la page de suivi (demonstration) */
     document.addEventListener('click', function (e) {
       if (e.target.closest('#suiviAvancer')) avancerDepuisSuivi();
     });
@@ -616,11 +644,13 @@
       location.hash = '#/commande';
     });
 
+    /* menu mobile : le nav est déjà en bas, le burger reste un repère */
     $('#burger').addEventListener('click', function () {
       var ouvert = document.body.classList.toggle('menu-open');
       this.setAttribute('aria-expanded', ouvert ? 'true' : 'false');
     });
 
+    /* réglages : image de fond et thème */
     $('#fondFile').addEventListener('change', function (e) {
       var f = e.target.files[0];
       if (!f) return;
@@ -650,9 +680,11 @@
       rendreAdmin();
     });
 
+    /* état initial */
     rendreCatalogue();
     majPanierCount();
     majBarreSuivi();
+    afficherLogo();
   }
 
   if (document.readyState === 'loading') {
