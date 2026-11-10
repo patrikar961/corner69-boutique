@@ -8,16 +8,14 @@ var BOUTIQUE = {
 
   nom: "CORNER69",
 
-  /* Deposez votre logo sous le nom logo.png a la racine du depot.
-     Tant qu'il est absent, le texte CORNER69 anime s'affiche. */
+  /* Deposez votre logo sous le nom logo.png a la racine du depot. */
   logo: "logo.png",
 
   slogan: "Coffee shop — torrefaction artisanale",
   baseline: "Ouvert 7j/7 — 24h/24",
 
   /* -------------------------------------------------------
-     ZONE DE LIVRAISON
-     Le commerce livre dans le Rhone : departement 69.
+     ZONE DE LIVRAISON — le Rhone : departement 69
      ------------------------------------------------------- */
   zone: {
     nom: "le Rhône",
@@ -25,10 +23,6 @@ var BOUTIQUE = {
     toutes: false
   },
 
-  /* -------------------------------------------------------
-     APPARENCE — theme par defaut
-     Modifiable depuis la page de gestion (#/gestion)
-     ------------------------------------------------------- */
   theme: "nuit-acide",
 
   /* -------------------------------------------------------
@@ -44,14 +38,16 @@ var BOUTIQUE = {
 
   /* -------------------------------------------------------
      CATALOGUE
-     Le champ « medias » alimente le carrousel de la fiche.
-     Deposez vos fichiers dans le dossier media/.
+     Champ « emoji » : affiche dans la vignette du produit
+     tant qu'il n'y a pas de photo dans « medias ».
+     Champ « medias » : photos/videos du carrousel de la fiche.
      ------------------------------------------------------- */
   produits: [
     {
       id: "p1",
       nom: "Café de spécialité — Éthiopie",
       rayon: "Cafés",
+      emoji: "☕",
       format: "250 g",
       prix: 14.50,
       stock: "disponible",
@@ -66,6 +62,7 @@ var BOUTIQUE = {
       id: "p2",
       nom: "Espresso maison — Assemblage",
       rayon: "Cafés",
+      emoji: "🫘",
       format: "1 kg",
       prix: 32.00,
       stock: "disponible",
@@ -79,6 +76,7 @@ var BOUTIQUE = {
       id: "p3",
       nom: "Thé vert Sencha du Japon",
       rayon: "Thés",
+      emoji: "🍵",
       format: "100 g",
       prix: 18.00,
       stock: "disponible",
@@ -92,6 +90,7 @@ var BOUTIQUE = {
       id: "p4",
       nom: "Mug CORNER69 en grès",
       rayon: "Accessoires",
+      emoji: "🏺",
       format: "35 cl",
       prix: 24.00,
       stock: "disponible",
@@ -106,6 +105,7 @@ var BOUTIQUE = {
       id: "p5",
       nom: "Pack découverte — 3 origines",
       rayon: "Coffrets",
+      emoji: "🎁",
       format: "3 × 100 g",
       prix: 39.00,
       stock: "rupture",
@@ -185,7 +185,6 @@ var BOUTIQUE = {
 
   /* -------------------------------------------------------
      SON — invisible pour le visiteur
-     Deposez votre fichier a la racine du depot.
      Plusieurs noms possibles : le premier trouve sera joue.
      0 = muet · 0.05 = a peine perceptible · 0.3 = present
      ------------------------------------------------------- */
@@ -195,23 +194,13 @@ var BOUTIQUE = {
     actif: true
   },
 
-  /* -------------------------------------------------------
-     GESTION — protege la page #/gestion
-     Changez ce mot de passe avant la mise en ligne.
-     ------------------------------------------------------- */
   adminMotDePasse: "corner69",
 
-  /* -------------------------------------------------------
-     TELEGRAM — notifications de commande (optionnel)
-     ------------------------------------------------------- */
   telegram: {
     jeton: "",
     discussion: ""
   },
 
-  /* -------------------------------------------------------
-     LIVRAISON — frais et seuil
-     ------------------------------------------------------- */
   livraison: {
     frais: 3.90,
     gratuiteAPartirDe: 40

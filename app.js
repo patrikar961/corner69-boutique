@@ -28,11 +28,11 @@
   /* =======================================================
      ÉTAT
      ======================================================= */
-  var panier = lire('panier', []);          // [{id, qte}]
-  var commande = lire('commande', null);    // {ref, date, adresse, total, etape}
+  var panier = lire('panier', []);
+  var commande = lire('commande', null);
   var avis = lire('avis', []);
-  var theme = lire('theme', null);          // palette personnalisée
-  var fondCustom = lire('fond', null);      // image de fond en base64
+  var theme = lire('theme', null);
+  var fondCustom = lire('fond', null);
 
   /* =======================================================
      THÈME
@@ -56,10 +56,7 @@
   }
 
   /* -------------------------------------------------------
-     LOGO — si logo.png existe, on l'affiche a la place du
-     texte. Sinon, le texte anime reste en place.
-     Le bloc est sur la page catalogue : l'animation part
-     a l'arrivee sur cette page, apres la visite.
+     LOGO
      ------------------------------------------------------- */
   function afficherLogo() {
     var img = $('#logoImage');
@@ -67,29 +64,25 @@
     if (!img) return;
 
     img.addEventListener('load', function () {
-      /* l'image est la : on masque le texte */
       if (txt) txt.hidden = true;
       img.hidden = false;
     });
     img.addEventListener('error', function () {
-      /* pas d'image : on garde le texte */
       img.hidden = true;
       if (txt) txt.hidden = false;
     });
 
-    /* si l'image etait deja en cache, le load n'est pas relance */
     if (img.complete && img.naturalWidth > 0) {
       if (txt) txt.hidden = true;
       img.hidden = false;
     }
   }
 
-  /* relance l'effet d'entree du logo, de bout en bout */
   function jouerLogo() {
     var hero = $('#logoHero');
     if (!hero) return;
     hero.classList.remove('logo-hero--joue');
-    void hero.offsetWidth;   /* force le navigateur a recalculer */
+    void hero.offsetWidth;
     hero.classList.add('logo-hero--joue');
   }
 
@@ -129,7 +122,6 @@
     var a = e.target.closest('[data-route]');
     if (!a) return;
     var cible = a.getAttribute('data-route');
-    // un produit ouvre sa fiche
     var id = a.getAttribute('data-produit');
     if (id) { location.hash = '#/produit/' + id; }
     else { location.hash = '#' + cible; }
@@ -151,20 +143,21 @@
 
   /* -------------------------------------------------------
      VIGNETTE DE REMPLACEMENT
-     Tant que la photo du produit n'existe pas, on affiche
-     le nom du produit tel qu'il est ecrit dans config.js.
-     Emojis compris : « Cafe ☕ », « The vert 🍵 »...
+     Si la photo du produit existe, c'est elle.
+     Sinon l'emoji du produit (champ « emoji » dans config.js),
+     et a defaut le nom du rayon.
      ------------------------------------------------------- */
   function vignette(p) {
-    /* si l'image du produit existe, c'est elle qui s'affiche */
     var premier = (p && p.medias && p.medias[0]) || null;
     if (premier && premier.type === 'image' && premier.src) {
       return '<img src="' + premier.src + '" alt="' + (p.nom || '') + '" loading="lazy">';
     }
 
-    /* sinon, le nom du produit, tel quel, emojis compris */
-    var texte = String((p && p.nom) || '').trim();
-    return texte || '?';
+    var emoji = String((p && p.emoji) || '').trim();
+    if (emoji) return '<span class="vignette__emoji">' + emoji + '</span>';
+
+    var secours = String((p && p.rayon) || '').trim();
+    return secours || '?';
   }
 
   function rendreCatalogue() {
@@ -254,13 +247,11 @@
       });
     }
 
-    /* le carrousel du produit, sous la description */
     var zone = document.createElement('div');
     zone.id = 'carrousel';
     zone.className = 'carrousel';
     box.insertBefore(zone, box.firstChild.nextSibling);
 
-    /* on previent le carrousel : il affiche les visuels du produit */
     document.dispatchEvent(new CustomEvent('corner69:produit', { detail: p }));
   }
 
@@ -411,7 +402,6 @@
     var pct = Math.round(((e + 1) / BOUTIQUE.etapes.length) * 100);
     var courante = BOUTIQUE.etapes[e];
 
-    /* le bouton d'avancement disparait une fois la commande livree */
     var actions = $('#suiviActions');
     if (actions) actions.hidden = (e >= BOUTIQUE.etapes.length - 1);
 
@@ -493,7 +483,7 @@
   function rendreAvis() {
     rendreEtoiles();
     var ul = $('#avis');
-    $('#avisCount').textContent = avis.length + (avis.length > 1 ? ' avis' : ' avis');
+    $('#avisCount').textContent = avis.length + ' avis';
 
     if (!avis.length) {
       ul.innerHTML = '<li class="vide"><p>Aucun avis pour le moment. Soyez le premier.</p></li>';
@@ -524,12 +514,11 @@
   }
 
   /* =======================================================
-     ADMIN — thèmes et réglages
+     ADMIN
      ======================================================= */
   function rendreAdmin() {
     var p = paletteActive();
 
-    /* palettes */
     $('#palettes').innerHTML = Object.keys(BOUTIQUE.palettes).map(function (cle) {
       var pa = BOUTIQUE.palettes[cle];
       return '<button type="button" class="palette" data-palette="' + cle + '">' +
@@ -552,7 +541,6 @@
       });
     });
 
-    /* couleurs */
     var champs = [
       ['fond', 'Fond'], ['carte', 'Cartes'], ['texte', 'Texte'],
       ['doux', 'Texte secondaire'], ['accent', 'Accentuation'],
@@ -574,7 +562,6 @@
       });
     });
 
-    /* commandes en cours */
     var ul = $('#adminCommandes');
     if (!commande) {
       ul.innerHTML = '<li class="vide"><p>Aucune commande en cours.</p></li>';
@@ -621,9 +608,6 @@
 
   /* =======================================================
      AVANCEMENT DE LA COMMANDE
-     Le bouton de la page de suivi sert a la demonstration.
-     Le reglage reel se fait depuis la page de gestion,
-     protegee par mot de passe.
      ======================================================= */
   function avancerDepuisSuivi() {
     if (!commande) return;
@@ -640,7 +624,6 @@
   function init() {
     appliquerTheme(paletteActive());
 
-    /* écran de chargement puis accueil explicatif */
     var loader = $('#loader');
     setTimeout(function () {
       if (loader) { loader.classList.add('is-off'); setTimeout(function () { loader.style.display = 'none'; }, 600); }
@@ -653,17 +636,14 @@
       $('#foot').hidden = false;
       appliquerFond();
       afficher();
-      /* l'animation du logo se joue ici, en arrivant sur le catalogue */
       jouerLogo();
     });
 
-    /* navigation et formulaires */
     $('#formCommande').addEventListener('submit', validerCommande);
     $('#formAvis').addEventListener('submit', publierAvis);
     $('#formVerrou').addEventListener('submit', deverrouiller);
     $('#suiviVoir').addEventListener('click', function () { location.hash = '#/suivi'; });
 
-    /* bouton d'avancement de la page de suivi (demonstration) */
     document.addEventListener('click', function (e) {
       if (e.target.closest('#suiviAvancer')) avancerDepuisSuivi();
     });
@@ -673,13 +653,11 @@
       location.hash = '#/commande';
     });
 
-    /* menu mobile : le nav est déjà en bas, le burger reste un repère */
     $('#burger').addEventListener('click', function () {
       var ouvert = document.body.classList.toggle('menu-open');
       this.setAttribute('aria-expanded', ouvert ? 'true' : 'false');
     });
 
-    /* réglages : image de fond et thème */
     $('#fondFile').addEventListener('change', function (e) {
       var f = e.target.files[0];
       if (!f) return;
@@ -709,7 +687,6 @@
       rendreAdmin();
     });
 
-    /* état initial */
     rendreCatalogue();
     majPanierCount();
     majBarreSuivi();
