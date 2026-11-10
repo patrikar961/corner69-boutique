@@ -1,7 +1,6 @@
 /* =========================================================
    CORNER69 — boutique
-   Logique : catalogue, panier, commande, suivi, avis,
-   themes et reglages.
+   Logique : catalogue, panier, commande, suivi, avis, gestion.
    ========================================================= */
 (function () {
   'use strict';
@@ -62,10 +61,12 @@
 
   /* =======================================================
      ROUTAGE
+     La page de gestion vit sur #/gestion.
      ======================================================= */
   function route() {
     var h = (location.hash || '#/').replace('#', '');
     if (h.indexOf('/produit/') === 0) return '/produit';
+    if (h === '/admin') return '/gestion';
     return h || '/';
   }
 
@@ -82,7 +83,7 @@
     if (r === '/panier') rendrePanier();
     if (r === '/suivi') rendreSuivi();
     if (r === '/avis') rendreAvis();
-    if (r === '/admin') rendreAdmin();
+    if (r === '/gestion') rendreAdmin();
 
     window.scrollTo(0, 0);
   }
@@ -341,7 +342,10 @@
      ======================================================= */
   function rendreSuivi() {
     var box = $('#suivi');
+    var actions = $('#suiviActions');
+
     if (!commande) {
+      if (actions) actions.hidden = true;
       box.innerHTML = '<div class="vide"><p>Aucune commande en cours.</p>' +
         '<button class="btn btn--accent" type="button" data-route="/">Voir le catalogue</button></div>';
       return;
@@ -350,6 +354,10 @@
     var e = commande.etape;
     var pct = Math.round(((e + 1) / BOUTIQUE.etapes.length) * 100);
     var courante = BOUTIQUE.etapes[e];
+
+    /* le bouton d'avancement disparait une fois la commande livree */
+    if (actions) actions.hidden = (e >= BOUTIQUE.etapes.length - 1);
+
     var quand = new Date(commande.date);
     var dateTxt = 'Passée le ' + quand.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }) +
                   ' à ' + quand.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
@@ -400,6 +408,10 @@
     $('#suiviRef').textContent = commande.ref;
     $('#suiviLabel').textContent = BOUTIQUE.etapes[e].label + ' ' + BOUTIQUE.etapes[e].emoji;
     barre.querySelector('.suivi-bar__ring').style.setProperty('--pct', pct + '%');
+
+    /* la jauge fine sous la barre suit la meme progression */
+    var jauge = $('#suiviJauge');
+    if (jauge) jauge.style.width = pct + '%';
   }
 
   /* =======================================================
@@ -456,56 +468,13 @@
   }
 
   /* =======================================================
-     ADMIN — themes et reglages
-     Page separee : atteignable par l'adresse #/admin,
-     jamais depuis la navigation.
+     GESTION — page separee, hors navigation
+     Accessible uniquement par l'adresse #/gestion.
      ======================================================= */
   function rendreAdmin() {
     var p = paletteActive();
 
-    $('#palettes').innerHTML = Object.keys(BOUTIQUE.palettes).map(function (cle) {
-      var pa = BOUTIQUE.palettes[cle];
-      return '<button type="button" class="palette" data-palette="' + cle + '">' +
-        '<span class="palette__nom">' + pa.nom + '</span>' +
-        '<span class="palette__dots">' +
-          '<i style="background:' + pa.fond + '"></i>' +
-          '<i style="background:' + pa.carte + '"></i>' +
-          '<i style="background:' + pa.accent + '"></i>' +
-        '</span>' +
-      '</button>';
-    }).join('');
-
-    $$('[data-palette]').forEach(function (b) {
-      b.addEventListener('click', function () {
-        var cle = b.getAttribute('data-palette');
-        theme = JSON.parse(JSON.stringify(BOUTIQUE.palettes[cle]));
-        theme.cle = cle;
-        appliquerTheme(theme);
-        rendreAdmin();
-      });
-    });
-
-    var champs = [
-      ['fond', 'Fond'], ['carte', 'Cartes'], ['texte', 'Texte'],
-      ['doux', 'Texte secondaire'], ['accent', 'Accentuation'],
-      ['accentTexte', 'Texte sur accent']
-    ];
-    $('#couleurs').innerHTML = champs.map(function (c) {
-      return '<div class="couleur">' +
-        '<label for="c-' + c[0] + '">' + c[1] + '</label>' +
-        '<input type="color" id="c-' + c[0] + '" data-couleur="' + c[0] +
-          '" value="' + (p[c[0]] || '#000000') + '">' +
-      '</div>';
-    }).join('');
-
-    $$('[data-couleur]').forEach(function (inp) {
-      inp.addEventListener('input', function () {
-        if (!theme) theme = JSON.parse(JSON.stringify(p));
-        theme[inp.getAttribute('data-couleur')] = inp.value;
-        appliquerTheme(theme);
-      });
-    });
-
+    /* --- avancement de la commande --- */
     var ul = $('#adminCommandes');
     if (!commande) {
       ul.innerHTML = '<li class="vide"><p>Aucune commande en cours.</p></li>';
@@ -532,6 +501,51 @@
         rendreAdmin();
       });
     });
+
+    /* --- palettes --- */
+    $('#palettes').innerHTML = Object.keys(BOUTIQUE.palettes).map(function (cle) {
+      var pa = BOUTIQUE.palettes[cle];
+      return '<button type="button" class="palette" data-palette="' + cle + '">' +
+        '<span class="palette__nom">' + pa.nom + '</span>' +
+        '<span class="palette__dots">' +
+          '<i style="background:' + pa.fond + '"></i>' +
+          '<i style="background:' + pa.carte + '"></i>' +
+          '<i style="background:' + pa.accent + '"></i>' +
+        '</span>' +
+      '</button>';
+    }).join('');
+
+    $$('[data-palette]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var cle = b.getAttribute('data-palette');
+        theme = JSON.parse(JSON.stringify(BOUTIQUE.palettes[cle]));
+        theme.cle = cle;
+        appliquerTheme(theme);
+        rendreAdmin();
+      });
+    });
+
+    /* --- couleurs --- */
+    var champs = [
+      ['fond', 'Fond'], ['carte', 'Cartes'], ['texte', 'Texte'],
+      ['doux', 'Texte secondaire'], ['accent', 'Accentuation'],
+      ['accentTexte', 'Texte sur accent']
+    ];
+    $('#couleurs').innerHTML = champs.map(function (c) {
+      return '<div class="couleur">' +
+        '<label for="c-' + c[0] + '">' + c[1] + '</label>' +
+        '<input type="color" id="c-' + c[0] + '" data-couleur="' + c[0] +
+          '" value="' + (p[c[0]] || '#000000') + '">' +
+      '</div>';
+    }).join('');
+
+    $$('[data-couleur]').forEach(function (inp) {
+      inp.addEventListener('input', function () {
+        if (!theme) theme = JSON.parse(JSON.stringify(p));
+        theme[inp.getAttribute('data-couleur')] = inp.value;
+        appliquerTheme(theme);
+      });
+    });
   }
 
   function deverrouiller(e) {
@@ -551,10 +565,9 @@
   }
 
   /* =======================================================
-     SUIVI EN DIRECT DE L'ADMIN
-     Le bouton « Suivant » de la page de suivi n'existe que
-     pour la demonstration : il fait avancer la commande
-     sans passer par la page de reglages.
+     AVANCEMENT DEPUIS LA PAGE DE SUIVI
+     Bouton de demonstration : il fait passer la commande a
+     l'etape suivante sans passer par la page de gestion.
      ======================================================= */
   function avancerDepuisSuivi() {
     if (!commande) return;
