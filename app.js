@@ -152,17 +152,19 @@
   /* -------------------------------------------------------
      VIGNETTE DE REMPLACEMENT
      Tant que la photo du produit n'existe pas, on affiche
-     le nom du rayon tel qu'il est ecrit dans config.js.
-     Emojis compris : « Cafés ☕ », « Thés 🍵 »...
+     le nom du produit tel qu'il est ecrit dans config.js.
+     Emojis compris : « Cafe ☕ », « The vert 🍵 »...
      ------------------------------------------------------- */
   function vignette(p) {
+    /* si l'image du produit existe, c'est elle qui s'affiche */
     var premier = (p && p.medias && p.medias[0]) || null;
     if (premier && premier.type === 'image' && premier.src) {
       return '<img src="' + premier.src + '" alt="' + (p.nom || '') + '" loading="lazy">';
     }
-    var texte = String((p && p.rayon) || '').trim();
-    if (!texte) return '?';
-    return texte.length > 14 ? texte.slice(0, 14) + '…' : texte;
+
+    /* sinon, le nom du produit, tel quel, emojis compris */
+    var texte = String((p && p.nom) || '').trim();
+    return texte || '?';
   }
 
   function rendreCatalogue() {
