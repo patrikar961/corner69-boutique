@@ -1,6 +1,6 @@
 /* =========================================================
    CORNER69 — boutique
-   Configuration centrale : catalogue, themes, reglages.
+   Configuration centrale : catalogue, themes, zone de livraison.
    Tout se regle ici, jamais dans le HTML.
    ========================================================= */
 
@@ -11,8 +11,19 @@ var BOUTIQUE = {
   baseline: "Ouvert 7j/7 — 24h/24",
 
   /* -------------------------------------------------------
+     ZONE DE LIVRAISON
+     Le commerce livre dans le Rhone : departement 69.
+     Les suggestions d'adresse ne proposent QUE cette zone.
+     ------------------------------------------------------- */
+  zone: {
+    nom: "le Rhône",
+    departements: ["69"],
+    toutes: false
+  },
+
+  /* -------------------------------------------------------
      APPARENCE — theme par defaut
-     Modifiable ensuite depuis l'interface /admin
+     Modifiable ensuite depuis la page de gestion (#/gestion)
      ------------------------------------------------------- */
   theme: "nuit-acide",
 
@@ -85,7 +96,6 @@ var BOUTIQUE = {
 
   /* -------------------------------------------------------
      PALETTES — préréglages de couleurs
-     L'interface /admin permet de les modifier et d'en créer.
      ------------------------------------------------------- */
   palettes: {
     "nuit-acide": {
@@ -153,7 +163,6 @@ var BOUTIQUE = {
   /* -------------------------------------------------------
      SON — invisible pour le visiteur
      0 = muet · 0.05 = a peine perceptible · 0.3 = present
-     Le fichier doit s'appeler ambiance.mp3 (ou ambiance.m4a)
      ------------------------------------------------------- */
   son: {
     volume: 0.05,
@@ -162,10 +171,26 @@ var BOUTIQUE = {
   },
 
   /* -------------------------------------------------------
-     ADMIN — protege l'interface de personnalisation
-     Changez ce mot de passe avant de mettre le site en ligne.
+     GESTION — protege la page #/gestion
+     Changez ce mot de passe avant la mise en ligne.
+     Ce n'est qu'une barriere visuelle : voir le README.
      ------------------------------------------------------- */
   adminMotDePasse: "corner69",
+
+  /* -------------------------------------------------------
+     TELEGRAM — notifications de commande (optionnel)
+     Pour recevoir un message a chaque nouvelle commande :
+     1. creez un bot avec @BotFather, il donne un jeton
+     2. ecrivez-lui une fois, puis ouvrez
+        api.telegram.org/bot<jeton>/getUpdates pour trouver
+        votre identifiant de discussion (chat_id)
+     3. collez les deux valeurs ci-dessous
+     Laissez vide pour desactiver.
+     ------------------------------------------------------- */
+  telegram: {
+    jeton: "",
+    discussion: ""
+  },
 
   /* -------------------------------------------------------
      LIVRAISON — frais et seuil

@@ -1,29 +1,27 @@
 /* =========================================================
    CORNER69 — suggestions d'adresse
-   Utilise l'API Adresse du gouvernement français :
-   gratuite, sans clé, sans compte, données officielles.
+   API Adresse du gouvernement français : gratuite, sans clé.
 
-   On tape « 12 rue de la » -> une liste apparaît,
-   un clic remplit la rue, le code postal et la ville.
+   ZONE DE LIVRAISON : le Rhône (69).
+   Seules les adresses de cette zone sont proposées.
    ========================================================= */
 (function () {
   'use strict';
 
   /* ---------------------------------------------------------
      RÉGLAGES
-     - villePrivilegiee : code INSEE de la ville mise en avant
-       (la zone de livraison). Laisser vide pour ne rien
-       privilégier. Exemple : « 75056 » pour Paris.
-     - limite : nombre de suggestions affichées.
-     - pause  : délai avant d'interroger le serveur (ms).
+     - limite : nombre de suggestions affichées
+     - pause  : délai avant d'interroger le serveur (ms)
+     - zoneSeule : true = n'afficher QUE la zone de livraison
      --------------------------------------------------------- */
   var REGLAGES = {
-    villePrivilegiee: '',
-    limite: 6,
-    pause: 220
+    limite: 8,
+    pause: 220,
+    zoneSeule: true
   };
 
-  var API = 'https://api-adresse.data.gouv.fr/search/?limit=' + REGLAGES.limite + '&q=';
+  var zone = (typeof BOUTIQUE !== 'undefined' && BOUTIQUE.zone) ? BOUTIQUE.zone : null;
+  var API = 'https://api-adresse.data.gouv.fr/search/?limit=20&q=';
 
   var champ = document.getElementById('cAdr');
   var liste = document.getElementById('cAdrListe');
@@ -35,6 +33,18 @@
   var requete = null;
   var resultats = [];
   var indexActif = -1;
+  var aucuneTrouvee = false;
+
+  /* ---------------------------------------------------------
+     LA ZONE : une adresse est retenue si son code postal
+     commence par un des departements declares dans config.js
+     --------------------------------------------------------- */
+  function dansZone(cpTexte) {
+    if (!zone || !zone.departements || !zone.departements.length) return true;
+    if (zone.toutes) return true;
+    if (!cpTexte) return false;
+    return zone.departements.indexOf(String(cpTexte).substring(0, 2)) > -1;
+  }
 
   /* ---------------------------------------------------------
      AFFICHAGE
@@ -48,7 +58,19 @@
   }
 
   function ouvrir(items) {
-    if (!items.length) { fermer(); return; }
+    if (!items.length) {
+      /* aucune adresse dans la zone : on le dit clairement */
+      if (aucuneTrouvee) {
+        liste.innerHTML = '<li class="suggestion suggestion--vide">' +
+          'Aucune adresse trouvée dans ' + (zone ? zone.nom : 'la zone de livraison') +
+          '. Vérifiez l\'orthographe, ou écrivez-nous.</li>';
+        liste.hidden = false;
+        champ.setAttribute('aria-expanded', 'true');
+      } else {
+        fermer();
+      }
+      return;
+    }
     resultats = items;
 
     liste.innerHTML = items.map(function (r, i) {
@@ -87,8 +109,14 @@
     if (requete) requete.abort();
     requete = new AbortController();
 
-    var url = API + encodeURIComponent(texte) +
-              (REGLAGES.villePrivilegiee ? '&citycode=' + encodeURIComponent(REGLAGES.villePrivilegiee) : '');
+    var url = API + encodeURIComponent(texte);
+
+    /* on interroge l'API uniquement sur les departements de la zone */
+    if (zone && zone.departements && zone.departements.length && !zone.toutes) {
+      zone.departements.forEach(function (d) {
+        url += '&departement=' + encodeURIComponent(d);
+      });
+    }
 
     fetch(url, { signal: requete.signal })
       .then(function (r) {
@@ -101,15 +129,24 @@
           return {
             rue: p.name + (p.street ? ' ' + p.street : ''),
             cp: p.postcode || '',
-            ville: p.city || p.municipality || ''
+            ville: p.city || p.municipality || '',
+            zone: dansZone(p.postcode || '')
           };
         });
+
+        /* ceinture et bretelles : on retire ce qui n'est pas dans la zone */
+        if (REGLAGES.zoneSeule) {
+          items = items.filter(function (i) { return i.zone; });
+        }
+
         /* les vraies adresses (avec un numero) passent en premier */
         items.sort(function (a, b) {
           var na = /^\d/.test(a.rue) ? 0 : 1;
           var nb = /^\d/.test(b.rue) ? 0 : 1;
           return na - nb;
         });
+
+        aucuneTrouvee = true;
         ouvrir(items.slice(0, REGLAGES.limite));
       })
       .catch(function (err) {
@@ -126,6 +163,7 @@
   champ.addEventListener('input', function () {
     var texte = champ.value.trim();
     clearTimeout(minuteur);
+    aucuneTrouvee = false;
 
     if (texte.length < 3) { fermer(); return; }
 
@@ -157,7 +195,7 @@
   /* clic sur une suggestion */
   liste.addEventListener('click', function (e) {
     var li = e.target.closest('.suggestion');
-    if (!li) return;
+    if (!li || li.classList.contains('suggestion--vide')) return;
     var r = resultats[parseInt(li.getAttribute('data-index'), 10)];
     if (r) choisir(r);
   });
