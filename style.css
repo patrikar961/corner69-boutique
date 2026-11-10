@@ -153,19 +153,24 @@ button { font: inherit; color: inherit; }
   flex-direction: column;
   gap: .7rem;
 }
+
+/* chaque etape : le rond a gauche, le texte a droite.
+   flex plutot que grid : la colonne de texte ne peut pas
+   s'ecraser, meme sur un ecran etroit. */
 .intro__steps li {
-  display: grid;
-  grid-template-columns: 32px 1fr;
+  display: flex;
+  align-items: flex-start;
   gap: .9rem;
-  align-items: start;
   padding: 1rem 1.1rem;
   background: var(--carte);
   border: 1px solid var(--bordure);
   border-radius: var(--r);
   color: var(--doux);
   font-size: .92rem;
+  line-height: 1.55;
 }
 .intro__steps i {
+  flex: 0 0 auto;
   display: grid;
   place-items: center;
   width: 26px; height: 26px;
@@ -175,6 +180,10 @@ button { font: inherit; color: inherit; }
   font-style: normal;
   font-weight: 600;
   font-size: .78rem;
+}
+.intro__steps li > span {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 .intro__steps b { color: var(--texte); font-weight: 600; }
 .intro__go { width: 100%; }
