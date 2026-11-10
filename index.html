@@ -49,7 +49,7 @@
       <li><i>2</i><span><b>Produit</b> — ouvrez une fiche, choisissez un format, ajoutez au panier.</span></li>
       <li><i>3</i><span><b>Commande</b> — validez le panier, remplissez l'adresse, simulez le paiement.</span></li>
       <li><i>4</i><span><b>Avis</b> — laissez une note et un commentaire.</span></li>
-      <li><i>5</i><span><b>Réglages</b> — dans l'onglet dédié : thème, couleurs, image de fond.</span></li>
+      <li><i>5</i><span><b>Suivi</b> — regardez votre commande avancer, étape par étape.</span></li>
     </ol>
 
     <button class="btn btn--accent intro__go" id="introGo" type="button">Commencer la visite</button>
@@ -61,9 +61,9 @@
     <nav class="nav__links">
       <a href="#/" data-route="/">Catalogue</a>
       <a href="#/panier" data-route="/panier">Panier <i id="panierCount">0</i></a>
+      <a href="#/suivi" data-route="/suivi">Suivi</a>
       <a href="#/avis" data-route="/avis">Avis</a>
       <a href="#/infos" data-route="/infos">Infos</a>
-      <a href="#/admin" data-route="/admin">Réglages</a>
     </nav>
     <button class="nav__burger" id="burger" type="button" aria-label="Menu" aria-expanded="false"><i></i><i></i></button>
   </header>
@@ -191,9 +191,13 @@
       </div>
     </section>
 
-    <!-- Admin -->
+    <!-- Admin : page separee, hors navigation -->
     <section class="vue" data-vue="/admin">
+      <button class="retour" type="button" data-route="/">← Retour au catalogue</button>
       <div class="section-head"><h2>Réglages de l'apparence</h2></div>
+      <p class="fond__hint" style="margin:0 0 1.4rem">
+        Page réservée à la personne qui gère le site. Elle n'apparaît pas dans la navigation.
+      </p>
 
       <div class="verrou" id="verrou">
         <p>Espace réservé. Entrez le mot de passe pour personnaliser le site.</p>
