@@ -119,18 +119,23 @@
           <label for="cTel">Téléphone</label>
           <input id="cTel" name="tel" type="tel" required autocomplete="tel">
         </div>
-        <div class="form__row">
-          <label for="cAdr">Adresse</label>
-          <input id="cAdr" name="adresse" type="text" required autocomplete="street-address">
+        <div class="form__row form__row--adresse">
+          <label for="cAdr">Numéro et nom de rue</label>
+          <input id="cAdr" name="adresse" type="text" required
+                 autocomplete="address-line1" placeholder="12 rue de la Paix"
+                 aria-autocomplete="list" aria-controls="cAdrListe" aria-expanded="false">
+          <ul class="suggestions" id="cAdrListe" role="listbox" hidden></ul>
         </div>
         <div class="form__row form__row--2">
           <div>
             <label for="cCp">Code postal</label>
-            <input id="cCp" name="cp" type="text" required inputmode="numeric">
+            <input id="cCp" name="cp" type="text" required inputmode="numeric"
+                   autocomplete="postal-code" maxlength="5" placeholder="75002">
           </div>
           <div>
             <label for="cVille">Ville</label>
-            <input id="cVille" name="ville" type="text" required>
+            <input id="cVille" name="ville" type="text" required
+                   autocomplete="address-level2" placeholder="Paris">
           </div>
         </div>
         <p class="form__note" id="formErreur" hidden></p>
@@ -254,6 +259,7 @@
 
   <script src="config.js"></script>
   <script src="app.js"></script>
+  <script src="adresse.js"></script>
   <script src="son.js"></script>
 </body>
 </html>
