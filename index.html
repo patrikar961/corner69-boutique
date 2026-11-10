@@ -25,7 +25,7 @@
   <div class="bg" aria-hidden="true"><img src="bg.jpg" alt="" id="bgImage"></div>
   <div class="veil" aria-hidden="true"></div>
 
-  <!-- ===== Barre de suivi permanente ===== -->
+  <!-- ===== Barre de suivi permanente, avec sa jauge ===== -->
   <div class="suivi-bar" id="suiviBar" hidden>
     <div class="suivi-bar__ring"><span id="suiviPct">0</span><small>/5</small></div>
     <div class="suivi-bar__txt">
@@ -33,6 +33,7 @@
       <span id="suiviLabel">—</span>
     </div>
     <button class="suivi-bar__btn" id="suiviVoir" type="button">Voir</button>
+    <div class="suivi-bar__jauge" aria-hidden="true"><i id="suiviJauge"></i></div>
   </div>
 
   <!-- ===== Accueil explicatif ===== -->
@@ -147,6 +148,13 @@
     <section class="vue" data-vue="/suivi">
       <div class="section-head"><h2>Suivi de commande</h2></div>
       <div id="suivi"></div>
+      <div class="suivi__actions" id="suiviActions" hidden>
+        <button class="btn btn--accent" id="suiviAvancer" type="button">Faire avancer la commande →</button>
+        <p class="fond__hint">
+          Bouton de démonstration : il fait passer la commande à l'étape suivante.
+          Le réglage réel se fait depuis la page de gestion, protégée par mot de passe.
+        </p>
+      </div>
     </section>
 
     <!-- Avis -->
@@ -196,16 +204,17 @@
       </div>
     </section>
 
-    <!-- Admin : page separee, hors navigation -->
-    <section class="vue" data-vue="/admin">
+    <!-- Gestion : page separee, hors navigation -->
+    <section class="vue" data-vue="/gestion">
       <button class="retour" type="button" data-route="/">← Retour au catalogue</button>
-      <div class="section-head"><h2>Réglages de l'apparence</h2></div>
+      <div class="section-head"><h2>Gestion de la boutique</h2></div>
       <p class="fond__hint" style="margin:0 0 1.4rem">
-        Page réservée à la personne qui gère le site. Elle n'apparaît pas dans la navigation.
+        Page réservée au commerçant. Elle n'est pas dans la navigation :
+        on y accède par l'adresse <b>#/gestion</b>.
       </p>
 
       <div class="verrou" id="verrou">
-        <p>Espace réservé. Entrez le mot de passe pour personnaliser le site.</p>
+        <p>Espace réservé. Entrez le mot de passe pour gérer la boutique.</p>
         <form class="form" id="formVerrou">
           <div class="form__row">
             <label for="mdp">Mot de passe</label>
@@ -217,6 +226,9 @@
       </div>
 
       <div class="reglages" id="reglages" hidden>
+        <h3>Avancement de la commande</h3>
+        <ul class="admin-commandes" id="adminCommandes"></ul>
+
         <h3>Palettes</h3>
         <div class="palettes" id="palettes"></div>
 
@@ -233,9 +245,6 @@
           <input type="file" id="fondFile" accept="image/*">
           <button class="btn btn--ghost" id="fondReset" type="button">Revenir au fond du dépôt</button>
         </div>
-
-        <h3>Commandes en cours</h3>
-        <ul class="admin-commandes" id="adminCommandes"></ul>
 
         <div class="reglages__actions">
           <button class="btn btn--accent" id="themeSauver" type="button">Enregistrer le thème</button>
@@ -260,6 +269,7 @@
   <script src="config.js"></script>
   <script src="app.js"></script>
   <script src="adresse.js"></script>
+  <script src="telegram.js"></script>
   <script src="son.js"></script>
 </body>
 </html>
