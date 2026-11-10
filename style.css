@@ -1,5 +1,7 @@
 /* =========================================================
-   CORNER69 — feuille de style (version verifiee)
+   CORNER69 — feuille de style
+   Toutes les couleurs viennent des variables posees par
+   app.js depuis config.js.
    ========================================================= */
 
 :root {
@@ -614,12 +616,16 @@ button { font: inherit; color: inherit; }
 .vide p { margin: 0 0 1.2rem; }
 
 /* =========================================================
-   Logo de l'accueil — effet d'entree puis pouls
+   Logo de l'accueil — centre, avec effet d'entree
    ========================================================= */
 .logo-hero {
   display: flex;
   justify-content: center;
-  margin: 0 0 2rem;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  min-height: 30vh;
+  margin: 0 0 1.4rem;
   filter: drop-shadow(0 0 40px var(--accent));
   animation:
     logoEntree 2.4s cubic-bezier(.2, .9, .3, 1.25) both,
@@ -634,6 +640,8 @@ button { font: inherit; color: inherit; }
 }
 
 .logo-hero__texte {
+  display: block;
+  text-align: center;
   font-family: var(--titre);
   font-weight: 800;
   font-size: clamp(2.4rem, 11vw, 4.6rem);
@@ -1126,15 +1134,33 @@ button { font: inherit; color: inherit; }
 .foot a:hover { color: var(--accent); }
 
 /* =========================================================
-   Accueil explicatif
+   Accueil : plein ecran, contenu centre verticalement
    ========================================================= */
 .intro {
   position: relative;
   z-index: 2;
   max-width: 620px;
   margin: 0 auto;
-  padding: clamp(3rem, 9vh, 6rem) var(--marge) 4rem;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem var(--marge) 3rem;
 }
+
+.intro__title,
+.intro__text,
+.intro__steps {
+  width: 100%;
+}
+
+.intro__steps li {
+  text-align: left;
+}
+
 .intro__tag {
   display: inline-block;
   padding: .35rem .9rem;
@@ -1195,6 +1221,62 @@ button { font: inherit; color: inherit; }
 .intro__go { width: 100%; }
 
 /* =========================================================
+   Plein ecran — mini-app, Telegram, iOS, Android
+   Le site occupe toute la surface utile, encoches comprises.
+   ========================================================= */
+html {
+  height: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  overscroll-behavior-y: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+input, textarea, [contenteditable] {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* les zones sures : encoche en haut, barre gestuelle en bas */
+.intro {
+  padding-top: calc(2rem + env(safe-area-inset-top));
+  padding-bottom: calc(3rem + env(safe-area-inset-bottom));
+  padding-left: calc(var(--marge) + env(safe-area-inset-left));
+  padding-right: calc(var(--marge) + env(safe-area-inset-right));
+}
+
+.nav {
+  padding-bottom: calc(.8rem + env(safe-area-inset-bottom));
+  padding-left: calc(var(--marge) + env(safe-area-inset-left));
+  padding-right: calc(var(--marge) + env(safe-area-inset-right));
+}
+
+#vues {
+  padding-bottom: calc(3rem + env(safe-area-inset-bottom));
+}
+
+.suivi-carte {
+  top: calc(.7rem + env(safe-area-inset-top));
+}
+
+.foot {
+  padding-bottom: calc(2.5rem + env(safe-area-inset-bottom));
+}
+
+.carrousel__item { touch-action: manipulation; }
+
+/* sur un ecran tres large, on garde une colonne lisible */
+@media (min-width: 900px) {
+  .intro { max-width: 680px; }
+  #vues { max-width: 820px; }
+}
+
+/* =========================================================
    Petits ecrans
    ========================================================= */
 @media (max-width: 460px) {
@@ -1205,6 +1287,7 @@ button { font: inherit; color: inherit; }
   .couleurs { grid-template-columns: 1fr 1fr; }
   .suivi-carte__ring { width: 42px; height: 42px; }
   .suivi-carte__etat { font-size: .9rem; }
+  .logo-hero { min-height: 24vh; }
 }
 
 /* =========================================================
