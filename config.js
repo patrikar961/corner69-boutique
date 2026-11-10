@@ -44,19 +44,8 @@ var BOUTIQUE = {
 
   /* -------------------------------------------------------
      CATALOGUE
-     Le champ « medias » de chaque produit alimente le
-     carrousel de sa fiche. Deposez vos fichiers dans le
-     dossier media/ du depot, puis declarez-les ici.
-
-     Exemple :
-       medias: [
-         { type: "image", src: "media/p1-1.jpg", alt: "Vue du sachet" },
-         { type: "image", src: "media/p1-2.jpg", alt: "Grains en gros plan" },
-         { type: "video", src: "media/p1.mp4" }
-       ]
-
-     Si un fichier manque, l'emplacement reste vide : le site
-     ne casse pas.
+     Le champ « medias » alimente le carrousel de la fiche.
+     Deposez vos fichiers dans le dossier media/.
      ------------------------------------------------------- */
   produits: [
     {
@@ -213,10 +202,6 @@ var BOUTIQUE = {
 
   /* -------------------------------------------------------
      TELEGRAM — notifications de commande (optionnel)
-     Creez un bot avec @BotFather, puis ouvrez
-     api.telegram.org/bot<jeton>/getUpdates pour trouver
-     votre identifiant de discussion. Laissez vide pour
-     desactiver.
      ------------------------------------------------------- */
   telegram: {
     jeton: "",
