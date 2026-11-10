@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+  <meta name="color-scheme" content="dark">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="CORNER69">
+  <meta name="format-detection" content="telephone=no">
+  <title>CORNER69 - Coffee shop</title>
+  <meta name="theme-color" content="#0a0a0f">
+  
+  
+  <style type="text/css">@font-face {font-family:'Syne';font-style:normal;font-weight:700;src:url(/cf-fonts/v/syne/5.2.7/greek/wght/normal.woff2);unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF;font-display:swap;}@font-face {font-family:'Syne';font-style:normal;font-weight:700;src:url(/cf-fonts/v/syne/5.2.7/latin-ext/wght/normal.woff2);unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:'Syne';font-style:normal;font-weight:700;src:url(/cf-fonts/v/syne/5.2.7/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:'Syne';font-style:normal;font-weight:800;src:url(/cf-fonts/v/syne/5.2.7/latin-ext/wght/normal.woff2);unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:'Syne';font-style:normal;font-weight:800;src:url(/cf-fonts/v/syne/5.2.7/greek/wght/normal.woff2);unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF;font-display:swap;}@font-face {font-family:'Syne';font-style:normal;font-weight:800;src:url(/cf-fonts/v/syne/5.2.7/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:300;src:url(/cf-fonts/v/inter/5.2.8/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:300;src:url(/cf-fonts/v/inter/5.2.8/greek-ext/wght/normal.woff2);unicode-range:U+1F00-1FFF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:300;src:url(/cf-fonts/v/inter/5.2.8/greek/wght/normal.woff2);unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:300;src:url(/cf-fonts/v/inter/5.2.8/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:300;src:url(/cf-fonts/v/inter/5.2.8/latin-ext/wght/normal.woff2);unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:300;src:url(/cf-fonts/v/inter/5.2.8/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:300;src:url(/cf-fonts/v/inter/5.2.8/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.2.8/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.2.8/greek/wght/normal.woff2);unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.2.8/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.2.8/greek-ext/wght/normal.woff2);unicode-range:U+1F00-1FFF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.2.8/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.2.8/latin-ext/wght/normal.woff2);unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.2.8/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.2.8/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.2.8/greek-ext/wght/normal.woff2);unicode-range:U+1F00-1FFF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.2.8/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.2.8/latin-ext/wght/normal.woff2);unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.2.8/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.2.8/greek/wght/normal.woff2);unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.2.8/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.2.8/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.2.8/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.2.8/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.2.8/greek/wght/normal.woff2);unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.2.8/greek-ext/wght/normal.woff2);unicode-range:U+1F00-1FFF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.2.8/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.2.8/latin-ext/wght/normal.woff2);unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}</style>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="loader" id="loader">
+    <span class="loader__mark">C<b>69</b></span>
+    <span class="loader__line"></span>
+  </div>
+
+  <div class="bg" aria-hidden="true"><img src="bg.PNG" alt="" id="bgImage"></div>
+  <div class="veil" aria-hidden="true"></div>
+
+  <div class="suivi-carte" id="suiviBar" hidden>
+    <div class="suivi-carte__haut">
+      <div class="suivi-carte__ring"><span id="suiviPct">0</span><small>/5</small></div>
+      <div class="suivi-carte__txt">
+        <span class="suivi-carte__ligne">
+          <span class="suivi-carte__ref" id="suiviRef">#CMD-0000</span>
+          <span class="suivi-carte__badge" id="suiviBadge">Etape 1/5</span>
+        </span>
+        <b class="suivi-carte__etat" id="suiviLabel">-</b>
+      </div>
+      <button class="suivi-carte__btn" id="suiviVoir" type="button">Voir</button>
+    </div>
+    <div class="suivi-carte__jauge" aria-hidden="true"><i id="suiviJauge"></i></div>
+  </div>
+
+  <section class="intro" id="intro">
+    <span class="intro__tag">Version de demonstration</span>
+    <h1 class="intro__title">Bienvenue sur <b>CORNER69</b></h1>
+    <p class="intro__text">Les produits et les commandes sont fictifs, aucun paiement n est reel.</p>
+    <ol class="intro__steps">
+      <li><i>1</i><span><b>Acces</b> - parcourez le catalogue et changez de rayon.</span></li>
+      <li><i>2</i><span><b>Produit</b> - ouvrez une fiche, faites defiler les visuels, ajoutez au panier.</span></li>
+      <li><i>3</i><span><b>Commande</b> - validez le panier, remplissez l adresse, simulez le paiement.</span></li>
+      <li><i>4</i><span><b>Avis</b> - laissez une note et un commentaire.</span></li>
+      <li><i>5</i><span><b>Suivi</b> - regardez votre commande avancer, etape par etape.</span></li>
+    </ol>
+    <button class="btn btn--accent intro__go" id="introGo" type="button">Commencer la visite</button>
+  </section>
+
+  <header class="nav" id="nav" hidden>
+    <nav class="nav__links">
+      <a href="#/" data-route="/">Catalogue</a>
+      <a href="#/panier" data-route="/panier">Panier <i id="panierCount">0</i></a>
+      <a href="#/suivi" data-route="/suivi">Suivi</a>
+      <a href="#/avis" data-route="/avis">Avis</a>
+      <a href="#/infos" data-route="/infos">Infos</a>
+    </nav>
+  </header>
+
+  <main id="vues" hidden>
+
+    <section class="vue" data-vue="/">
+      <div class="logo-hero" id="logoHero">
+        <img class="logo-hero__img" src="logo.png" alt="CORNER69" id="logoImage" hidden>
+        <span class="logo-hero__texte" id="logoTexte">CORNER<b>69</b></span>
+      </div>
+      <div class="rayons">
+        <label class="rayons__label" for="rayon">Rayon</label>
+        <select id="rayon" class="rayons__select"></select>
+      </div>
+      <div class="section-head">
+        <h2>Nos produits</h2>
+        <span class="section-head__count" id="prodCount">0 ref.</span>
+      </div>
+      <ul class="produits" id="produits"></ul>
+    </section>
+
+    <section class="vue" data-vue="/produit">
+      <button class="retour" type="button" data-route="/">Retour au catalogue</button>
+      <div class="fiche" id="fiche"></div>
+    </section>
+
+    <section class="vue" data-vue="/panier">
+      <div class="section-head"><h2>Panier</h2></div>
+      <div id="panierVide" class="vide">
+        <p>Votre panier est vide.</p>
+        <button class="btn btn--accent" type="button" data-route="/">Voir le catalogue</button>
+      </div>
+      <div id="panierPlein" hidden>
+        <ul class="lignes" id="lignes"></ul>
+        <aside class="recap" id="recap"></aside>
+        <button class="btn btn--accent btn--large" id="versCommande" type="button">Passer commande</button>
+      </div>
+    </section>
+
+    <section class="vue" data-vue="/commande">
+      <button class="retour" type="button" data-route="/panier">Retour au panier</button>
+      <div class="section-head"><h2>Commande</h2></div>
+      <form class="form" id="formCommande" novalidate>
+        <div class="form__row"><label for="cNom">Nom</label>
+          <input id="cNom" name="nom" type="text" required autocomplete="name"></div>
+        <div class="form__row"><label for="cTel">Telephone</label>
+          <input id="cTel" name="tel" type="tel" required autocomplete="tel"></div>
+        <div class="form__row form__row--adresse"><label for="cAdr">Numero et nom de rue</label>
+          <input id="cAdr" name="adresse" type="text" required autocomplete="address-line1"
+                 aria-autocomplete="list" aria-controls="cAdrListe" aria-expanded="false">
+          <ul class="suggestions" id="cAdrListe" role="listbox" hidden></ul></div>
+        <div class="form__row form__row--2">
+          <div><label for="cCp">Code postal</label>
+            <input id="cCp" name="cp" type="text" required inputmode="numeric" autocomplete="postal-code" maxlength="5"></div>
+          <div><label for="cVille">Ville</label>
+            <input id="cVille" name="ville" type="text" required autocomplete="address-level2"></div>
+        </div>
+        <p class="form__note" id="formErreur" hidden></p>
+        <button class="btn btn--accent btn--large" type="submit">Simuler le paiement</button>
+      </form>
+    </section>
+
+    <section class="vue" data-vue="/suivi">
+      <div class="section-head"><h2>Suivi de commande</h2></div>
+      <div id="suivi"></div>
+      <div class="suivi__actions" id="suiviActions" hidden>
+        <button class="btn btn--accent" id="suiviAvancer" type="button">Faire avancer la commande</button>
+      </div>
+    </section>
+
+    <section class="vue" data-vue="/avis">
+      <header class="page__entete">
+        <button class="page__retour" type="button" data-route="/" aria-label="Retour">&#8592;</button>
+        <div>
+          <span class="page__surtitre">Communaute</span>
+          <h1 class="page__titre">Avis clients</h1>
+        </div>
+      </header>
+
+      <div class="tuiles">
+        <div class="tuile">
+          <span class="tuile__label">Note moyenne</span>
+          <span class="tuile__valeur tuile__valeur--accent" id="avisMoyenne">0 / 5</span>
+          <span class="tuile__etoiles" id="avisMoyenneEtoiles"></span>
+        </div>
+        <div class="tuile">
+          <span class="tuile__label">Avis publies</span>
+          <span class="tuile__valeur" id="avisTotal">0</span>
+          <span class="tuile__note">Verifies par la boutique</span>
+        </div>
+      </div>
+
+      <h2 class="bloc__titre">Donner votre avis</h2>
+      <form class="avis-form" id="formAvis" novalidate>
+        <span class="avis-form__label">Votre note</span>
+        <div class="etoiles" id="etoiles" role="radiogroup" aria-label="Note sur 5"></div>
+        <span class="avis-form__label">Votre message</span>
+        <div class="form__row">
+          <textarea id="aTexte" rows="5" required placeholder="Qualite, livraison, accueil..."></textarea>
+        </div>
+        <div class="form__row">
+          <label for="aNom">Votre nom</label>
+          <input id="aNom" type="text" required autocomplete="name">
+        </div>
+        <p class="form__note" id="avisErreur" hidden></p>
+        <button class="btn btn--accent btn--large avis-form__envoi" type="submit">
+          <span aria-hidden="true">&#10148;</span> Publier mon avis
+        </button>
+        <p class="avis-form__note" id="avisEnAttente" hidden>
+          Merci. Votre avis sera visible apres validation par la boutique.
+        </p>
+      </form>
+
+      <div class="section-head">
+        <h2>Derniers avis</h2>
+        <span class="section-head__count" id="avisCount">00</span>
+      </div>
+      <ul class="avis" id="avis"></ul>
+    </section>
+
+    <section class="vue" data-vue="/infos">
+      <header class="page__entete">
+        <button class="page__retour" type="button" data-route="/" aria-label="Retour">&#8592;</button>
+        <div>
+          <span class="page__surtitre">CORNER69</span>
+          <h1 class="page__titre">Infos</h1>
+        </div>
+      </header>
+
+      <h2 class="bloc__titre">En bref</h2>
+      <div class="liste">
+        <div class="liste__item">
+          <span class="liste__ico" aria-hidden="true">&#128757;</span>
+          <span class="liste__txt">Frais de livraison</span>
+          <span class="liste__valeur" id="infoFrais">3,90 &#8364;</span>
+        </div>
+        <div class="liste__item">
+          <span class="liste__ico" aria-hidden="true">&#127873;</span>
+          <span class="liste__txt">Livraison offerte des</span>
+          <span class="liste__valeur" id="infoSeuil">40,00 &#8364;</span>
+        </div>
+        <div class="liste__item">
+          <span class="liste__ico" aria-hidden="true">&#129534;</span>
+          <span class="liste__txt">Minimum de commande</span>
+          <span class="liste__valeur" id="infoMinimum">0,00 &#8364;</span>
+        </div>
+        <div class="liste__item">
+          <span class="liste__ico" aria-hidden="true">&#128994;</span>
+          <span class="liste__txt">Commandes</span>
+          <span class="liste__valeur">Ouvertes</span>
+        </div>
+        <button class="liste__item liste__item--clic" type="button" data-route="/suivi">
+          <span class="liste__ico" aria-hidden="true">&#128230;</span>
+          <span class="liste__txt">Mes commandes</span>
+          <span class="liste__fleche" aria-hidden="true">&#8250;</span>
+        </button>
+      </div>
+
+      <h2 class="bloc__titre">&#128757; Livraison</h2>
+      <div class="bloc__corps">
+        <p>Livraison en main propre, 7j/7 de 12h a 23h.<br>Delai moyen : 30 a 60 minutes.</p>
+        <p class="bloc__zone" id="infoZone">Zone desservie : le Rhone.</p>
+      </div>
+
+      <h2 class="bloc__titre">&#128179; Paiement</h2>
+      <div class="bloc__corps">
+        <p>Paiement en ligne securise a la commande.</p>
+      </div>
+
+      <h2 class="bloc__titre">&#129514; Qualite</h2>
+      <div class="bloc__corps">
+        <p>Tous nos produits sont analyses en laboratoire.<br>Taux de THC inferieur a 0,3 %.</p>
+      </div>
+
+      <h2 class="bloc__titre">&#128205; Nous trouver</h2>
+      <div class="liste">
+        <div class="liste__item">
+          <span class="liste__ico" aria-hidden="true">&#128340;</span>
+          <span class="liste__txt">Horaires</span>
+          <span class="liste__valeur">7j/7 &middot; 12h-23h</span>
+        </div>
+        <a class="liste__item liste__item--clic" href="mailto:contact@corner69.example">
+          <span class="liste__ico" aria-hidden="true">&#9993;</span>
+          <span class="liste__txt">Contact</span>
+          <span class="liste__fleche" aria-hidden="true">&#8250;</span>
+        </a>
+      </div>
+
+      <p class="bloc__note">
+        Site de demonstration. Les produits et les commandes sont fictifs
+        et aucun paiement n est reel.
+      </p>
+    </section>
+
+    <section class="vue" data-vue="/gestion">
+
+      <div class="admin__verrou" id="verrou">
+        <span class="admin__verrou-icone" aria-hidden="true">&#128274;</span>
+        <h2 class="admin__verrou-titre">Espace administrateur</h2>
+        <p class="admin__verrou-txt">Cette page est reservee a la gestion de la boutique. Entrez le mot de passe pour continuer.</p>
+        <form class="form" id="formVerrou" novalidate>
+          <div class="form__row"><label for="mdp">Mot de passe</label>
+            <input id="mdp" type="password" required autocomplete="current-password"></div>
+          <p class="form__note" id="verrouErreur" hidden></p>
+          <button class="btn btn--accent btn--large" type="submit">Deverrouiller</button>
+        </form>
+        <button class="btn btn--ghost" type="button" data-route="/">Retour a la boutique</button>
+      </div>
+
+      <div class="admin" id="administration" hidden>
+        <header class="admin__entete">
+          <button class="admin__retour" type="button" data-route="/" aria-label="Retour">&#8592;</button>
+          <div>
+            <span class="admin__surtitre">CORNER69</span>
+            <h1 class="admin__titre">Administration</h1>
+          </div>
+        </header>
+
+        <h2 class="admin__sous-titre">Aujourd hui</h2>
+        <div class="tuiles" id="tuiles"></div>
+
+        <h2 class="admin__sous-titre">Gestion</h2>
+        <div class="menu" id="menuAdmin">
+          <button class="menu__item" type="button" data-admin="commandes">
+            <span class="menu__ico" aria-hidden="true">&#129534;</span>
+            <span class="menu__txt"><b>Commandes</b><small>Suivi, etapes, paiements</small></span>
+            <span class="menu__fleche" aria-hidden="true">&#8250;</span></button>
+          <button class="menu__item" type="button" data-admin="produits">
+            <span class="menu__ico" aria-hidden="true">&#128230;</span>
+            <span class="menu__txt"><b>Produits</b><small>Catalogue, variantes, photos</small></span>
+            <span class="menu__fleche" aria-hidden="true">&#8250;</span></button>
+          <button class="menu__item" type="button" data-admin="categories">
+            <span class="menu__ico" aria-hidden="true">&#127991;</span>
+            <span class="menu__txt"><b>Categories</b><small>Rayons du catalogue</small></span>
+            <span class="menu__fleche" aria-hidden="true">&#8250;</span></button>
+          <button class="menu__item" type="button" data-admin="avis">
+            <span class="menu__ico" aria-hidden="true">&#11088;</span>
+            <span class="menu__txt"><b>Avis</b><small>Moderation</small></span>
+            <span class="menu__fleche" aria-hidden="true">&#8250;</span></button>
+          <button class="menu__item" type="button" data-admin="reglages">
+            <span class="menu__ico" aria-hidden="true">&#9881;</span>
+            <span class="menu__txt"><b>Reglages</b><small>Theme, couleurs, fond</small></span>
+            <span class="menu__fleche" aria-hidden="true">&#8250;</span></button>
+          <button class="menu__item" type="button" data-route="/">
+            <span class="menu__ico" aria-hidden="true">&#127978;</span>
+            <span class="menu__txt"><b>Voir la boutique</b><small>Revenir au catalogue</small></span>
+            <span class="menu__fleche" aria-hidden="true">&#8250;</span></button>
+        </div>
+
+        <button class="btn btn--ghost admin__quitter" id="adminQuitter" type="button">Verrouiller la session</button>
+
+        <div class="panneau" id="panneau" hidden>
+          <button class="retour" id="panneauRetour" type="button">Retour a l administration</button>
+          <div id="panneauContenu"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="foot" id="foot" hidden>
+    <span class="foot__logo">CORNER<b>69</b></span>
+    <span>CORNER69 - site de demonstration</span>
+    <a href="#/infos" data-route="/infos">Infos et mentions</a>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+  <script src="carrousel.js"></script>
+  <script src="adresse.js"></script>
+  <script src="son.js"></script>
+</body>
+</html>
