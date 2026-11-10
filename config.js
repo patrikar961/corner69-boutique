@@ -1,19 +1,23 @@
 /* =========================================================
    CORNER69 — boutique
-   Configuration centrale : catalogue, themes, zone de livraison.
+   Configuration centrale : catalogue, themes, zone, medias.
    Tout se regle ici, jamais dans le HTML.
    ========================================================= */
 
 var BOUTIQUE = {
 
   nom: "CORNER69",
+
+  /* Deposez votre logo sous le nom logo.png a la racine du depot.
+     Tant qu'il est absent, le texte CORNER69 anime s'affiche. */
+  logo: "logo.png",
+
   slogan: "Coffee shop — torrefaction artisanale",
   baseline: "Ouvert 7j/7 — 24h/24",
 
   /* -------------------------------------------------------
      ZONE DE LIVRAISON
      Le commerce livre dans le Rhone : departement 69.
-     Les suggestions d'adresse ne proposent QUE cette zone.
      ------------------------------------------------------- */
   zone: {
     nom: "le Rhône",
@@ -23,7 +27,7 @@ var BOUTIQUE = {
 
   /* -------------------------------------------------------
      APPARENCE — theme par defaut
-     Modifiable ensuite depuis la page de gestion (#/gestion)
+     Modifiable depuis la page de gestion (#/gestion)
      ------------------------------------------------------- */
   theme: "nuit-acide",
 
@@ -39,7 +43,20 @@ var BOUTIQUE = {
   ],
 
   /* -------------------------------------------------------
-     CATALOGUE — 5 produits pour commencer
+     CATALOGUE
+     Le champ « medias » de chaque produit alimente le
+     carrousel de sa fiche. Deposez vos fichiers dans le
+     dossier media/ du depot, puis declarez-les ici.
+
+     Exemple :
+       medias: [
+         { type: "image", src: "media/p1-1.jpg", alt: "Vue du sachet" },
+         { type: "image", src: "media/p1-2.jpg", alt: "Grains en gros plan" },
+         { type: "video", src: "media/p1.mp4" }
+       ]
+
+     Si un fichier manque, l'emplacement reste vide : le site
+     ne casse pas.
      ------------------------------------------------------- */
   produits: [
     {
@@ -50,7 +67,11 @@ var BOUTIQUE = {
       prix: 14.50,
       stock: "disponible",
       badge: "",
-      description: "Grains lavés, notes florales et fruitées. Torréfaction claire, idéale en filtre."
+      description: "Grains lavés, notes florales et fruitées. Torréfaction claire, idéale en filtre.",
+      medias: [
+        { type: "image", src: "media/p1-1.jpg", alt: "Sachet de café d'Éthiopie" },
+        { type: "image", src: "media/p1-2.jpg", alt: "Grains en gros plan" }
+      ]
     },
     {
       id: "p2",
@@ -60,7 +81,10 @@ var BOUTIQUE = {
       prix: 32.00,
       stock: "disponible",
       badge: "Nouveau",
-      description: "Assemblage 70 % arabica, 30 % robusta. Corps franc, crema dense, parfait pour la machine du comptoir."
+      description: "Assemblage 70 % arabica, 30 % robusta. Corps franc, crema dense, parfait pour la machine du comptoir.",
+      medias: [
+        { type: "image", src: "media/p2-1.jpg", alt: "Sachet d'espresso maison" }
+      ]
     },
     {
       id: "p3",
@@ -70,7 +94,10 @@ var BOUTIQUE = {
       prix: 18.00,
       stock: "disponible",
       badge: "",
-      description: "Récolte de printemps, feuilles roulées à la main. Infusion végétale, légèrement umami."
+      description: "Récolte de printemps, feuilles roulées à la main. Infusion végétale, légèrement umami.",
+      medias: [
+        { type: "image", src: "media/p3-1.jpg", alt: "Boîte de thé Sencha" }
+      ]
     },
     {
       id: "p4",
@@ -80,7 +107,11 @@ var BOUTIQUE = {
       prix: 24.00,
       stock: "disponible",
       badge: "Limité",
-      description: "Grès émaillé, tourné à la main. Passe au lave-vaisselle et au micro-ondes."
+      description: "Grès émaillé, tourné à la main. Passe au lave-vaisselle et au micro-ondes.",
+      medias: [
+        { type: "image", src: "media/p4-1.jpg", alt: "Mug en grès" },
+        { type: "image", src: "media/p4-2.jpg", alt: "Mug, autre angle" }
+      ]
     },
     {
       id: "p5",
@@ -90,7 +121,10 @@ var BOUTIQUE = {
       prix: 39.00,
       stock: "rupture",
       badge: "",
-      description: "Trois cafés de trois pays, en format dégustation. Le meilleur moyen de trouver votre préféré."
+      description: "Trois cafés de trois pays, en format dégustation. Le meilleur moyen de trouver votre préféré.",
+      medias: [
+        { type: "image", src: "media/p5-1.jpg", alt: "Coffret découverte" }
+      ]
     }
   ],
 
@@ -162,6 +196,7 @@ var BOUTIQUE = {
 
   /* -------------------------------------------------------
      SON — invisible pour le visiteur
+     Deposez votre fichier a la racine : ambiance.mp3 ou .m4a
      0 = muet · 0.05 = a peine perceptible · 0.3 = present
      ------------------------------------------------------- */
   son: {
@@ -173,19 +208,15 @@ var BOUTIQUE = {
   /* -------------------------------------------------------
      GESTION — protege la page #/gestion
      Changez ce mot de passe avant la mise en ligne.
-     Ce n'est qu'une barriere visuelle : voir le README.
      ------------------------------------------------------- */
   adminMotDePasse: "corner69",
 
   /* -------------------------------------------------------
      TELEGRAM — notifications de commande (optionnel)
-     Pour recevoir un message a chaque nouvelle commande :
-     1. creez un bot avec @BotFather, il donne un jeton
-     2. ecrivez-lui une fois, puis ouvrez
-        api.telegram.org/bot<jeton>/getUpdates pour trouver
-        votre identifiant de discussion (chat_id)
-     3. collez les deux valeurs ci-dessous
-     Laissez vide pour desactiver.
+     Creez un bot avec @BotFather, puis ouvrez
+     api.telegram.org/bot<jeton>/getUpdates pour trouver
+     votre identifiant de discussion. Laissez vide pour
+     desactiver.
      ------------------------------------------------------- */
   telegram: {
     jeton: "",

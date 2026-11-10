@@ -8,7 +8,7 @@
        media/p1.mp4        video (optionnelle)
 
    La liste se regle dans config.js, champ « medias » de chaque
-   produit. Si un fichier manque, un emplacement vide s'affiche :
+   produit. Si un fichier manque, l'emplacement reste vide :
    le site ne casse pas.
    ========================================================= */
 (function () {
