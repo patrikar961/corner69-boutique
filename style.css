@@ -619,26 +619,31 @@ button { font: inherit; color: inherit; }
    Logo — sequence d'introduction
    Le bloc est sur la page catalogue. app.js pose la classe
    .logo-hero--joue a l'arrivee : toute la sequence part de la.
+
+   Taille du logo : c'est ici que ca se regle, une seule fois,
+   avec la variable --logo-taille posee sur .logo-hero.
    ========================================================= */
 .logo-hero {
+  --logo-taille: clamp(64px, 20vw, 190px);
+
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   width: 100%;
-  min-height: 30vh;
-  margin: 0 0 1.6rem;
+  min-height: calc(var(--logo-taille) * 1.15);
+  margin: 0 0 1rem;
   opacity: 0;
   will-change: transform, opacity;
 }
 
-/* la lueur qui respire derriere le logo */
+/* la lueur qui respire derriere le logo, proportionnelle a lui */
 .logo-hero::before {
   content: "";
   position: absolute;
   top: 50%; left: 50%;
-  width: min(420px, 78vw);
+  width: calc(var(--logo-taille) * 1.9);
   aspect-ratio: 1;
   transform: translate(-50%, -50%) scale(.5);
   border-radius: 50%;
@@ -656,7 +661,7 @@ button { font: inherit; color: inherit; }
   content: "";
   position: absolute;
   top: 50%; left: 50%;
-  width: min(300px, 60vw);
+  width: calc(var(--logo-taille) * 1.25);
   aspect-ratio: 1;
   transform: translate(-50%, -50%) scale(.2);
   border-radius: 50%;
@@ -673,9 +678,9 @@ button { font: inherit; color: inherit; }
 }
 
 .logo-hero__img {
-  width: clamp(130px, 36vw, 230px);
-  height: auto;
-  border-radius: 24px;
+  max-height: var(--logo-taille);
+  width: auto;
+  border-radius: 20px;
 }
 
 .logo-hero__texte {
@@ -683,7 +688,7 @@ button { font: inherit; color: inherit; }
   text-align: center;
   font-family: var(--titre);
   font-weight: 800;
-  font-size: clamp(2.6rem, 12vw, 5rem);
+  font-size: calc(var(--logo-taille) * .72);
   line-height: 1;
   letter-spacing: .02em;
 }
@@ -712,8 +717,8 @@ button { font: inherit; color: inherit; }
   animation: logoPouls 5s ease-in-out 2.8s infinite;
 }
 
-/* l'arrivee : le logo tombe de loin en tournant, rebondit
-   deux fois de plus en plus petit, puis se pose */
+/* l'arrivee : le logo grossit en tournant, rebondit deux fois
+   de plus en plus petit, puis se pose */
 @keyframes logoEntree {
   0% {
     opacity: 0;
@@ -722,13 +727,21 @@ button { font: inherit; color: inherit; }
   }
   38% {
     opacity: 1;
-    transform: scale(1.28) rotate(0deg);
+    transform: scale(1.18) rotate(0deg);
     filter: blur(0);
   }
-  52% { transform: scale(.86) rotate(0deg); }
-  64% { transform: scale(1.12) rotate(0deg); }
-  76% { transform: scale(.95) rotate(0deg); }
-  87% { transform: scale(1.03) rotate(0deg); }
+  52% {
+    transform: scale(.9) rotate(0deg);
+  }
+  64% {
+    transform: scale(1.08) rotate(0deg);
+  }
+  76% {
+    transform: scale(.97) rotate(0deg);
+  }
+  87% {
+    transform: scale(1.02) rotate(0deg);
+  }
   100% {
     opacity: 1;
     transform: scale(1) rotate(0deg);
@@ -751,7 +764,7 @@ button { font: inherit; color: inherit; }
 /* l'onde qui s'ouvre puis disparait */
 @keyframes logoOnde {
   0%   { opacity: .8; transform: translate(-50%, -50%) scale(.2); }
-  100% { opacity: 0;  transform: translate(-50%, -50%) scale(1.6); }
+  100% { opacity: 0;  transform: translate(-50%, -50%) scale(1.5); }
 }
 
 /* la respiration, une fois pose */
@@ -1339,7 +1352,7 @@ input, textarea, [contenteditable] {
 }
 
 /* =========================================================
-   Petits ecrans
+   Petits ecrans — le logo redescend d'un cran
    ========================================================= */
 @media (max-width: 460px) {
   .nav__links a { font-size: .62rem; }
@@ -1349,7 +1362,8 @@ input, textarea, [contenteditable] {
   .couleurs { grid-template-columns: 1fr 1fr; }
   .suivi-carte__ring { width: 42px; height: 42px; }
   .suivi-carte__etat { font-size: .9rem; }
-  .logo-hero { min-height: 22vh; }
+
+  .logo-hero { --logo-taille: clamp(56px, 17vw, 120px); }
 }
 
 /* =========================================================
