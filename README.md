@@ -1,550 +1,480 @@
-# CORNER69 Boutique — Guide d'installation et de mise en ligne
+# CORNER69 — Guide d'utilisation
 
-Ce document explique comment fonctionne le site, comment le mettre en ligne,
-et surtout comment le brancher sur une vraie base de données avec Supabase
-pour que les commandes, les avis et le panier soient partagés entre tous les
-visiteurs.
+Boutique en ligne prête à personnaliser. Ce guide explique **pas à pas** comment
+mettre votre logo, vos photos de produits, votre musique, et comment gérer les
+commandes de vos clients.
+
+Aucune connaissance technique n'est nécessaire. Tout se fait depuis le site
+GitHub, avec des clics.
 
 ---
 
 ## Sommaire
 
-1. [Ce que fait le site aujourd'hui](#1-ce-que-fait-le-site-aujourdhui)
-2. [La limite actuelle : tout vit dans le navigateur](#2-la-limite-actuelle--tout-vit-dans-le-navigateur)
-3. [Pourquoi il faut un serveur et une base de données](#3-pourquoi-il-faut-un-serveur-et-une-base-de-donnees)
-4. [Les options possibles](#4-les-options-possibles)
-5. [Supabase pas à pas](#5-supabase-pas-à-pas)
-6. [Le mot de passe et la sécurité](#6-le-mot-de-passe-et-la-securite)
-7. [Le RGPD](#7-le-rgpd)
-8. [Mettre le site en ligne](#8-mettre-le-site-en-ligne)
-9. [Modifier le catalogue, les prix, les couleurs](#9-modifier-le-catalogue-les-prix-les-couleurs)
-10. [Dépannage](#10-depannage)
+1. [Les 4 fichiers à déposer](#1-les-4-fichiers-à-déposer)
+2. [Mettre votre logo](#2-mettre-votre-logo)
+3. [Mettre les photos de vos produits](#3-mettre-les-photos-de-vos-produits)
+4. [Mettre une vidéo sur un produit](#4-mettre-une-vidéo-sur-un-produit)
+5. [Mettre votre musique](#5-mettre-votre-musique)
+6. [Gérer le suivi des commandes](#6-gérer-le-suivi-des-commandes)
+7. [Changer les couleurs](#7-changer-les-couleurs)
+8. [Recevoir les commandes sur Telegram](#8-recevoir-les-commandes-sur-telegram)
+9. [Modifier les produits et les prix](#9-modifier-les-produits-et-les-prix)
+10. [Questions fréquentes](#10-questions-fréquentes)
 
 ---
 
-## 1. Ce que fait le site aujourd'hui
+## 1. Les 4 fichiers à déposer
 
-Une boutique en ligne sur une seule page, sans installation :
+Votre site attend quatre choses. Tant qu'elles ne sont pas là, il fonctionne
+quand même — mais avec des remplacements.
 
-| Écran | Ce qu'il fait |
-|---|---|
-| Accueil | Explique la démonstration en cinq points |
-| Catalogue | Liste les produits, filtrable par rayon |
-| Fiche produit | Description, format, choix de la quantité |
-| Panier | Ajout, retrait, quantités, frais de livraison |
-| Commande | Nom, téléphone, adresse, paiement simulé |
-| Suivi | Chronologie en 5 étapes de la commande |
-| Avis | Note en étoiles et commentaire |
-| Infos | Horaires, livraison, contact, mentions |
-| Réglages | Thèmes, couleurs, image de fond (protégé) |
+| Ce que vous déposez | Nom exact | Où | Ce qui se passe si absent |
+|---|---|---|---|
+| Votre logo | `logo.png` | racine | Le texte CORNER69 s'affiche |
+| Une image de fond | `bg.jpg` | racine | Fond noir uni |
+| Votre musique | `ambiance.m4a` | racine | Pas de son |
+| Vos photos produits | dans `media/` | dossier media | Emplacement vide |
 
-Le code est du HTML, du CSS et du JavaScript simples. Aucun framework,
-aucune dépendance extérieure, hormis deux polices chargées depuis Google Fonts.
+### Comment déposer un fichier sur GitHub
 
----
+La manipulation est toujours la même :
 
-## 2. La limite actuelle : tout vit dans le navigateur
+1. Ouvrez **https://github.com/patrikar961/corner69-boutique**
+2. Cliquez sur le bouton **Add file** (en haut à droite)
+3. Choisissez **Upload files**
+4. **Glissez votre fichier** dans la zone, ou cliquez pour le choisir
+5. En bas de page, cliquez sur le bouton vert **Commit changes**
 
-C'est le point le plus important à comprendre avant de vendre ce site.
+C'est fini. Le site se met à jour tout seul dans la minute.
 
-Les données du site — panier, commande, avis — sont stockées dans le
-**`localStorage`** du navigateur, c'est-à-dire en local, sur l'appareil du
-visiteur. Cela veut dire concrètement :
-
-- **Rien n'est partagé.** Une commande passée sur un téléphone est invisible
-  depuis un ordinateur.
-- **L'admin ne voit que ses propres commandes.** Le bouton « Avancer » de
-  l'espace Réglages ne fait progresser que la commande créée sur ce même
-  navigateur. Une commande d'un client, jamais.
-- **Les avis ne sont pas publics.** Chaque visiteur a sa propre liste.
-- **Vider le cache efface tout.** Le navigateur peut supprimer ces données
-  à tout moment.
-
-C'est le comportement d'une **démonstration**, et il est parfaitement adapté
-pour montrer le site à un client, faire tester l'interface, ou travailler le
-design. Ce n'est pas une boutique qui vend.
+> **Le nom compte.** Le site cherche des noms exacts : `logo.png`, `bg.jpg`,
+> `ambiance.m4a`. Si votre fichier s'appelle `Logo Final.png`, **renommez-le
+> avant de le déposer**. Sur GitHub, les majuscules et les minuscules sont
+> différentes : `bg.jpg` et `bg.JPG` ne sont pas le même fichier.
 
 ---
 
-## 3. Pourquoi il faut un serveur et une base de données
+## 2. Mettre votre logo
 
-Pour qu'un panier suive un visiteur d'un appareil à l'autre, qu'un avis soit
-lu par tous, et que l'admin pilote de vraies commandes, il faut que les
-données vivent **ailleurs que dans le navigateur**. Cet endroit, c'est une
-base de données, et il faut un service capable de la lire et de l'écrire :
-un serveur.
+Votre logo apparaît **au centre de la page d'accueil**, au-dessus du titre.
+Il arrive en tournant sur lui-même et s'illumine — l'effet est déjà en place,
+vous n'avez rien à régler.
 
-Trois rôles distincts, souvent confondus :
+### Marche à suivre
 
-**L'hébergement du site** — GitHub Pages, Netlify. Sert les fichiers (HTML,
-CSS, JavaScript) au visiteur.
+1. Renommez votre image en **`logo.png`**
+2. Déposez-la à la racine du dépôt (voir section 1)
 
-**Le serveur** — la partie qui exécute du code en dehors du navigateur, garde
-les secrets, vérifie les droits. C'est ce qui manque aujourd'hui.
+C'est tout. Le texte CORNER69 disparaît automatiquement et votre logo prend
+sa place, avec le même effet d'animation.
 
-**La base de données** — l'endroit où vivent les commandes, les produits, les
-avis. C'est ce qui permet le partage entre visiteurs.
+### Conseils pour un beau logo
 
----
+- **Format carré** ou légèrement rectangulaire : c'est ce qui rend le mieux
+- **Taille** : entre 400 × 400 et 1000 × 1000 pixels
+- **Poids** : moins de 500 Ko, pour que le site reste rapide
+- **Fond** : évitez le blanc pur, préférez le noir ou transparent
 
-## 4. Les options possibles
-
-### Supabase — recommandé
-
-Base de données Postgres hébergée, avec une API prête à l'emploi. On crée un
-projet, on reçoit une adresse et une clé publique, et le site lit et écrit
-dedans directement en JavaScript — sans écrire une seule ligne de serveur.
-
-- Palier gratuit très large pour une boutique de quartier
-- Sécurité gérée **dans la base**, pas dans la page
-- Code source ouvert, données exportables à tout moment
-
-C'est le meilleur rapport effort/résultat, et c'est l'option détaillée plus bas.
-
-### Firebase — l'équivalent chez Google
-
-Même principe, autre écosystème. Base temps réel très confortable (une
-commande change à l'écran sans rafraîchir), authentification intégrée.
-Un peu moins agréable pour interroger finement les données. À choisir si
-l'on préfère rester chez Google.
-
-### Cloudflare Workers ou Netlify Functions
-
-On garde le site statique et on ajoute quelques fonctions côté serveur qui
-parlent à une base. Palier gratuit généreux, déploiement en une commande.
-Plus de contrôle, plus de travail : la base et la logique sont à gérer.
-
-### Un backend classique — Node, Python, un serveur dédié
-
-La solution complète, sans aucune limite, mais c'est un autre métier :
-administrer la machine, gérer les mises à jour et la sécurité, prévoir les
-sauvegardes. À réserver à un vrai déploiement commercial.
+Si votre logo fait plus de 500 Ko, ouvrez-le dans n'importe quel outil d'image
+et réduisez ses dimensions. L'effet sera identique, le site plus rapide.
 
 ---
 
-## 5. Supabase pas à pas
+## 3. Mettre les photos de vos produits
 
-### 5.1 Créer le projet
+Chaque produit peut avoir **une ou deux photos**, ou plus si vous voulez.
+Elles défilent dans un carrousel sur la fiche du produit.
 
-1. Aller sur **supabase.com** et créer un compte.
-2. **New project** : nom du projet, mot de passe de base de données (à
-   conserver), région **Europe (Paris ou Frankfurt)** pour la latence et le RGPD.
-3. Attendre une minute que la base soit prête.
+### Étape 1 — déposer les photos
 
-### 5.2 Récupérer les clés
+1. Ouvrez le dépôt, cliquez sur **Add file → Upload files**
+2. Dans le champ du nom, **tapez `media/` avant le nom du fichier** :
+   par exemple `media/p1-1.jpg`
 
-Dans **Project Settings → API**, deux valeurs à copier :
+   > Plus simple : créez d'abord le dossier. Sur la page du dépôt, cliquez sur
+   > **Add file → Create new file**, tapez `media/photo.jpg` dans le nom, et
+   > validez. Le dossier est créé. Ensuite, les envois normaux le proposeront.
 
-- **Project URL** — ressemble à `https://xxxxx.supabase.co`
-- **anon public key** — une longue chaîne
+3. Nommez vos photos selon le produit :
 
-> La clé `anon` est **publique par nature** : elle est faite pour être dans la
-> page. Ce n'est pas elle qui protège les données, ce sont les règles de
-> sécurité de la base (voir section 6). Ne jamais copier la clé
-> `service_role`, qui elle donne tous les droits et ne doit jamais quitter
-> le serveur.
+| Produit | Photo 1 | Photo 2 |
+|---|---|---|
+| Produit 1 — Café d'Éthiopie | `media/p1-1.jpg` | `media/p1-2.jpg` |
+| Produit 2 — Espresso maison | `media/p2-1.jpg` | `media/p2-2.jpg` |
+| Produit 3 — Thé Sencha | `media/p3-1.jpg` | `media/p3-2.jpg` |
+| Produit 4 — Mug | `media/p4-1.jpg` | `media/p4-2.jpg` |
+| Produit 5 — Coffret | `media/p5-1.jpg` | `media/p5-2.jpg` |
 
-### 5.3 Créer les tables
+Vous pouvez mettre `.jpg`, `.png` ou `.webp` — mais alors il faudra aussi
+changer le nom dans `config.js` (section 9).
 
-Dans **SQL Editor**, coller et exécuter :
+### Étape 2 — vérifier
 
-```sql
--- Produits
-create table produits (
-  id          uuid primary key default gen_random_uuid(),
-  nom         text not null,
-  rayon       text not null,
-  format      text,
-  prix        numeric(10,2) not null,
-  stock       text default 'disponible',
-  badge       text,
-  description text,
-  ordre       int default 0,
-  cree_le     timestamptz default now()
-);
+Ouvrez votre site, cliquez sur un produit. Le carrousel s'affiche avec vos
+photos, les points de navigation en dessous et les deux flèches.
 
--- Commandes
-create table commandes (
-  id        uuid primary key default gen_random_uuid(),
-  ref       text unique not null,
-  nom       text not null,
-  telephone text,
-  adresse   text,
-  cp        text,
-  ville     text,
-  articles  jsonb not null,
-  total     numeric(10,2) not null,
-  etape     int default 0,
-  cree_le   timestamptz default now()
-);
+Vous pouvez :
+- **Faire glisser** la bande avec le doigt ou la souris
+- **Cliquer sur les points** pour aller à une photo précise
+- **Cliquer sur les flèches** ← et → pour passer d'une photo à l'autre
 
--- Avis
-create table avis (
-  id      uuid primary key default gen_random_uuid(),
-  nom     text not null,
-  note    int check (note between 1 and 5),
-  texte   text not null,
-  publie  boolean default false,
-  cree_le timestamptz default now()
-);
+### Conseils pour des belles photos
 
--- Réglages d'apparence
-create table reglages (
-  cle    text primary key,
-  valeur jsonb
-);
-```
+- **Format** : paysage (plus large que haut), idéalement 4:3
+- **Taille** : 800 × 600 à 1600 × 1200 pixels
+- **Poids** : moins de 300 Ko par photo
+- **Cohérence** : toutes vos photos dans le même style font plus professionnel
 
-### 5.4 Activer la sécurité
+---
 
-**C'est l'étape qui compte.** Sans elle, la base est ouverte à tous en lecture
-comme en écriture. Dans **SQL Editor**, exécuter :
+## 4. Mettre une vidéo sur un produit
 
-```sql
--- On active la sécurité sur chaque table
-alter table produits  enable row level security;
-alter table commandes enable row level security;
-alter table avis      enable row level security;
-alter table reglages  enable row level security;
+Une vidéo est possible, sur autant de produits que vous voulez.
 
--- Tout le monde peut LIRE le catalogue et les réglages
-create policy "lecture publique produits"
-  on produits for select using (true);
+### Déposer la vidéo
 
-create policy "lecture publique reglages"
-  on reglages for select using (true);
+Déposez votre fichier dans `media/` comme une photo, par exemple
+`media/p1.mp4`.
 
--- Tout le monde peut lire les avis publiés
-create policy "lecture avis publies"
-  on avis for select using (publie = true);
+> **Attention au poids.** Une vidéo de 30 secondes peut peser 20 Mo, ce qui
+> ralentit beaucoup le site. Restez sous **5 Mo**, en format `.mp4` et en
+> définition 720p. Si votre vidéo est plus lourde, compressez-la d'abord —
+> il existe des outils gratuits en ligne pour ça.
 
--- Tout le monde peut DÉPOSER un avis, mais uniquement non publié
-create policy "depot avis"
-  on avis for insert with check (publie = false);
+### L'afficher dans le carrousel
 
--- Tout le monde peut CRÉER une commande
-create policy "creation commande"
-  on commandes for insert with check (true);
-
--- Personne ne peut lire ni modifier une commande sans être admin
--- (on ajoutera la règle admin à la section 6)
-```
-
-Ces règles disent : le catalogue est public, les avis se déposent librement
-mais ne s'affichent qu'après validation, et une commande peut être créée mais
-pas relue. C'est le socle.
-
-### 5.5 Brancher le site
-
-Ajouter dans le `<head>` de `index.html` :
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-```
-
-Puis, à la fin du `<body>`, un fichier de connexion avant `app.js` :
-
-```html
-<script src="supabase.js"></script>
-<script src="config.js"></script>
-<script src="app.js"></script>
-```
-
-Contenu de `supabase.js` :
+La vidéo doit être déclarée dans `config.js` (section 9). Ouvrez ce fichier,
+trouvez le produit, et ajoutez une ligne dans `medias` :
 
 ```js
-/* Connexion à la base. La clé anon est publique : c'est normal. */
-var SUPABASE_URL  = 'https://xxxxx.supabase.co';
-var SUPABASE_KEY  = 'votre-cle-anon-publique';
-
-var db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-```
-
-À partir de là, `app.js` remplace ses lectures du `localStorage` par des
-appels à la base. Par exemple, charger le catalogue :
-
-```js
-async function chargerProduits() {
-  const { data, error } = await db
-    .from('produits')
-    .select('*')
-    .order('ordre');
-
-  if (error) { console.error(error); return []; }
-  return data;
-}
-```
-
-Enregistrer une commande :
-
-```js
-async function envoyerCommande(commande) {
-  const { error } = await db.from('commandes').insert(commande);
-  if (error) { console.error(error); return false; }
-  return true;
-}
-```
-
-Faire avancer une commande depuis l'admin :
-
-```js
-async function avancerCommande(ref, nouvelleEtape) {
-  const { error } = await db
-    .from('commandes')
-    .update({ etape: nouvelleEtape })
-    .eq('ref', ref);
-  return !error;
-}
-```
-
-Et pour que l'admin voie la commande d'un client en temps réel :
-
-```js
-db.channel('commandes')
-  .on('postgres_changes',
-      { event: '*', schema: 'public', table: 'commandes' },
-      () => rafraichirCommandes())
-  .subscribe();
-```
-
----
-
-## 6. Le mot de passe et la sécurité
-
-### Ce que le mot de passe actuel vaut vraiment
-
-Le mot de passe de l'espace Réglages est écrit en clair dans `config.js` :
-
-```js
-adminMotDePasse: "corner69"
-```
-
-Comme ce fichier est public — il est téléchargé par le navigateur de chaque
-visiteur — **n'importe qui peut le lire**. Ce mot de passe n'est donc qu'une
-barrière visuelle, pas une protection. Il empêche un curieux de tomber sur
-les réglages par hasard. Il n'arrête personne de déterminé.
-
-**Règle absolue : ne jamais mettre dans ce fichier un secret qui donne accès
-à quelque chose.** Pas de mot de passe de messagerie, pas de clé d'API
-privée, pas de coordonnées bancaires.
-
-### La bonne façon de faire avec Supabase
-
-On ne compare plus le mot de passe dans la page : on demande à la base.
-Supabase gère les comptes utilisateurs, et les règles de sécurité vérifient
-l'identité côté serveur.
-
-```sql
--- Seul un utilisateur authentifié peut lire et modifier les commandes
-create policy "admin lit commandes"
-  on commandes for select
-  to authenticated using (true);
-
-create policy "admin modifie commandes"
-  on commandes for update
-  to authenticated using (true);
-```
-
-Puis, à la connexion :
-
-```js
-const { error } = await db.auth.signInWithPassword({
-  email: 'vous@exemple.fr',
-  password: 'votre-mot-de-passe'
-});
-```
-
-À partir de là, le mot de passe ne transite jamais en clair dans un fichier
-public : il est vérifié par la base, et les règles décident de ce que le
-compte a le droit de faire. C'est la différence entre une barrière décorative
-et une vraie protection.
-
-### Le principe à retenir
-
-**Toute vérification faite dans la page est contournable.** Le navigateur
-appartient au visiteur, il peut modifier ce qu'il reçoit. Une décision de
-sécurité doit toujours être prise par le serveur ou la base.
-
----
-
-## 7. Le RGPD
-
-Dès l'instant où le site stocke des données personnelles — un nom, un
-téléphone, une adresse de livraison — le Règlement général sur la protection
-des données s'applique. Sur une démonstration locale, la question ne se pose
-pas : rien ne quitte l'appareil. Sur un site en ligne avec une base, oui.
-
-Les obligations principales, en clair :
-
-**Informer.** Une page doit dire quelles données sont collectées, pourquoi,
-combien de temps elles sont gardées, et comment demander leur suppression.
-La page « Infos & mentions » est faite pour ça.
-
-**Ne collecter que le nécessaire.** Un nom, une adresse et un téléphone pour
-livrer : oui. La date de naissance ou le revenu : non, ça n'a aucune raison
-d'être là.
-
-**Limiter la durée.** Une commande se conserve le temps de la comptabilité
-(dix ans en France), mais pas indéfiniment sans raison. Prévoir une purge.
-
-**Permettre la suppression.** Un client doit pouvoir demander l'effacement de
-ses données, et il faut pouvoir le faire.
-
-**Sécuriser.** Les règles de sécurité Supabase de la section 5.4 répondent à
-cette partie : aucune commande n'est lisible sans être authentifié.
-
-**Choisir une région européenne.** À la création du projet Supabase, la
-région Paris ou Frankfurt évite les transferts de données hors Union
-européenne, qui demandent des précautions supplémentaires.
-
-Il existe des modèles de mentions légales et de politique de confidentialité
-adaptés aux petites boutiques. Si le site devient réellement commercial,
-faire relire ces pages par un professionnel est un investissement qui évite
-beaucoup d'ennuis.
-
----
-
-## 8. Mettre le site en ligne
-
-### GitHub Pages
-
-1. Pousser les fichiers sur la branche `main` du dépôt.
-2. **Settings → Pages**
-3. Source : **Deploy from a branch** — branche **main** — dossier **/ (root)**
-4. **Save**
-
-Le site est en ligne une minute plus tard à l'adresse
-`https://<votre-compte>.github.io/<nom-du-depot>/`.
-
-### Netlify
-
-1. **Add new site → Import an existing project**
-2. Choisir le dépôt GitHub
-3. Aucun réglage de build à remplir (site statique), laisser vide
-4. **Deploy**
-
-Netlify donne une adresse en `.netlify.app` et permet d'y brancher un nom de
-domaine propre.
-
-### Fichiers à déposer à la main
-
-Deux fichiers ne peuvent pas passer par l'interface GitHub depuis ce chat,
-car seuls les fichiers texte sont transmissibles :
-
-- **`bg.jpg`** — l'image de fond, à la racine du dépôt
-- **`ambiance.m4a`** (ou `.mp3`) — la musique de fond, à la racine
-
-Dépôt : **Add file → Upload files**, glisser, valider.
-
----
-
-## 9. Modifier le catalogue, les prix, les couleurs
-
-Tout se règle dans **`config.js`**, jamais dans le HTML.
-
-### Le catalogue
-
-```js
-produits: [
-  {
-    id: "p1",
-    nom: "Café de spécialité — Éthiopie",
-    rayon: "Cafés",
-    format: "250 g",
-    prix: 14.50,
-    stock: "disponible",       // ou "rupture"
-    badge: "",                 // "Nouveau", "Limité"…
-    description: "Grains lavés, notes florales et fruitées."
-  }
+medias: [
+  { type: "image", src: "media/p1-1.jpg", alt: "Sachet de café" },
+  { type: "video", src: "media/p1.mp4" }        // ← votre vidéo ici
 ]
 ```
 
-Ajouter un produit : copier un bloc, changer l'`id` (il doit être unique),
-enregistrer.
+La vidéo apparaît comme un élément du carrousel, après les photos. Le visiteur
+peut la lancer avec le bouton de lecture, et la mettre en pause.
 
-### Les frais de livraison
+---
 
-```js
-livraison: {
-  frais: 3.90,
-  gratuiteAPartirDe: 40
-}
-```
+## 5. Mettre votre musique
 
-### Les cinq étapes de suivi
+Le site joue une musique de fond, **très discrète** (5 % du volume) et
+**une seule fois** — elle ne tourne pas en boucle.
 
-```js
-etapes: [
-  { cle: "attente",  label: "Commande reçue", emoji: "⏳", texte: "Nous avons bien reçu votre commande." },
-  { cle: "preparee", label: "En préparation", emoji: "🚀", texte: "Votre commande est en cours de préparation." },
-  { cle: "tournee",  label: "En tournée de livraison", emoji: "🛵", texte: "Votre commande a quitté la boutique." },
-  { cle: "route",    label: "En route vers vous", emoji: "🎯", texte: "Le livreur arrive dans quelques minutes." },
-  { cle: "livree",   label: "Livrée", emoji: "✅", texte: "Commande livrée. Merci !" }
-]
-```
+### Marche à suivre
 
-Pour une boutique en click and collect, on peut réduire à trois étapes : il
-suffit d'enlever deux lignes.
+1. Renommez votre fichier en **`ambiance.m4a`**
+2. Déposez-le à la racine du dépôt
 
-### Le son
+Si vous n'avez qu'un fichier `.mp3`, renommez-le `ambiance.mp3` — le site
+essaie les deux formats, l'un après l'autre.
+
+### Ce qu'il faut savoir sur le son
+
+- La musique **ne démarre jamais toute seule**. Le visiteur doit cliquer
+  une fois sur la page — c'est une règle des navigateurs, impossible à
+  contourner.
+- Elle **se coupe** quand le visiteur va sur un autre onglet, et **reprend**
+  quand il revient.
+- Une fois terminée, elle **ne se relance pas**. Le visiteur aura l'ambiance
+  une fois.
+
+### Changer le volume
+
+Ouvrez `config.js`, section `son` :
 
 ```js
 son: {
-  volume: 0.05,   // 0 = muet · 0.05 = à peine perceptible · 0.3 = présent
-  fichiers: ["ambiance.m4a", "ambiance.mp3"],
-  actif: true
+  volume: 0.05,     // 0.05 = à peine perceptible
+  ...
 }
 ```
 
-### Les thèmes
+Remplacez `0.05` par la valeur voulue :
 
-Deux endroits pour changer les couleurs :
+| Valeur | Effet |
+|---|---|
+| `0` | Muet |
+| `0.05` | À peine perceptible — valeur actuelle |
+| `0.15` | Discret |
+| `0.3` | Présent |
+| `0.5` | Bien audible |
 
-**Depuis le site** — onglet Réglages, mot de passe, puis choisir une palette
-parmi les six proposées et ajuster chaque couleur. Le résultat est enregistré
-dans le navigateur.
+Gagnez du temps : **éditez directement sur GitHub**. Cliquez sur `config.js`,
+puis sur l'icône crayon en haut à droite, changez la valeur, et
+**Commit changes**.
 
-**Pour de bon, pour tous les visiteurs** — recopier les valeurs dans la
-section `palettes` de `config.js`. C'est cette version qui s'appliquera à
-tout le monde.
-
----
-
-## 10. Dépannage
-
-**Le fond ne s'affiche pas.** Le fichier doit s'appeler exactement `bg.jpg`,
-à la racine du dépôt. Vérifier la casse : `bg.JPG` et `bg.jpg` sont deux noms
-différents.
-
-**Le son ne démarre pas.** C'est normal avant le premier clic : aucun
-navigateur n'autorise la lecture automatique. Vérifier aussi que le fichier
-`ambiance.m4a` existe, et que le volume de l'appareil n'est pas à zéro.
-
-**Les modifications ne s'affichent pas.** Le navigateur garde les anciens
-fichiers en mémoire. Forcer avec **Ctrl + Maj + R** (Cmd + Maj + R sur Mac),
-ou ouvrir le site en navigation privée.
-
-**Le mot de passe admin ne fonctionne pas.** Il est sensible à la casse
-(« Corner69 » n'est pas « corner69 »). Vérifier dans `config.js`.
-
-**Un produit n'apparaît pas dans le catalogue.** Vérifier que son `id` est
-unique et que le `rayon` est bien écrit.
+> **Musique libre de droits obligatoire.** Une musique sous copyright sur un
+> site public peut vous valoir des poursuites. Cherchez « musique libre de
+> droits » ou « royalty free music ».
 
 ---
 
-## Résumé des étapes pour passer en production
+## 6. Gérer le suivi des commandes
 
-1. Créer un projet Supabase, région Europe
-2. Créer les quatre tables (section 5.3)
-3. Activer la sécurité et poser les règles (section 5.4)
-4. Créer un compte admin et le brancher sur les règles `authenticated`
-5. Copier l'URL et la clé `anon` dans `supabase.js`
-6. Remplacer les lectures du `localStorage` par les appels à la base
-7. Déposer `bg.jpg` et `ambiance.m4a`
-8. Activer GitHub Pages ou Netlify
-9. Rédiger les mentions légales et la politique de confidentialité
-10. Tester sur un téléphone et un ordinateur, avec deux navigateurs différents
+Quand un client commande, sa commande arrive en cinq étapes. Vous les faites
+avancer une par une.
+
+### Les cinq étapes
+
+```
+1. Commande reçue        ⏳
+2. En préparation        🚀
+3. En tournée de livraison 🛵
+4. En route vers vous    🎯
+5. Livrée                ✅
+```
+
+### Où se passe la gestion
+
+Sur une **page réservée**, que vos clients ne voient jamais. Elle n'est pas
+dans le menu du bas, il faut taper son adresse.
+
+**L'adresse** : ajoutez `#/gestion` à la fin de l'adresse de votre site.
+
+Par exemple :
+```
+https://patrikar961.github.io/corner69-boutique/#/gestion
+```
+
+### Le mot de passe
+
+À l'ouverture, la page demande un mot de passe. Par défaut :
+
+```
+corner69
+```
+
+**Changez-le avant de vendre un site.** Ouvrez `config.js`, cherchez
+`adminMotDePasse`, et remplacez la valeur :
+
+```js
+adminMotDePasse: "VotreMotDePasseSecret",
+```
+
+### Faire avancer une commande
+
+Une fois déverrouillée, la page affiche la commande en cours, avec son numéro
+et son étape. Deux boutons :
+
+- **Avancer →** fait passer à l'étape suivante
+- **← Reculer** revient à l'étape précédente, en cas d'erreur
+
+Le client voit le changement **immédiatement** dans son suivi, et la jauge
+de progression se met à jour.
+
+### Ce que voit le client
+
+Sur la page **Suivi**, votre client voit :
+
+- Un **anneau de progression** avec le numéro de l'étape (par exemple `3/5`)
+- La **référence de sa commande**
+- Le **statut en cours** avec son icône
+- La **chronologie complète** des cinq étapes, celles passées cochées,
+  celle en cours entourée
+- Le **récapitulatif** : articles, adresse de livraison, total payé
+
+Et sur toutes les pages, une **carte de suivi** flottante en haut rappelle
+la commande en cours et son avancement.
+
+### Un bouton de démonstration
+
+Sur la page Suivi, un bouton « Faire avancer la commande → » permet de
+montrer le fonctionnement à un client sans passer par la page de gestion.
+**Dites-lui de ne pas l'utiliser une fois le site en service** — c'est
+prévu pour la démonstration.
+
+### La limite à connaître
+
+Le suivi **ne partage pas les commandes entre appareils**. Une commande
+passée sur le téléphone d'un client n'apparaîtra pas sur le vôtre.
+
+**Pourquoi ?** Le site n'a pas de base de données. Tout est enregistré dans
+le navigateur du visiteur. C'est parfait pour une démonstration, mais pour
+un vrai commerce il faut une base de données — la marche à suivre complète
+est dans le README technique.
+
+**En pratique** : testez la commande sur votre propre navigateur, puis
+gérez l'avancement dessus. Vos clients, eux, voient leur propre suivi évoluer
+si vous leur donnez l'avancement — ou plus simplement, si vous activez les
+notifications Telegram (section 8).
 
 ---
 
-*© 2026 CORNER69 — Site de démonstration.*
+## 7. Changer les couleurs
+
+Deux façons de faire.
+
+### Depuis le site (le plus simple)
+
+1. Allez sur `#/gestion`
+2. Entrez le mot de passe
+3. Dans **Palettes**, cliquez sur un thème : le site entier change
+   instantanément de couleurs
+
+Six thèmes sont proposés : Nuit acide, Bleu nuit, Terracotta, Forêt, Sable,
+Bordeaux.
+
+Pour ajuster finement, utilisez les **sélecteurs de couleur** en dessous :
+fond, cartes, texte, accent. Cliquez sur un carré de couleur, choisissez-en
+une — le site se met à jour en direct.
+
+Cliquez sur **Enregistrer le thème** pour le conserver.
+
+### Pour tous les visiteurs
+
+Le réglage précédent ne s'applique qu'à **votre** navigateur. Pour que vos
+visiteurs voient le même thème, ouvrez `config.js`, section `palettes`, et
+reportez les valeurs du thème choisi dans la section `theme` :
+
+```js
+theme: "nuit-acide",     // remplacez par le nom du thème voulu
+```
+
+---
+
+## 8. Recevoir les commandes sur Telegram
+
+Optionnel, mais pratique : chaque nouvelle commande vous est annoncée sur
+votre téléphone, avec le nom du client, son adresse et le total.
+
+### Créer votre bot
+
+1. Dans Telegram, cherchez **@BotFather**
+2. Envoyez-lui `/newbot`
+3. Il vous demande un nom, puis un identifiant terminant par `bot`
+4. Il vous donne une longue chaîne du genre `7123456789:AAH...` — **c'est votre jeton**
+
+### Trouver votre identifiant
+
+1. Cherchez votre bot dans Telegram et envoyez-lui un message : `bonjour`
+2. Ouvrez cette adresse dans votre navigateur, en remplaçant le jeton :
+   `https://api.telegram.org/bot<votre-jeton>/getUpdates`
+3. Cherchez `"chat":{"id":` — le nombre qui suit est **votre identifiant**
+
+### Brancher le site
+
+Ouvrez `config.js`, section `telegram` :
+
+```js
+telegram: {
+  jeton: "7123456789:AAH...",     // le jeton de BotFather
+  discussion: "123456789"          // votre identifiant
+}
+```
+
+Validez. À la prochaine commande, vous recevez le message.
+
+> **Sécurité** : ce jeton est visible par qui lit le code du site. Il permet
+> d'envoyer des messages, pas de lire vos conversations. Si vous constatez
+> des envois indésirables, demandez un nouveau jeton à BotFather.
+
+---
+
+## 9. Modifier les produits et les prix
+
+Tout le catalogue est dans **`config.js`**. Ouvrez ce fichier sur GitHub
+(cliquez dessus, puis sur le crayon), et modifiez.
+
+### Un produit, ligne par ligne
+
+```js
+{
+  id: "p1",                                    // identifiant unique, ne pas réutiliser
+  nom: "Café de spécialité — Éthiopie",        // le nom affiché
+  rayon: "Cafés",                              // la catégorie
+  format: "250 g",                             // le format
+  prix: 14.50,                                 // le prix, avec un point
+  stock: "disponible",                         // ou "rupture"
+  badge: "",                                   // ou "Nouveau", "Limité"
+  description: "Grains lavés, notes florales.",
+  medias: [
+    { type: "image", src: "media/p1-1.jpg", alt: "Sachet de café" },
+    { type: "image", src: "media/p1-2.jpg", alt: "Grains" }
+  ]
+}
+```
+
+**Pour ajouter un produit** : copiez tout un bloc `{ ... }`, collez-le juste
+après, et changez au minimum l'`id` (par exemple `p6`). Le reste peut être
+modifié ensuite.
+
+**Pour retirer un produit** : supprimez le bloc entier, de l'accolade
+ouvrante à l'accolade fermante, sans oublier la virgule qui suit.
+
+### Les autres réglages de config.js
+
+| Réglage | Ce qu'il fait |
+|---|---|
+| `zone.departements` | Les départements livrés. `["69"]` = Rhône uniquement |
+| `livraison.frais` | Les frais de port (3.90 = 3,90 €) |
+| `livraison.gratuiteAPartirDe` | Le seuil de livraison offerte |
+| `etapes` | Les cinq étapes du suivi, leurs noms et leurs icônes |
+| `son.volume` | Le volume de la musique |
+
+> **Toujours vérifier après modification** : ouvrez votre site et
+> rafraîchissez avec **Ctrl + Maj + R** (Cmd + Maj + R sur Mac). Si quelque
+> chose ne s'affiche plus, c'est qu'une virgule ou un guillemet manque.
+> Recopiez le fichier depuis cette page et recommencez.
+
+---
+
+## 10. Questions fréquentes
+
+**Mon changement ne s'affiche pas.**
+Le navigateur garde les anciennes versions. Forcez avec **Ctrl + Maj + R**,
+ou ouvrez le site en **navigation privée**.
+
+**J'ai déposé mon logo mais il ne s'affiche pas.**
+Vérifiez trois choses : le nom exact est `logo.png` (minuscules), le fichier
+est à la racine du dépôt (pas dans un sous-dossier), et vous avez bien cliqué
+sur **Commit changes**.
+
+**Mes photos produits ne s'affichent pas.**
+Vérifiez que les noms dans `config.js` correspondent exactement aux fichiers
+déposés, y compris le dossier `media/`. `media/p1-1.jpg` et `P1-1.jpg` ne
+sont pas la même chose.
+
+**Comment savoir si une commande est passée ?**
+Activez Telegram (section 8) : vous serez prévenu à chaque commande. Sans
+Telegram, la commande n'existe que dans le navigateur du client.
+
+**Le mot de passe de gestion ne marche pas.**
+Il est sensible aux majuscules : `Corner69` n'est pas `corner69`. Vérifiez
+la valeur dans `config.js`.
+
+**Puis-je mettre plus de 2 photos par produit ?**
+Oui, autant que vous voulez. Ajoutez simplement d'autres lignes dans `medias`.
+
+**Le site peut-il vendre pour de vrai ?**
+En l'état, non : aucun paiement n'est réel, et les commandes ne sont pas
+partagées entre appareils. Pour du vrai commerce, il faut une base de données
+et un système de paiement. Un second guide technique explique comment
+brancher Supabase.
+
+---
+
+## Récapitulatif — les noms de fichiers
+
+```
+corner69-boutique/
+├── index.html          la page (ne pas modifier)
+├── style.css           l'apparence (ne pas modifier)
+├── app.js              le fonctionnement (ne pas modifier)
+├── config.js           ← VOS RÉGLAGES ICI
+├── logo.png            ← VOTRE LOGO
+├── bg.jpg              ← VOTRE IMAGE DE FOND
+├── ambiance.m4a        ← VOTRE MUSIQUE
+└── media/
+    ├── p1-1.jpg        ← VOS PHOTOS PRODUITS
+    ├── p1-2.jpg
+    ├── p2-1.jpg
+    └── ...
+```
+
+---
+
+*© 2026 CORNER69 — Guide d'utilisation.*
