@@ -1,7 +1,7 @@
 /* =========================================================
-   CORNER69 — boutique
-   Feuille de style. Toutes les couleurs viennent des
-   variables posees par app.js depuis config.js.
+   CORNER69 — feuille de style
+   Toutes les couleurs viennent des variables posees par
+   app.js depuis config.js.
    ========================================================= */
 
 :root {
@@ -231,6 +231,23 @@ button { font: inherit; color: inherit; }
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+/* jauge fine sous la barre : la progression de la commande */
+.suivi-bar__jauge {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 3px;
+  background: rgba(255,255,255,.10);
+  overflow: hidden;
+}
+.suivi-bar__jauge i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--accent);
+  transition: width .6s var(--ease);
+}
+
 .suivi-bar__btn {
   margin-left: auto;
   padding: .5rem 1rem;
@@ -708,6 +725,13 @@ button { font: inherit; color: inherit; }
 }
 .suggestion__rue { font-size: .92rem; font-weight: 600; }
 .suggestion__ville { font-size: .78rem; color: var(--doux); }
+.suggestion--vide {
+  cursor: default;
+  color: var(--doux);
+  font-size: .85rem;
+  line-height: 1.5;
+}
+.suggestion--vide:hover { background: none; }
 
 /* =========================================================
    Suivi
@@ -789,6 +813,13 @@ button { font: inherit; color: inherit; }
 .jalon.encours .jalon__titre { color: var(--accent); }
 .jalon__txt { margin: 0; font-size: .85rem; color: var(--doux); }
 
+.suivi__actions {
+  margin-top: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: .7rem;
+}
+
 /* =========================================================
    Avis
    ========================================================= */
@@ -836,7 +867,7 @@ button { font: inherit; color: inherit; }
 .infos__bloc a { color: var(--accent); }
 
 /* =========================================================
-   Reglages (admin)
+   Gestion (page reservee au commercant)
    ========================================================= */
 .verrou p { color: var(--doux); }
 .reglages h3 {
