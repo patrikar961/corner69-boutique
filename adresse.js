@@ -126,8 +126,17 @@
       .then(function (data) {
         var items = (data.features || []).map(function (f) {
           var p = f.properties;
+
+          /* L'API renvoie le numero dans housenumber, la voie dans street
+             et, pour les rues sans numero, le nom dans name.
+             On assemble sans jamais repeter la voie — c'est ce qui
+             produisait « Rue des Herideaux Rue des Herideaux ». */
+          var numero = (p.housenumber || '').trim();
+          var voie = (p.street || p.name || '').trim();
+          var libelle = numero ? (numero + ' ' + voie) : voie;
+
           return {
-            rue: p.name + (p.street ? ' ' + p.street : ''),
+            rue: libelle,
             cp: p.postcode || '',
             ville: p.city || p.municipality || '',
             zone: dansZone(p.postcode || '')
