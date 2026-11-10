@@ -149,12 +149,32 @@
     return vus;
   }
 
+  /* -------------------------------------------------------
+     Initiale du produit, pour la vignette de remplacement
+     quand la photo n'existe pas encore.
+     Les accents sont conserves : É reste É, pas de trou.
+     ------------------------------------------------------- */
   function initiale(nom) {
-    var mots = nom.replace(/[^A-Za-zÀ-ÿ ]/g, ' ').trim().split(/\s+/);
-    if (mots.length >= 2 && /^(Café|Thé|Pack|Mug)$/i.test(mots[0])) {
-      return mots[1].charAt(0).toUpperCase();
+    var propre = String(nom || '?')
+      .replace(/[\u2019'´`]/g, ' ')                       /* apostrophes typographiques */
+      .replace(/[^0-9A-Za-z\u00C0-\u024F]+/g, ' ')        /* lettres et chiffres seulement */
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    if (!propre) return '?';
+
+    var mots = propre.split(' ');
+    /* un mot generique ne fait pas une bonne initiale */
+    var generiques = /^(caf|th|pack|mug|coffret|accessoire|boisson|specialite)s?$/i;
+    var utile = null;
+
+    for (var i = 0; i < mots.length; i++) {
+      var sansAccent = mots[i].normalize('NFD').replace(/[\u0300-\u036F]/g, '');
+      if (!generiques.test(sansAccent)) { utile = mots[i]; break; }
     }
-    return mots[0].charAt(0).toUpperCase();
+    if (!utile) utile = mots[0];
+
+    return utile.charAt(0).toUpperCase();
   }
 
   function rendreCatalogue() {
