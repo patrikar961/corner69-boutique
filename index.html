@@ -25,19 +25,32 @@
   <div class="bg" aria-hidden="true"><img src="bg.jpg" alt="" id="bgImage"></div>
   <div class="veil" aria-hidden="true"></div>
 
-  <!-- ===== Barre de suivi permanente, avec sa jauge ===== -->
-  <div class="suivi-bar" id="suiviBar" hidden>
-    <div class="suivi-bar__ring"><span id="suiviPct">0</span><small>/5</small></div>
-    <div class="suivi-bar__txt">
-      <b id="suiviRef">#CMD-0000</b>
-      <span id="suiviLabel">—</span>
+  <!-- ===== Bloc de suivi, format carte arrondie ===== -->
+  <div class="suivi-carte" id="suiviBar" hidden>
+    <div class="suivi-carte__haut">
+      <div class="suivi-carte__ring"><span id="suiviPct">0</span><small>/5</small></div>
+      <div class="suivi-carte__txt">
+        <span class="suivi-carte__ligne">
+          <span class="suivi-carte__ref" id="suiviRef">#CMD-0000</span>
+          <span class="suivi-carte__badge" id="suiviBadge">Étape 1/5</span>
+        </span>
+        <b class="suivi-carte__etat" id="suiviLabel">—</b>
+      </div>
+      <button class="suivi-carte__btn" id="suiviVoir" type="button">Voir →</button>
     </div>
-    <button class="suivi-bar__btn" id="suiviVoir" type="button">Voir</button>
-    <div class="suivi-bar__jauge" aria-hidden="true"><i id="suiviJauge"></i></div>
+    <div class="suivi-carte__jauge" aria-hidden="true"><i id="suiviJauge"></i></div>
   </div>
 
   <!-- ===== Accueil explicatif ===== -->
   <section class="intro" id="intro">
+
+    <!-- Logo : deposez votre image sous le nom logo.png a la racine.
+         Tant qu'elle est absente, le texte CORNER69 anime s'affiche. -->
+    <div class="logo-hero" id="logoHero">
+      <img class="logo-hero__img" src="logo.png" alt="CORNER69" id="logoImage" hidden>
+      <span class="logo-hero__texte" id="logoTexte">CORNER<b>69</b></span>
+    </div>
+
     <span class="intro__tag">Version de démonstration</span>
     <h1 class="intro__title">Bienvenue sur <b>CORNER69</b></h1>
     <p class="intro__text">
@@ -47,7 +60,7 @@
 
     <ol class="intro__steps">
       <li><i>1</i><span><b>Accès</b> — parcourez le catalogue et changez de rayon.</span></li>
-      <li><i>2</i><span><b>Produit</b> — ouvrez une fiche, choisissez un format, ajoutez au panier.</span></li>
+      <li><i>2</i><span><b>Produit</b> — ouvrez une fiche, faites défiler les visuels, ajoutez au panier.</span></li>
       <li><i>3</i><span><b>Commande</b> — validez le panier, remplissez l'adresse, simulez le paiement.</span></li>
       <li><i>4</i><span><b>Avis</b> — laissez une note et un commentaire.</span></li>
       <li><i>5</i><span><b>Suivi</b> — regardez votre commande avancer, étape par étape.</span></li>
@@ -87,7 +100,7 @@
       <ul class="produits" id="produits"></ul>
     </section>
 
-    <!-- Fiche produit -->
+    <!-- Fiche produit : le carrousel s'y insere tout seul -->
     <section class="vue" data-vue="/produit">
       <button class="retour" type="button" data-route="/">← Retour au catalogue</button>
       <div class="fiche" id="fiche"></div>
@@ -131,12 +144,12 @@
           <div>
             <label for="cCp">Code postal</label>
             <input id="cCp" name="cp" type="text" required inputmode="numeric"
-                   autocomplete="postal-code" maxlength="5" placeholder="75002">
+                   autocomplete="postal-code" maxlength="5" placeholder="69001">
           </div>
           <div>
             <label for="cVille">Ville</label>
             <input id="cVille" name="ville" type="text" required
-                   autocomplete="address-level2" placeholder="Paris">
+                   autocomplete="address-level2" placeholder="Lyon">
           </div>
         </div>
         <p class="form__note" id="formErreur" hidden></p>
@@ -190,7 +203,7 @@
         </div>
         <div class="infos__bloc">
           <h3>Livraison</h3>
-          <p>3,90 € sur l'ensemble de la zone.<br>Offerte à partir de 40 € d'achat.</p>
+          <p>Dans le Rhône uniquement.<br>3,90 € de frais, offerts à partir de 40 € d'achat.</p>
         </div>
         <div class="infos__bloc">
           <h3>Contact</h3>
@@ -268,6 +281,7 @@
 
   <script src="config.js"></script>
   <script src="app.js"></script>
+  <script src="carrousel.js"></script>
   <script src="adresse.js"></script>
   <script src="telegram.js"></script>
   <script src="son.js"></script>
