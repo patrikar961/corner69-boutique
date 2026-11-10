@@ -185,12 +185,13 @@ var BOUTIQUE = {
 
   /* -------------------------------------------------------
      SON — invisible pour le visiteur
-     Deposez votre fichier a la racine : ambiance.mp3 ou .m4a
+     Deposez votre fichier a la racine du depot.
+     Plusieurs noms possibles : le premier trouve sera joue.
      0 = muet · 0.05 = a peine perceptible · 0.3 = present
      ------------------------------------------------------- */
   son: {
     volume: 0.05,
-    fichiers: ["ambiance.m4a", "ambiance.mp3"],
+    fichiers: ["p.m4a", "p.mp3", "ambiance.m4a", "ambiance.mp3"],
     actif: true
   },
 
