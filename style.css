@@ -116,152 +116,128 @@ button { font: inherit; color: inherit; }
 }
 
 /* =========================================================
-   Accueil explicatif
+   Bloc de suivi — format carte arrondie
+   Anneau de progression, reference, badge d'etape, statut,
+   bouton, et jauge fine sur toute la largeur du bloc.
    ========================================================= */
-.intro {
-  position: relative;
-  z-index: 2;
-  max-width: 620px;
-  margin: 0 auto;
-  padding: clamp(3rem, 9vh, 6rem) var(--marge) 4rem;
-}
-.intro__tag {
-  display: inline-block;
-  padding: .35rem .9rem;
-  margin-bottom: 1.2rem;
-  border: 1px solid var(--accent);
-  border-radius: 999px;
-  font-size: .68rem;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-.intro__title {
-  margin: 0 0 1rem;
-  font-family: var(--titre);
-  font-weight: 800;
-  font-size: clamp(1.9rem, 7vw, 2.8rem);
-  line-height: 1.08;
-}
-.intro__title b { color: var(--accent); }
-.intro__text { margin: 0 0 2rem; color: var(--doux); }
-.intro__steps {
-  list-style: none;
-  margin: 0 0 2.2rem;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: .7rem;
-}
-
-/* chaque etape : le rond a gauche, le texte a droite.
-   flex plutot que grid : la colonne de texte ne peut pas
-   s'ecraser, meme sur un ecran etroit. */
-.intro__steps li {
-  display: flex;
-  align-items: flex-start;
-  gap: .9rem;
-  padding: 1rem 1.1rem;
-  background: var(--carte);
-  border: 1px solid var(--bordure);
-  border-radius: var(--r);
-  color: var(--doux);
-  font-size: .92rem;
-  line-height: 1.55;
-}
-.intro__steps i {
-  flex: 0 0 auto;
-  display: grid;
-  place-items: center;
-  width: 26px; height: 26px;
-  border-radius: 50%;
-  background: var(--accent);
-  color: var(--accent-texte);
-  font-style: normal;
-  font-weight: 600;
-  font-size: .78rem;
-}
-.intro__steps li > span {
-  flex: 1 1 auto;
-  min-width: 0;
-}
-.intro__steps b { color: var(--texte); font-weight: 600; }
-.intro__go { width: 100%; }
-
-/* =========================================================
-   Barre de suivi permanente
-   ========================================================= */
-.suivi-bar {
+.suivi-carte {
   position: fixed;
-  top: 0; left: 0; right: 0;
+  left: 50%;
+  top: .7rem;
+  transform: translateX(-50%);
   z-index: 60;
+  width: min(680px, calc(100vw - 1.6rem));
+  padding: .85rem 1rem .95rem;
+  background: color-mix(in srgb, var(--carte) 96%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--bordure);
+  border-radius: 18px;
+  box-shadow: 0 18px 40px -22px rgba(0,0,0,.95);
+}
+
+.suivi-carte__haut {
   display: flex;
   align-items: center;
   gap: .9rem;
-  padding: .7rem var(--marge);
-  background: var(--carte);
-  border-bottom: 1px solid var(--bordure);
 }
-.suivi-bar__ring {
+
+.suivi-carte__ring {
   position: relative;
   display: grid;
   place-items: center;
-  width: 42px; height: 42px;
+  width: 48px; height: 48px;
   border-radius: 50%;
   background: conic-gradient(var(--accent) var(--pct, 0%), rgba(255,255,255,.12) 0);
   flex: 0 0 auto;
 }
-.suivi-bar__ring::after {
+.suivi-carte__ring::after {
   content: "";
   position: absolute;
-  inset: 3px;
+  inset: 4px;
   border-radius: 50%;
   background: var(--carte);
 }
-.suivi-bar__ring span,
-.suivi-bar__ring small { position: relative; z-index: 1; }
-.suivi-bar__ring span { font-size: .82rem; font-weight: 600; }
-.suivi-bar__ring small { font-size: .52rem; color: var(--doux); }
-.suivi-bar__txt { display: flex; flex-direction: column; line-height: 1.3; min-width: 0; }
-.suivi-bar__txt b { font-size: .74rem; letter-spacing: .08em; color: var(--doux); font-weight: 500; }
-.suivi-bar__txt span {
+.suivi-carte__ring span {
+  position: relative; z-index: 1;
+  font-family: var(--titre);
+  font-weight: 800;
   font-size: .95rem;
-  font-weight: 500;
+  line-height: 1;
+}
+.suivi-carte__ring small {
+  position: relative; z-index: 1;
+  font-size: .55rem;
+  color: var(--doux);
+}
+
+.suivi-carte__txt {
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+.suivi-carte__ligne {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+.suivi-carte__ref {
+  font-size: .72rem;
+  letter-spacing: .06em;
+  color: var(--doux);
+}
+.suivi-carte__badge {
+  padding: .1rem .5rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+  color: var(--accent);
+  font-size: .64rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  white-space: nowrap;
+}
+.suivi-carte__etat {
+  font-family: var(--titre);
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.25;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* jauge fine sous la barre : la progression de la commande */
-.suivi-bar__jauge {
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  height: 3px;
+.suivi-carte__btn {
+  flex: 0 0 auto;
+  padding: .55rem 1.1rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-texte);
+  font-size: .78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter .3s var(--ease), transform .3s var(--ease);
+}
+.suivi-carte__btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+.suivi-carte__jauge {
+  height: 4px;
+  margin-top: .8rem;
+  border-radius: 999px;
   background: rgba(255,255,255,.10);
   overflow: hidden;
 }
-.suivi-bar__jauge i {
+.suivi-carte__jauge i {
   display: block;
   height: 100%;
   width: 0;
+  border-radius: 999px;
   background: var(--accent);
   transition: width .6s var(--ease);
 }
-
-.suivi-bar__btn {
-  margin-left: auto;
-  padding: .5rem 1rem;
-  border: 1px solid var(--accent);
-  border-radius: 999px;
-  background: transparent;
-  color: var(--accent);
-  font-size: .74rem;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background .3s var(--ease), color .3s var(--ease);
-}
-.suivi-bar__btn:hover { background: var(--accent); color: var(--accent-texte); }
 
 /* =========================================================
    Navigation
@@ -428,12 +404,14 @@ button { font: inherit; color: inherit; }
   place-items: center;
   width: 64px; height: 64px;
   border-radius: 12px;
+  overflow: hidden;
   background: linear-gradient(160deg, var(--accent), color-mix(in srgb, var(--accent) 45%, var(--fond)));
   color: var(--accent-texte);
   font-family: var(--titre);
   font-weight: 800;
   font-size: 1.3rem;
 }
+.produit__img img { width: 100%; height: 100%; object-fit: cover; }
 .produit__corps { min-width: 0; }
 .produit__meta {
   display: block;
@@ -484,12 +462,14 @@ button { font: inherit; color: inherit; }
   height: 170px;
   margin-bottom: 1.3rem;
   border-radius: 12px;
+  overflow: hidden;
   background: linear-gradient(160deg, var(--accent), color-mix(in srgb, var(--accent) 45%, var(--fond)));
   color: var(--accent-texte);
   font-family: var(--titre);
   font-weight: 800;
   font-size: 2.6rem;
 }
+.fiche__visuel img { width: 100%; height: 100%; object-fit: cover; }
 .fiche__rayon {
   font-size: .68rem;
   letter-spacing: .14em;
@@ -637,6 +617,161 @@ button { font: inherit; color: inherit; }
   color: var(--doux);
 }
 .vide p { margin: 0 0 1.2rem; }
+
+/* =========================================================
+   Logo de l'accueil
+   L'image logo.png se depose a la racine du depot. Tant
+   qu'elle est absente, le texte CORNER69 s'affiche avec
+   le meme effet.
+   ========================================================= */
+.logo-hero {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 2rem;
+  filter: drop-shadow(0 0 40px var(--accent));
+  animation:
+    logoEntree 2.4s cubic-bezier(.2, .9, .3, 1.25) both,
+    logoPouls 4s ease-in-out 2.4s infinite;
+  will-change: transform, opacity;
+}
+
+.logo-hero__img {
+  width: clamp(120px, 34vw, 220px);
+  height: auto;
+  border-radius: 22px;
+}
+
+.logo-hero__texte {
+  font-family: var(--titre);
+  font-weight: 800;
+  font-size: clamp(2.4rem, 11vw, 4.6rem);
+  line-height: 1;
+  letter-spacing: .02em;
+}
+.logo-hero__texte b { color: var(--accent); }
+
+@keyframes logoEntree {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(-360deg);
+    filter: blur(10px) drop-shadow(0 0 0 transparent);
+  }
+  58% {
+    opacity: 1;
+    transform: scale(1.14) rotate(0deg);
+    filter: blur(0) drop-shadow(0 0 60px var(--accent));
+  }
+  76% {
+    transform: scale(1.2) rotate(360deg);
+    filter: blur(0) drop-shadow(0 0 75px var(--accent));
+  }
+  86% {
+    transform: scale(.92) rotate(360deg);
+    filter: blur(0) drop-shadow(0 0 28px var(--accent));
+  }
+  94% {
+    transform: scale(1.08) rotate(360deg);
+    filter: blur(0) drop-shadow(0 0 70px var(--accent));
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(360deg);
+    filter: blur(0) drop-shadow(0 0 40px var(--accent));
+  }
+}
+
+/* le pouls, plus discret que sur un site vitrine */
+@keyframes logoPouls {
+  50% { transform: scale(1.03) rotate(2deg); }
+}
+
+/* =========================================================
+   Carrousel de la fiche produit
+   Bande qui defile, points de navigation, emplacement video.
+   Les fichiers se deposent dans le dossier media/.
+   ========================================================= */
+.carrousel {
+  background: var(--carte);
+  border: 1px solid var(--bordure);
+  border-radius: var(--r);
+  padding: 1rem;
+  margin-bottom: 1.4rem;
+}
+
+.carrousel__piste {
+  display: flex;
+  gap: .7rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  border-radius: 12px;
+}
+.carrousel__piste::-webkit-scrollbar { display: none; }
+
+.carrousel__item {
+  flex: 0 0 100%;
+  scroll-snap-align: center;
+  aspect-ratio: 4 / 3;
+  border-radius: 12px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--fond) 80%, transparent);
+  display: grid;
+  place-items: center;
+}
+.carrousel__item img,
+.carrousel__item video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.carrousel__vide {
+  text-align: center;
+  color: var(--doux);
+  font-size: .86rem;
+  line-height: 1.6;
+  padding: 1rem;
+}
+.carrousel__vide b { color: var(--texte); display: block; margin-bottom: .3rem; }
+
+.carrousel__points {
+  display: flex;
+  justify-content: center;
+  gap: .4rem;
+  margin-top: .9rem;
+}
+.carrousel__points button {
+  width: 8px; height: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,.25);
+  cursor: pointer;
+  transition: background .3s var(--ease), transform .3s var(--ease);
+}
+.carrousel__points button.actif {
+  background: var(--accent);
+  transform: scale(1.3);
+}
+
+.carrousel__fleches {
+  display: flex;
+  justify-content: center;
+  gap: .6rem;
+  margin-top: .9rem;
+}
+.carrousel__fleches button {
+  width: 40px; height: 40px;
+  border: 1px solid var(--bordure);
+  border-radius: 50%;
+  background: none;
+  color: var(--texte);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color .3s var(--ease), color .3s var(--ease);
+}
+.carrousel__fleches button:hover { border-color: var(--accent); color: var(--accent); }
 
 /* =========================================================
    Formulaire
@@ -1010,6 +1145,8 @@ button { font: inherit; color: inherit; }
   .produit__img { width: 52px; height: 52px; font-size: 1.05rem; }
   .form__row--2 { grid-template-columns: 1fr; }
   .couleurs { grid-template-columns: 1fr 1fr; }
+  .suivi-carte__ring { width: 42px; height: 42px; }
+  .suivi-carte__etat { font-size: .9rem; }
 }
 
 /* =========================================================
@@ -1021,4 +1158,5 @@ button { font: inherit; color: inherit; }
     transition-duration: .001ms !important;
   }
   .vue { animation: none; }
+  .logo-hero { animation: none; }
 }
