@@ -31,9 +31,9 @@
   var panier = lire('panier', []);          // [{id, qte}]
   var commande = lire('commande', null);    // {ref, date, adresse, total, etape}
   var avis = lire('avis', []);
-  var avisAttente = lire('avisAttente', []);   /* avis en attente de validation */
-  var theme = lire('theme', null);          // palette personnalisée
-  var fondCustom = lire('fond', null);      // image de fond en base64
+  var avisAttente = lire('avisAttente', []);
+  var theme = lire('theme', null);
+  var fondCustom = lire('fond', null);
 
   /* =======================================================
      THÈME
@@ -56,22 +56,16 @@
     if (meta) meta.setAttribute('content', p.fond);
   }
 
-  /* -------------------------------------------------------
-     LOGO — si logo.png existe, on l'affiche a la place du
-     texte. Sinon, le texte anime reste en place.
-     ------------------------------------------------------- */
   function afficherLogo() {
     var img = $('#logoImage');
     var txt = $('#logoTexte');
     if (!img) return;
 
     img.addEventListener('load', function () {
-      /* l'image est la : on masque le texte */
       if (txt) txt.hidden = true;
       img.hidden = false;
     });
     img.addEventListener('error', function () {
-      /* pas d'image : on garde le texte */
       img.hidden = true;
       if (txt) txt.hidden = false;
     });
@@ -113,7 +107,6 @@
     var a = e.target.closest('[data-route]');
     if (!a) return;
     var cible = a.getAttribute('data-route');
-    // un produit ouvre sa fiche
     var id = a.getAttribute('data-produit');
     if (id) { location.hash = '#/produit/' + id; }
     else { location.hash = '#' + cible; }
@@ -133,29 +126,12 @@
     return vus;
   }
 
-  /* -------------------------------------------------------
-     Initiale d'un produit, pour la vignette de remplacement
-     quand la photo du produit n'existe pas encore.
-     Les accents sont conserves : É reste É, pas de trou.
-     ------------------------------------------------------- */
-  /* -------------------------------------------------------
-     Vignette de remplacement : le nom du rayon du produit,
-     utilisé tant que la photo n'existe pas encore.
-     Les emojis sont conservés tels quels.
-
-     Le rayon vient de config.js, champ « rayon ». On peut y
-     mettre ce qu'on veut : « Cafe », « Café », « Cafe ☕ »,
-     « Thes 🍵 »... Le texte est repris tel quel.
-     ------------------------------------------------------- */
   function vignette(p) {
-    /* si l'image du produit existe, c'est elle qui s'affiche */
     var premier = (p && p.medias && p.medias[0]) || null;
     if (premier && premier.type === 'image' && premier.src) {
       return '<img src="' + premier.src + '" alt="' + (p.nom || '') + '" loading="lazy">';
     }
 
-    /* sinon l'emoji du produit : champ « emoji » dans config.js,
-       ou a defaut celui du rayon */
     var emoji = String((p && p.emoji) || '').trim();
     if (emoji) return '<span class="vignette__emoji">' + emoji + '</span>';
 
@@ -260,13 +236,11 @@
       });
     }
 
-    /* le carrousel du produit, sous la description */
     var zone = document.createElement('div');
     zone.id = 'carrousel';
     zone.className = 'carrousel';
     box.insertBefore(zone, box.firstChild.nextSibling);
 
-    /* on previent le carrousel : il affiche les visuels du produit */
     document.dispatchEvent(new CustomEvent('corner69:produit', { detail: p }));
   }
 
@@ -393,11 +367,65 @@
     };
     ecrire('commande', commande);
 
+    /* envoi vers Supabase : la commande part dans la base,
+       et la fonction serveur previent Telegram. */
+    envoyerVersSupabase(commande);
+
     panier = [];
     ecrire('panier', panier);
     majPanierCount();
 
     location.hash = '#/suivi';
+  }
+
+  /* -------------------------------------------------------
+     SUPABASE — depot de la commande
+     Seule l'adresse du projet et la cle publiable sont ici :
+     ce sont des valeurs faites pour etre visibles. Le jeton
+     Telegram, lui, vit dans Supabase, jamais dans ce fichier.
+     ------------------------------------------------------- */
+  var SUPABASE_URL = 'https://jmhtdfbqleivsvootvma.supabase.co';
+  var SUPABASE_CLE = 'sb_publishable_ns_kx2n4WNuvmhFRE4Tg-Q_W4NTpCb1';
+
+  function envoyerVersSupabase(cmd) {
+    if (!cmd) return;
+
+    /* on enrichit chaque article avec ses details complets */
+    var articles = (cmd.articles || []).map(function (l) {
+      var p = produitDe(l.id);
+      return {
+        nom: p ? p.nom : l.id,
+        format: p ? p.format : '',
+        qte: l.qte,
+        prix: p ? p.prix : 0,
+        sousTotal: p ? (p.prix * l.qte) : 0
+      };
+    });
+
+    var corps = {
+      ref: cmd.ref,
+      nom: cmd.adresse ? cmd.adresse.nom : '',
+      telephone: cmd.adresse ? cmd.adresse.tel : '',
+      adresse: cmd.adresse ? cmd.adresse.adresse : '',
+      code_postal: cmd.adresse ? cmd.adresse.cp : '',
+      ville: cmd.adresse ? cmd.adresse.ville : '',
+      articles: articles,
+      total: cmd.total || 0,
+      etape: cmd.etape || 0
+    };
+
+    try {
+      fetch(SUPABASE_URL + '/rest/v1/commandes', {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_CLE,
+          'Authorization': 'Bearer ' + SUPABASE_CLE,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(corps)
+      }).catch(function () {});
+    } catch (e) {}
   }
 
   /* =======================================================
@@ -417,7 +445,6 @@
     var pct = Math.round(((e + 1) / BOUTIQUE.etapes.length) * 100);
     var courante = BOUTIQUE.etapes[e];
 
-    /* le bouton d'avancement disparait une fois la commande livree */
     var actions = $('#suiviActions');
     if (actions) actions.hidden = (e >= BOUTIQUE.etapes.length - 1);
 
@@ -464,7 +491,6 @@
     var barre = $('#suiviBar');
     if (!barre) return;
     if (!commande) { barre.hidden = true; return; }
-    /* le client l'a masquee avec la croix : elle ne revient pas */
     try {
       if (sessionStorage.getItem('corner69.suiviMasque') === '1') { barre.hidden = true; return; }
     } catch (err) {}
@@ -564,7 +590,6 @@
       return;
     }
 
-    /* l'avis part en attente : la boutique le valide avant publication */
     avisAttente.unshift({ nom: nom, note: noteChoisie, texte: texte, date: new Date().toISOString() });
     ecrire('avisAttente', avisAttente);
 
@@ -574,7 +599,6 @@
     if (ok) ok.hidden = false;
     rendreAdministration();
   }
-
 
   function deverrouiller(e) {
     if (e) e.preventDefault();
@@ -611,9 +635,6 @@
     fermerPanneau();
   }
 
-  /* -------------------------------------------------------
-     TABLEAU DE BORD — les chiffres du jour
-     ------------------------------------------------------- */
   function rendreAdministration() {
     var box = $('#tuiles');
     if (!box) return;
@@ -627,7 +648,7 @@
       { ico: '\uD83D\uDED2', label: 'Commandes', valeur: String(nbCommandes), note: '', cible: 'commandes' },
       { ico: '\u20AC',        label: 'Chiffre',   valeur: euros(chiffre),      note: '', cible: 'commandes' },
       { ico: '\uD83D\uDCCB', label: 'En cours',  valeur: String(enCours),     note: 'Pay\u00E9es, \u00E0 livrer', cible: 'commandes' },
-      { ico: '\u2B50',        label: 'Avis',      valeur: String(avisAttente.length), note: 'En attente', cible: 'avis' }
+      { ico: '\u2B50',        label: 'Avis',      valeur: String(avisEnAttente.length), note: 'En attente', cible: 'avis' }
     ];
 
     box.innerHTML = cartes.map(function (c) {
@@ -642,9 +663,6 @@
     }).join('');
   }
 
-  /* -------------------------------------------------------
-     PANNEAUX — ce qu'ouvrent les entrees du menu
-     ------------------------------------------------------- */
   function ouvrirPanneau(quoi) {
     var p = $('#panneau');
     var c = $('#panneauContenu');
@@ -806,9 +824,6 @@
       'Pour le figer pour tous, recopiez les valeurs dans <b>config.js</b>, section <b>palettes</b>.</p>';
   }
 
-  /* -------------------------------------------------------
-     CABLAGE des boutons des panneaux
-     ------------------------------------------------------- */
   function cablerPanneau(quoi) {
     $$('[data-avance]').forEach(function (b) {
       b.addEventListener('click', function () {
@@ -831,7 +846,6 @@
       });
     });
 
-    /* valider un avis en attente : il devient public */
     $$('[data-valider]').forEach(function (b) {
       b.addEventListener('click', function () {
         var a = avisAttente.splice(parseInt(b.getAttribute('data-valider'), 10), 1)[0];
@@ -845,7 +859,6 @@
       });
     });
 
-    /* refuser : l'avis est supprime sans etre publie */
     $$('[data-refuser]').forEach(function (b) {
       b.addEventListener('click', function () {
         avisAttente.splice(parseInt(b.getAttribute('data-refuser'), 10), 1);
@@ -915,12 +928,6 @@
     }
   }
 
-  /* =======================================================
-     AVANCEMENT DE LA COMMANDE
-     Le bouton de la page de suivi sert a la demonstration.
-     Le reglage reel se fait depuis la page de gestion,
-     protegee par mot de passe.
-     ======================================================= */
   function avancerDepuisSuivi() {
     if (!commande) return;
     if (commande.etape >= BOUTIQUE.etapes.length - 1) return;
@@ -930,30 +937,20 @@
     rendreSuivi();
   }
 
-  /* -------------------------------------------------------
-     LOGO — rejoue l'effet d'entree.
-     Appelee a l'arrivee sur le catalogue : on retire la
-     classe, on force un reflow, puis on la remet pour que
-     l'animation reparte de zero.
-     ------------------------------------------------------- */
   function jouerLogo() {
     var hero = $('#logoHero');
     if (!hero) return;
     hero.style.animation = 'none';
-    void hero.offsetWidth;          /* force le navigateur a recalculer */
+    void hero.offsetWidth;
     hero.style.animation = '';
     hero.classList.remove('logo-hero--joue');
     void hero.offsetWidth;
     hero.classList.add('logo-hero--joue');
   }
 
-  /* =======================================================
-     DÉMARRAGE
-     ======================================================= */
   function init() {
     appliquerTheme(paletteActive());
 
-    /* écran de chargement puis accueil explicatif */
     var loader = $('#loader');
     setTimeout(function () {
       if (loader) { loader.classList.add('is-off'); setTimeout(function () { loader.style.display = 'none'; }, 600); }
@@ -966,17 +963,14 @@
       $('#foot').hidden = false;
       appliquerFond();
       afficher();
-      /* l'animation du logo se joue ici, en arrivant sur le catalogue */
       jouerLogo();
     });
 
-    /* navigation et formulaires */
     $('#formCommande').addEventListener('submit', validerCommande);
     $('#formAvis').addEventListener('submit', publierAvis);
     $('#formVerrou').addEventListener('submit', deverrouiller);
     $('#suiviVoir').addEventListener('click', function () { location.hash = '#/suivi'; });
 
-    /* bouton d'avancement de la page de suivi (demonstration) */
     document.addEventListener('click', function (e) {
       if (e.target.closest('#suiviFermer')) {
         var b = $('#suiviBar');
@@ -987,7 +981,6 @@
       if (e.target.closest('#suiviAvancer')) avancerDepuisSuivi();
     });
 
-    /* administration : menu, panneau, verrouillage */
     document.addEventListener('click', function (e) {
       var item = e.target.closest('[data-admin]');
       if (item) { ouvrirPanneau(item.getAttribute('data-admin')); return; }
@@ -1001,7 +994,6 @@
       location.hash = '#/commande';
     });
 
-    /* menu mobile : le nav est deja en bas, le burger reste un repere */
     var burger = $('#burger');
     if (burger) {
       burger.addEventListener('click', function () {
@@ -1010,8 +1002,6 @@
       });
     }
 
-    /* réglages : image de fond et thème */
-    /* état initial */
     rendreCatalogue();
     majPanierCount();
     majBarreSuivi();
@@ -1019,17 +1009,10 @@
     rendreDeplacable();
   }
 
-  /* -------------------------------------------------------
-     BANDEAU DE SUIVI DEPLACABLE
-     On le saisit et on le pose ou on veut. La position est
-     memorisee pour la visite (sessionStorage), pas au-dela :
-     au retour, il reprend sa place en haut.
-     ------------------------------------------------------- */
   function rendreDeplacable() {
     var barre = $('#suiviBar');
     if (!barre) return;
 
-    /* on repart de la position memorisee si elle existe */
     var memo = null;
     try {
       var raw = sessionStorage.getItem('corner69.suiviPos');
@@ -1053,7 +1036,6 @@
     var saisie = false, dx = 0, dy = 0;
 
     function debut(e) {
-      /* la croix et le bouton Voir gardent leur role : on ne glisse pas dessus */
       if (e.target && e.target.closest && (e.target.closest('#suiviFermer') || e.target.closest('#suiviVoir'))) return;
       saisie = true;
       var r = barre.getBoundingClientRect();
