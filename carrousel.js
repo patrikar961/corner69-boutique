@@ -8,7 +8,7 @@
        media/p1.mp4        video (optionnelle)
 
    La liste se regle dans config.js, champ « medias » de chaque
-   produit. Si un fichier manque, l'emplacement reste vide :
+   produit. Si un fichier manque, un emplacement vide s'affiche :
    le site ne casse pas.
    ========================================================= */
 (function () {
@@ -17,6 +17,8 @@
   var piste = null;
   var index = 0;
   var total = 0;
+
+  function $(s) { return document.querySelector(s); }
 
   function mediasDe(p) {
     if (p && p.medias && p.medias.length) return p.medias;
@@ -33,7 +35,7 @@
     if (!medias.length) {
       box.innerHTML = '<div class="carrousel__vide">' +
         '<b>Aucun visuel pour ce produit</b>' +
-        'Déposez vos images dans le dossier <b>media/</b> puis déclarez-les ' +
+        'Déposez vos images dans le dossier <b>media/</b> et déclarez-les ' +
         'dans <b>config.js</b>, champ « medias » du produit.' +
       '</div>';
       return;
@@ -85,8 +87,6 @@
       if (!b) return;
       aller(parseInt(b.getAttribute('data-point'), 10));
     });
-
-    index = 0;
   }
 
   function aller(i) {
