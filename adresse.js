@@ -11,16 +11,14 @@
 
   /* ---------------------------------------------------------
      RÉGLAGES
-     - villePrivilegiee : la ville mise en avant dans les
-       résultats (la zone de livraison du commerce).
-       Laisser vide pour ne rien privilégier.
      - limite : nombre de suggestions affichées.
      - pause : délai avant d'interroger le serveur (ms).
+     - zoneSeule : false = toutes les adresses sont proposées.
      --------------------------------------------------------- */
   var REGLAGES = {
     limite: 8,
     pause: 220,
-    zoneSeule: true      /* n'afficher que les adresses du Rhone */
+    zoneSeule: false     /* toutes les adresses sont proposees */
   };
 
   var zone = (typeof BOUTIQUE !== 'undefined' && BOUTIQUE.zone) ? BOUTIQUE.zone : null;
@@ -38,8 +36,7 @@
   var indexActif = -1;
 
   /* ---------------------------------------------------------
-     LA ZONE : une adresse est retenue si son code postal
-     commence par un des departements declares dans config.js
+     LA ZONE : sans restriction, tout passe.
      --------------------------------------------------------- */
   function dansZone(cpTexte) {
     if (!zone || !zone.departements || !zone.departements.length) return true;
@@ -101,13 +98,6 @@
 
     var url = API + encodeURIComponent(texte);
 
-    /* on interroge l'API uniquement sur les departements de la zone */
-    if (zone && zone.departements && zone.departements.length && !zone.toutes) {
-      zone.departements.forEach(function (d) {
-        url += '&departement=' + encodeURIComponent(d);
-      });
-    }
-
     fetch(url, { signal: requete.signal })
       .then(function (r) {
         if (!r.ok) throw new Error('reponse ' + r.status);
@@ -130,11 +120,12 @@
           };
         });
 
-        /* ceinture et bretelles : on retire ce qui n'est pas dans la zone */
+        /* ceinture et bretelles : on retire ce qui n'est pas dans la zone,
+           seulement si une zone est declaree dans config.js */
         if (REGLAGES.zoneSeule) {
           items = items.filter(function (i) { return i.zone; });
         }
-        /* on privilégie le type « housenumber » : les vraies adresses */
+        /* on privilégie les vraies adresses, avec un numero */
         items.sort(function (a, b) {
           var na = /^\d/.test(a.rue) ? 0 : 1;
           var nb = /^\d/.test(b.rue) ? 0 : 1;
