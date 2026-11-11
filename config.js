@@ -16,12 +16,14 @@ var BOUTIQUE = {
 
   /* -------------------------------------------------------
      ZONE DE LIVRAISON
-     Le commerce livre dans le Rhone : departement 69.
+     toutes: true = aucune restriction, les clients partout
+     sont acceptes. Pour restreindre, mettez par exemple :
+       toutes: false, departements: ["69"]
      ------------------------------------------------------- */
   zone: {
-    nom: "le Rhône",
-    departements: ["69"],
-    toutes: false
+    nom: "la France",
+    departements: [],
+    toutes: true
   },
 
   /* -------------------------------------------------------
