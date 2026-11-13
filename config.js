@@ -2,6 +2,16 @@
    CORNER69 — boutique
    Configuration centrale : catalogue, thèmes, réglages.
    Tout se règle ici, jamais dans le HTML.
+
+   ---------------------------------------------------------
+   ATTENTION — CE FICHIER EST PUBLIC.
+   Il est servi par GitHub Pages : tout ce qu'on y écrit est
+   lisible par n'importe qui. Aucun mot de passe, aucun jeton,
+   aucune clé d'API n'a rien à y faire.
+
+   Le mot de passe de la page /gestion n'est plus ici : il est
+   vérifié par la base Supabase, à chaque appel, côté serveur.
+   ---------------------------------------------------------
    ========================================================= */
 
 var BOUTIQUE = {
@@ -26,7 +36,6 @@ var BOUTIQUE = {
 
   /* -------------------------------------------------------
      APPARENCE — thème par défaut
-     Modifiable ensuite depuis l'interface /admin
      ------------------------------------------------------- */
   theme: "nuit-acide",
 
@@ -56,8 +65,8 @@ var BOUTIQUE = {
       badge: "❄️",
       description: "écaille de poisson, top qualité 🇨🇴✅",
       medias: [
-        { type: "image", src: "media/p1-1.jpg", alt: "Café d'Éthiopie — sachet" },
-        { type: "image", src: "media/p1-2.jpg", alt: "Café d'Éthiopie — grains" }
+        { type: "image", src: "media/p1-1.jpg", alt: "Produit 1" },
+        { type: "image", src: "media/p1-2.jpg", alt: "Produit 1" }
       ]
     },
     {
@@ -112,7 +121,7 @@ var BOUTIQUE = {
 
   /* -------------------------------------------------------
      PALETTES — préréglages de couleurs
-     L'interface /admin permet de les modifier et d'en créer.
+     L'interface /gestion permet de les modifier et d'en créer.
      ------------------------------------------------------- */
   palettes: {
     "nuit-acide": {
@@ -420,7 +429,6 @@ var BOUTIQUE = {
   /* -------------------------------------------------------
      SON — invisible pour le visiteur
      0 = muet · 0.05 = à peine perceptible · 0.3 = présent
-     Le fichier doit s'appeler ambiance.mp3 (ou ambiance.m4a)
      ------------------------------------------------------- */
   son: {
     volume: 0.05,
@@ -429,17 +437,23 @@ var BOUTIQUE = {
   },
 
   /* -------------------------------------------------------
-     ADMIN — protège l'interface de personnalisation
-     C'est ce mot de passe qui ouvre /gestion.
-     Changez-le avant de mettre le site en ligne.
-     ------------------------------------------------------- */
-  adminMotDePasse: "corner69",
-
-  /* -------------------------------------------------------
      LIVRAISON — frais et seuil
      ------------------------------------------------------- */
   livraison: {
     frais: 10,
     gratuiteAPartirDe: 100
   }
+
+  /* -------------------------------------------------------
+     Ce bloc est volontairement absent :
+       adminMotDePasse
+
+     Le mot de passe de la page /gestion est desormais
+     verifie par la base Supabase, cote serveur, a chaque
+     appel. Un controle dans le navigateur ne protege rien :
+     le code est public, tout le monde peut le lire.
+
+     Pour le changer : voir la section administration du
+     README (script SQL a executer dans Supabase).
+     ------------------------------------------------------- */
 };
