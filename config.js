@@ -11,15 +11,15 @@ var BOUTIQUE = {
   /* Deposez votre logo sous le nom logo.png a la racine du depot.
      Tant qu'il est absent, le texte CORNER69 anime s'affiche. */
   logo: "logo.png",
-  slogan: "Coffee shop — torréfaction artisanale",
-  baseline: "Ouvert 7j/7 — 24h/24",
+  slogan: "Coffee shop — La qualité à domicile",
+  baseline: "Ouvert 7j/7 — 12h-00h ",
 
   /* -------------------------------------------------------
      ZONE DE LIVRAISON
      Le commerce livre dans le Rhone : departement 69.
      ------------------------------------------------------- */
   zone: {
-    nom: "la France",
+    nom: "Rhône",
     departements: [],
     toutes: true
   },
