@@ -36,7 +36,7 @@ var BOUTIQUE = {
   etapes: [
     { cle: "attente",   label: "Commande reçue",        emoji: "⏳", texte: "Nous avons bien reçu votre commande." },
     { cle: "preparee",  label: "En préparation",        emoji: "🚀", texte: "Votre commande est en cours de préparation." },
-    { cle: "tournee",   label: "En tournée de livraison", emoji: "🛵", texte: "Votre commande a quitté la boutique." },
+    { cle: "tournee",   label: "En tournée de livraison", emoji: "🛵", texte: "Votre commande a quitté le plug." },
     { cle: "route",     label: "En route vers vous",    emoji: "🎯", texte: "Le livreur arrive dans quelques minutes." },
     { cle: "livree",    label: "Livrée",                emoji: "✅", texte: "Commande livrée. Merci !" }
   ],
@@ -47,14 +47,14 @@ var BOUTIQUE = {
   produits: [
     {
       id: "p1",
-      nom: "Café de spécialité — Éthiopie",
-      rayon: "Cafés",
-      emoji: "☕",
-      format: "250 g",
-      prix: 14.50,
+      nom: "Écaille — Colombie",
+      rayon: "Neige",
+      emoji: "❄️",
+      format: "1 g",
+      prix: 60.,
       stock: "disponible",
-      badge: "",
-      description: "Grains lavés, notes florales et fruitées. Torréfaction claire, idéale en filtre.",
+      badge: "❄️",
+      description: "écaille de poisson, top qualité 🇨🇴✅",
       medias: [
         { type: "image", src: "media/p1-1.jpg", alt: "Café d'Éthiopie — sachet" },
         { type: "image", src: "media/p1-2.jpg", alt: "Café d'Éthiopie — grains" }
@@ -432,13 +432,13 @@ var BOUTIQUE = {
      ADMIN — protège l'interface de personnalisation
      Changez ce mot de passe avant de mettre le site en ligne.
      ------------------------------------------------------- */
-  adminMotDePasse: "corner69",
+  ,
 
   /* -------------------------------------------------------
      LIVRAISON — frais et seuil
      ------------------------------------------------------- */
   livraison: {
-    frais: 3.90,
-    gratuiteAPartirDe: 40
+    frais: 10 ,
+    gratuiteAPartirDe: 100
   }
 };
