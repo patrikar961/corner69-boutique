@@ -8,15 +8,15 @@ var BOUTIQUE = {
 
   nom: "CORNER69",
 
-  /* Deposez votre logo sous le nom logo.png a la racine du depot.
-     Tant qu'il est absent, le texte CORNER69 anime s'affiche. */
+  /* Déposez votre logo sous le nom logo.png à la racine du dépôt.
+     Tant qu'il est absent, le texte CORNER69 animé s'affiche. */
   logo: "logo.png",
   slogan: "Coffee shop — La qualité à domicile",
   baseline: "Ouvert 7j/7 — 12h-00h ",
 
   /* -------------------------------------------------------
      ZONE DE LIVRAISON
-     Le commerce livre dans le Rhone : departement 69.
+     Le commerce livre dans le Rhône : département 69.
      ------------------------------------------------------- */
   zone: {
     nom: "Rhône",
@@ -432,13 +432,13 @@ var BOUTIQUE = {
      ADMIN — protège l'interface de personnalisation
      Changez ce mot de passe avant de mettre le site en ligne.
      ------------------------------------------------------- */
-  ,
+  admin: { motDePasse: "corner69" },
 
   /* -------------------------------------------------------
      LIVRAISON — frais et seuil
      ------------------------------------------------------- */
   livraison: {
-    frais: 10 ,
+    frais: 10,
     gratuiteAPartirDe: 100
   }
 };
