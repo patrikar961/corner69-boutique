@@ -430,9 +430,10 @@ var BOUTIQUE = {
 
   /* -------------------------------------------------------
      ADMIN — protège l'interface de personnalisation
-     Changez ce mot de passe avant de mettre le site en ligne.
+     C'est ce mot de passe qui ouvre /gestion.
+     Changez-le avant de mettre le site en ligne.
      ------------------------------------------------------- */
-  admin: { motDePasse: "corner69" },
+  adminMotDePasse: "corner69",
 
   /* -------------------------------------------------------
      LIVRAISON — frais et seuil
