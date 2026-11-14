@@ -2474,3 +2474,131 @@ input, textarea, [contenteditable] {
   font-size: .82rem;
   line-height: 1.5;
 }
+
+/* =========================================================
+   FICHE PRODUIT — page de gestion
+   Ajoutez ce bloc a la fin de style.css
+   ========================================================= */
+.fiche-prod {
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  padding: 1.3rem;
+  background: var(--carte);
+  border: 1px solid var(--bordure);
+  border-radius: 20px;
+}
+
+.fiche-prod__label {
+  display: block;
+  margin-top: 1.1rem;
+  margin-bottom: .45rem;
+  font-size: .7rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--doux);
+}
+.fiche-prod > .fiche-prod__label:first-child { margin-top: 0; }
+
+.fiche-prod input[type="text"],
+.fiche-prod input[type="number"],
+.fiche-prod select,
+.fiche-prod textarea {
+  display: block;
+  width: 100%;
+  padding: .85rem .95rem;
+  border: 1px solid var(--bordure);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--fond) 70%, transparent);
+  color: var(--texte);
+  font: inherit;
+  font-size: .92rem;
+}
+.fiche-prod input:focus,
+.fiche-prod select:focus,
+.fiche-prod textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.fiche-prod textarea { resize: vertical; line-height: 1.6; }
+
+/* deux champs cote a cote, qui ne s'ecrasent jamais */
+.fiche-prod__2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .8rem;
+  align-items: start;
+}
+.fiche-prod__2 > div { min-width: 0; }
+
+/* la case a cocher reste sur sa ligne, alignee */
+.fiche-prod label:has(input[type="checkbox"]) {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  margin-top: 1.2rem;
+  font-size: .85rem;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--texte);
+  cursor: pointer;
+}
+.fiche-prod input[type="checkbox"] {
+  flex: 0 0 auto;
+  width: 20px; height: 20px;
+  accent-color: var(--accent);
+}
+
+/* ---- les photos ---- */
+.fiche-prod__photos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+  min-height: 40px;
+  margin-bottom: .7rem;
+}
+.fiche-prod__vignette {
+  position: relative;
+  display: block;
+  width: 88px; height: 88px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--bordure);
+  background: var(--fond);
+}
+.fiche-prod__vignette img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.fiche-prod__vignette button {
+  position: absolute;
+  top: 4px; right: 4px;
+  width: 22px; height: 22px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0,0,0,.72);
+  color: #fff;
+  font-size: .8rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* ---- les boutons, separes et lisibles ---- */
+.fiche-prod__actions {
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+  margin-top: 1.8rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--bordure);
+}
+.fiche-prod__actions .btn--large { margin-top: 0; }
+
+@media (max-width: 460px) {
+  .fiche-prod { padding: 1rem; }
+  .fiche-prod__2 { grid-template-columns: 1fr; }
+  .fiche-prod__vignette { width: 72px; height: 72px; }
+}
