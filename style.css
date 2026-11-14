@@ -2602,3 +2602,66 @@ input, textarea, [contenteditable] {
   .fiche-prod__2 { grid-template-columns: 1fr; }
   .fiche-prod__vignette { width: 72px; height: 72px; }
 }
+
+/* =========================================================
+   REGLAGES — page de gestion
+   ========================================================= */
+.reglages-bloc {
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+  padding: 1.3rem;
+  background: var(--carte);
+  border: 1px solid var(--bordure);
+  border-radius: 20px;
+  margin-bottom: 1rem;
+}
+.reglages-bloc input[type="text"],
+.reglages-bloc input[type="number"] {
+  display: block;
+  width: 100%;
+  padding: .85rem .95rem;
+  border: 1px solid var(--bordure);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--fond) 70%, transparent);
+  color: var(--texte);
+  font: inherit;
+  font-size: .92rem;
+}
+.reglages-bloc input:focus { outline: none; border-color: var(--accent); }
+
+/* le curseur du voile sombre */
+.reglages-bloc input[type="range"] {
+  width: 100%;
+  margin: .3rem 0 .8rem;
+  accent-color: var(--accent);
+}
+
+/* l'apercu de l'image de fond */
+.reglages-apercu { display: flex; flex-wrap: wrap; gap: .6rem; margin-bottom: .6rem; }
+.reglages-apercu--large { width: 100%; height: 140px; }
+
+/* ---- les interrupteurs de sections ---- */
+.reglages-switch {
+  display: flex;
+  align-items: flex-start;
+  gap: .8rem;
+  padding: .85rem .2rem;
+  border-bottom: 1px solid var(--bordure);
+  cursor: pointer;
+}
+.reglages-switch:last-child { border-bottom: 0; }
+.reglages-switch input[type="checkbox"] {
+  flex: 0 0 auto;
+  width: 22px; height: 22px;
+  margin-top: .1rem;
+  accent-color: var(--accent);
+}
+.reglages-switch__txt {
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+  min-width: 0;
+}
+.reglages-switch__txt b { font-size: .92rem; font-weight: 600; }
+.reglages-switch__txt small { font-size: .8rem; color: var(--doux); }
