@@ -2665,3 +2665,59 @@ input, textarea, [contenteditable] {
 }
 .reglages-switch__txt b { font-size: .92rem; font-weight: 600; }
 .reglages-switch__txt small { font-size: .8rem; color: var(--doux); }
+
+/* =========================================================
+   RESEAUX SOCIAUX — page de gestion
+   ========================================================= */
+.reseau-ligne {
+  display: grid;
+  grid-template-columns: 34px 1fr 1.4fr 44px auto;
+  gap: .5rem;
+  align-items: center;
+  padding: .6rem .2rem;
+  border-bottom: 1px solid var(--bordure);
+}
+.reseau-ligne:last-child { border-bottom: 0; }
+
+.reseau-ligne__logo {
+  display: grid;
+  place-items: center;
+  width: 34px; height: 34px;
+  border-radius: 10px;
+  background: rgba(255,255,255,.06);
+}
+.reseau-ligne__logo img { display: block; width: 22px; height: 22px; }
+
+.reseau-ligne__choix,
+.reseau-ligne__url {
+  min-width: 0;
+  padding: .6rem .7rem;
+  border: 1px solid var(--bordure);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--fond) 70%, transparent);
+  color: var(--texte);
+  font: inherit;
+  font-size: .85rem;
+}
+.reseau-ligne__choix:focus,
+.reseau-ligne__url:focus { outline: none; border-color: var(--accent); }
+
+/* l'interrupteur d'affichage */
+.reseau-ligne__switch {
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.reseau-ligne__switch input[type="checkbox"] {
+  width: 24px; height: 24px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+@media (max-width: 560px) {
+  .reseau-ligne {
+    grid-template-columns: 34px 1fr 44px auto;
+    row-gap: .4rem;
+  }
+  .reseau-ligne__url { grid-column: 1 / -1; }
+}
