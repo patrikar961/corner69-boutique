@@ -176,7 +176,7 @@ var BOUTIQUE = {
      0 = muet · 0.05 = à peine perceptible · 0.3 = présent
      ------------------------------------------------------- */
   son: {
-    volume: 0.05,
+    volume: 0.03,
     fichiers: ["p.m4a", "p.mp3", "ambiance.m4a", "ambiance.mp3"],
     actif: true
   },
@@ -186,7 +186,7 @@ var BOUTIQUE = {
      ------------------------------------------------------- */
   livraison: {
     frais: 3.90,
-    gratuiteAPartirDe: 40
+    Offerte à partir de: 40
   },
 
   /* -------------------------------------------------------
