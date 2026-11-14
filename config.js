@@ -206,7 +206,7 @@ var BOUTIQUE = {
   notifEtape: {
     url: "https://jmhtdfbqleivsvootvma.supabase.co/functions/v1/notifier-etape",
     active: true
-  }
+  },
 
   /* -------------------------------------------------------
      Il n'y a volontairement PLUS ici :
