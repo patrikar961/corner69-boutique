@@ -3068,7 +3068,7 @@
       p_masque:       $('#fMasque', c).checked,
       p_position:     (p && p.position) ? p.position : 0,
       p_variantes:    variantesSaisie,
-      p_options:      [],
+      p_options:      []
     }, function (rep, err) {
       if (err || !rep || !rep.ok) {
         if (note) {
