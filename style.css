@@ -2721,3 +2721,111 @@ input, textarea, [contenteditable] {
   }
   .reseau-ligne__url { grid-column: 1 / -1; }
 }
+
+/* =========================================================
+   FORMATS — interrupteur de variantes sur la fiche produit
+   Bloc à ajouter à la FIN de style.css.
+   Les couleurs viennent des variables du thème : il s'adapte
+   automatiquement si vous changez de palette.
+   ========================================================= */
+
+.formats {
+  margin-top: 1.3rem;
+}
+
+.formats__titre {
+  display: block;
+  margin-bottom: .6rem;
+  font-size: .7rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--doux);
+}
+
+/* le rail : fond sombre, coins arrondis, les crans à l'intérieur */
+.inter {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: .2rem;
+  padding: .3rem;
+  border: 1px solid var(--bordure);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--fond) 70%, transparent);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.inter::-webkit-scrollbar { display: none; }
+
+/* la pastille qui glisse d'un cran à l'autre */
+.inter__pastille {
+  position: absolute;
+  top: .3rem;
+  left: .3rem;
+  height: calc(100% - .6rem);
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: 0 0 14px -2px color-mix(in srgb, var(--accent) 70%, transparent);
+  transition: transform .28s cubic-bezier(.22,1,.36,1), width .28s cubic-bezier(.22,1,.36,1);
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* chaque cran : nom du format */
+.inter__cran {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
+  padding: .55rem 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--doux);
+  font: inherit;
+  font-size: .82rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color .25s var(--ease);
+}
+.inter__cran:hover { color: var(--texte); }
+
+/* le cran choisi : texte sombre, la pastille verte passe dessous */
+.inter__cran--actif {
+  color: var(--accent-texte, #0F1114);
+}
+
+/* un format épuisé : barré, non cliquable */
+.inter__cran--epuise {
+  opacity: .4;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+
+.inter__nom { display: block; }
+
+/* sur petit écran, les crans se serrent */
+@media (max-width: 460px) {
+  .inter__cran { padding: .5rem .75rem; font-size: .78rem; }
+}
+
+/* ---- le badge de la fiche produit ---- */
+.fiche__badge {
+  display: inline-block;
+  margin-right: .5rem;
+  padding: .15rem .55rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+  color: var(--accent);
+  font-size: .62rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+/* ---- le carrousel remonte en tête de fiche : un peu d'air ---- */
+.fiche .carrousel {
+  margin-bottom: 1.3rem;
+}
