@@ -1888,10 +1888,14 @@
       : panneauCommandes();
     else if (quoi === 'produits') {
       c.innerHTML = panneauProduits();
-      chargerProduitsGestion(function () {
-        c.innerHTML = panneauProduits();
-        cablerPanneau('produits');
-      });
+        chargerProduitsGestion(function () {
+        /* on recharge aussi le catalogue client : sans cela, la
+        fiche produit garde la version d'avant l'enregistrement */
+         chargerCatalogue(function () {
+         c.innerHTML = panneauProduits();
+         cablerPanneau('produits');
+          });
+        });
     }
     else if (quoi === 'categories') {
       c.innerHTML = panneauCategories();
