@@ -166,7 +166,12 @@
     dessinerFormatsGestion();
   }, true);
 
-  document.addEventListener('click', function (e) {
+  document.addEventListener('click', function (e) {   
+    document.addEventListener('click', function (e) {
+    var b = e.target.closest('#fVarianteAjouter');
+    if (!b) return;
+    e.preventDefault();
+    lireFormatsGestion(idProd
     var a = e.target.closest('[data-route]');
     if (!a) return;
     var cible = a.getAttribute('data-route');
