@@ -136,10 +136,17 @@
     window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
   }
 
-  /* Le bouton « Ajouter un format » : on ecoute au niveau de la page.
-     Le formulaire est recree plusieurs fois par la gestion ; un
-     ecouteur pose sur le bouton lui-meme est donc perdu a chaque
-     fois. Ici, le clic est capte quoi qu'il arrive. */
+    /* Le bouton « Ajouter un format » : on ecoute au niveau de la page.
+     Le formulaire est recree plusieurs fois ; un ecouteur pose sur le
+     bouton lui-meme est perdu a chaque fois. */
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('#fVarianteAjouter');
+    if (!b) return;
+    e.preventDefault();
+    lireFormatsGestion(idProduitGestion);
+    variantesSaisie.push({ id: '', nom: '', prix: '', stock: '' });
+    dessinerFormatsGestion();
+  }, true);
   document.addEventListener('click', function (e) {
     var b = e.target.closest('#fVarianteAjouter');
     if (!b) return;
