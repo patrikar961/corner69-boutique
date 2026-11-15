@@ -2829,3 +2829,57 @@ input, textarea, [contenteditable] {
 .fiche .carrousel {
   margin-bottom: 1.3rem;
 }
+
+/* ---- les lignes de format dans la gestion ---- */
+.formats-gestion {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  margin-bottom: .8rem;
+}
+
+.variante-ligne {
+  display: grid;
+  grid-template-columns: 1fr 90px 90px 36px;
+  gap: .5rem;
+  align-items: center;
+}
+
+.variante-ligne input {
+  min-width: 0;
+  padding: .7rem .8rem;
+  border: 1px solid var(--bordure);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--fond) 70%, transparent);
+  color: var(--texte);
+  font: inherit;
+  font-size: .88rem;
+}
+.variante-ligne input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.variante-ligne__sup {
+  width: 36px; height: 36px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--bordure);
+  border-radius: 10px;
+  background: none;
+  color: var(--doux);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color .3s var(--ease), color .3s var(--ease);
+}
+.variante-ligne__sup:hover {
+  border-color: #ff7b7b;
+  color: #ff7b7b;
+}
+
+@media (max-width: 460px) {
+  .variante-ligne { grid-template-columns: 1fr 1fr; }
+  .variante-ligne__sup { width: 100%; }
+}
