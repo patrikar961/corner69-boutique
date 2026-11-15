@@ -1896,7 +1896,7 @@
         '<div class="recap__row"><span>Sous-total</span><span>' +
           euros(Number(cmd.total) || 0) + '</span></div>' +
         '<div class="recap__row"><span>Livraison</span><span>Offerte</span></div>' +
-        '<div class="recap__row recap__row--total"><span>Total paye</span><b>' +
+        '<div class="recap__row recap__row--total"><span>Total a payer</span><b>' +
           euros(Number(cmd.total) || 0) + '</b></div>' +
       '</aside>' +
 
