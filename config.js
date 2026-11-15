@@ -185,9 +185,11 @@ var BOUTIQUE = {
      LIVRAISON — frais et seuil
      ------------------------------------------------------- */
   livraison: {
-    Frais: 3.90,
-    GratuiteAPartirDe: 40
-  },
+  frais: 10,
+  gratuiteAPartirDe: 100,
+  seuil: 100,
+  minimum: 50
+}
 
   /* -------------------------------------------------------
      NOTIFICATIONS — adresses des fonctions serveur
