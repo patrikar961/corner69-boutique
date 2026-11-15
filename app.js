@@ -3087,8 +3087,9 @@
 
     /* Un identifiant lisible, a partir du nom, si c'est un nouveau produit. */
     var id = (p && p.id) ? p.id : 'p' + Date.now().toString(36);
-
-    appelGestion('gestion_produit', {
+    /* on recopie une derniere fois ce qui est tape a l'ecran */
+      lireFormatsGestion(id);
+      appelGestion('gestion_produit', {
       p_mot_de_passe: gestionMotDePasse,
       p_id:           id,
       p_nom:          nom,
