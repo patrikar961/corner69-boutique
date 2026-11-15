@@ -3010,6 +3010,14 @@
     }
     cablerVignettes(c);
 
+    /* On relit les champs de formats AVANT de brancher Enregistrer :
+       sans cela, l'enregistrement renvoie les formats d'origine
+       et les modifications ne partent jamais a Supabase. */
+    lireFormatsGestion(idProduitGestion);
+    cablerFormatsGestion();
+
+    var enr = $('#prodEnregistrer', c);
+
     var enr = $('#prodEnregistrer', c);
     if (enr) enr.addEventListener('click', function () { enregistrerProduit(p); });
 
