@@ -189,7 +189,7 @@ var BOUTIQUE = {
   gratuiteAPartirDe: 100,
   seuil: 100,
   minimum: 50
-}
+},
 
   /* -------------------------------------------------------
      NOTIFICATIONS — adresses des fonctions serveur
