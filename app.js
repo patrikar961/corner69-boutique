@@ -2595,7 +2595,7 @@
       var nom  = l.querySelector('.variante-ligne__nom').value.trim();
       var prix = l.querySelector('.variante-ligne__prix').value.trim();
       var qte  = l.querySelector('.variante-ligne__qte').value.trim();
-      if (!nom) return;                     /* une ligne sans nom est ignoree */
+      if (!nom && !prix && !qte) return;   /* on garde les lignes en cours de saisie */                    /* une ligne sans nom est ignoree */
       sortie.push({
         id:    String(idProduit || 'p') + '-' + sortie.length,
         nom:   nom,
