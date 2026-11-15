@@ -2739,6 +2739,16 @@
           'JPG, PNG ou WebP \u00B7 5 Mo maximum par image. ' +
           'L\u2019emoji sert de vignette tant qu\u2019il n\u2019y a pas de photo.' +
         '</p>' +
+        
+        '<label class="fiche-prod__label">Formats / Variantes</label>' +
+        '<p class="fond__hint" style="margin:0 0 .6rem">' +
+          'Chaque format a son prix et sa quantit\u00e9. Laissez vide si le produit ' +
+          'n\u2019a qu\u2019un seul prix.' +
+        '</p>' +
+        '<div class="formats-gestion" id="fVariantes"></div>' +
+        '<button class="btn btn--ghost" type="button" id="fVarianteAjouter">' +
+          '+ Ajouter un format' +
+        '</button>' +
 
         '<label class="fiche-prod__label">Stock</label>' +
         '<select id="fStock">' +
