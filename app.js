@@ -2968,7 +2968,7 @@
       .then(function () {
         callback(SUPABASE_URL + '/storage/v1/object/public/produits/' + nom, null);
       })
-      .catch(function (e) { callback(null, e); });
+     .catch(function (e) { callback(null, e); console.error('ENVOI:', e); });
   }
 
   function cablerFicheProduit(p) {
