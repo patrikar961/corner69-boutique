@@ -2971,11 +2971,8 @@
         })
       .then(function () {
         callback(SUPABASE_URL + '/storage/v1/object/public/produits/' + nom, null);
-      })
-        .catch(function (e) {
-          callback(null, e);
-          afficherAlerte('ENVOI : ' + (e && e.message ? e.message : String(e)));
-        });
+      })            
+     .catch(function (e) { callback(null, e); });
   }
 
   function cablerFicheProduit(p) {
