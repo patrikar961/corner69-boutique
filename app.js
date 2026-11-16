@@ -2961,14 +2961,10 @@
       },
       body: fichier
     })
-        .then(function (r) {
-          if (!r.ok) {
-            return r.text().then(function (txt) {
-              throw new Error('envoi refuse ' + r.status + ' : ' + String(txt).slice(0, 300));
-            });
-          }
-          return r.json().catch(function () { return null; });
-        })
+     .then(function (r) {
+      if (!r.ok) throw new Error('envoi refuse (' + r.status + ')');
+      return r.json().catch(function () { return null; });
+      })
       .then(function () {
         callback(SUPABASE_URL + '/storage/v1/object/public/produits/' + nom, null);
       })            
