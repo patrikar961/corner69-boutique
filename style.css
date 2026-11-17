@@ -135,13 +135,13 @@ button { font: inherit; color: inherit; }
    Accueil explicatif
    ========================================================= */
 /* L'accueil : plein ecran, contenu centre verticalement */
+/* APRÈS */
 .intro {
   position: relative;
   z-index: 2;
   max-width: 620px;
   margin: 0 auto;
-  height: 100vh;
-  height: 100dvh;
+  height: var(--miniapp-height, 100dvh);   ← une seule ligne
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1956,9 +1956,10 @@ html {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* APRÈS */
 body {
-  min-height: 100vh;
-  min-height: 100dvh;
+  min-height: var(--miniapp-height, 100dvh);   ← une seule ligne
+  overscroll-behavior-y: none;
   overscroll-behavior-y: none;
   -webkit-user-select: none;
   user-select: none;
