@@ -11,6 +11,7 @@
   <meta name="format-detection" content="telephone=no">
   <title>CORNER69 - Coffee shop</title>
   <meta name="theme-color" content="#0a0a0f">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -396,6 +397,51 @@
     <span>CORNER69 - Restez branché pour ne rien manquer</span>
     <a href="#/infos" data-route="/infos">Infos et mentions</a>
   </footer>
+
+  <script>
+    /* ==========================================================
+       MINI APP TELEGRAM - plein écran
+       Cette petite section ne touche à rien d'autre : elle dit
+       simplement à Telegram d'ouvrir la boutique en plein écran
+       et publie la hauteur réelle dans la variable CSS
+       --miniapp-height, que style.css peut utiliser.
+       ========================================================== */
+    (() => {
+      const webApp = window.Telegram && window.Telegram.WebApp;
+      if (!webApp) return;
+
+      try {
+        webApp.ready();
+        webApp.expand();
+
+        const syncViewport = () => {
+          const height = Number(webApp.viewportHeight) || window.innerHeight;
+          document.documentElement.style.setProperty("--miniapp-height", height + "px");
+        };
+
+        syncViewport();
+        webApp.onEvent("viewportChanged", syncViewport);
+
+        /* Plein écran : Telegram Bot API 8.0 et suivants.
+           Les clients plus anciens gardent la vue « expanded ». */
+        if (typeof webApp.requestFullscreen === "function") {
+          try {
+            webApp.requestFullscreen();
+          } catch (error) {
+            console.info("Plein écran Telegram non disponible :", error);
+          }
+        }
+
+        /* Sans cette ligne, un glissement vers le bas ferme la Mini App
+           au lieu de faire défiler la page. Indispensable en plein écran. */
+        if (typeof webApp.disableVerticalSwipes === "function") {
+          webApp.disableVerticalSwipes();
+        }
+      } catch (error) {
+        console.info("Initialisation Telegram Mini App :", error);
+      }
+    })();
+  </script>
 
   <script src="config.js"></script>
   <script src="app.js"></script>
